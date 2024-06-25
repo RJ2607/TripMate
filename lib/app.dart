@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tripmate/Views/onboardingScreen.dart';
 import 'package:tripmate/utils/theme.dart';
+import 'package:tripmate/views/homeScreen.dart';
+import 'package:tripmate/views/onboardingScreen.dart';
 
 import 'routes.dart';
 
@@ -22,7 +24,20 @@ class _AppState extends State<App> {
     return GetMaterialApp(
       title: 'Trip Mate',
       useInheritedMediaQuery: true,
-      home: OnboardingScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          }
+          return const OnboardingScreen();
+        },
+      ),
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
       darkTheme: TFlexTheme.darkTheme,
