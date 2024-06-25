@@ -37,7 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 28, left: 240),
+              padding: const EdgeInsets.only(top: 28, left: 280),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
