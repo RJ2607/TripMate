@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/utils/theme.dart';
-import 'package:tripmate/views/homeScreen.dart';
+import 'package:tripmate/views/navBarMenu.dart';
 import 'package:tripmate/views/onboardingScreen.dart';
 
 import 'routes.dart';
@@ -33,7 +33,7 @@ class _AppState extends State<App> {
             );
           }
           if (snapshot.hasData) {
-            return const HomeScreen();
+            return const NavBarMenu();
           }
           return const OnboardingScreen();
         },
