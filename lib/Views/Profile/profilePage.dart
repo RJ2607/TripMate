@@ -48,6 +48,7 @@ class _ProfileState extends State<Profile> {
                           CupertinoDialogAction(
                             child: const Text('Yes'),
                             onPressed: () {
+                              Navigator.of(context).pop();
                               user.signOut();
                             },
                           ),
