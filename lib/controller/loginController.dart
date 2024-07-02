@@ -45,15 +45,6 @@ class LoginController extends GetxController {
     }
 
     isLoading.value = false;
-    Get.toNamed('/home');
-  }
-
-  // logout
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signOut();
-    googleUser?.clearAuthCache();
-    user.user.value = null;
-    Get.toNamed('/login');
+    Get.toNamed('/navigation');
   }
 }
