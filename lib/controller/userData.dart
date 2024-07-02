@@ -21,6 +21,6 @@ class UserData extends GetxController {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signOut();
     googleUser?.clearAuthCache();
     user.value = null;
-    Get.toNamed('/login');
+    Get.offAllNamed('/login');
   }
 }

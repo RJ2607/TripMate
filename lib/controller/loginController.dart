@@ -45,6 +45,6 @@ class LoginController extends GetxController {
     }
 
     isLoading.value = false;
-    Get.toNamed('/navigation');
+    Get.offAllNamed('/navigation');
   }
 }
