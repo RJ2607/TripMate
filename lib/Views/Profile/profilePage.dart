@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -37,7 +38,28 @@ class _ProfileState extends State<Profile> {
               tileText: 'Logout',
               icon: Clarity.logout_line,
               onTap: () {
-                user.signOut();
+                showCupertinoDialog(
+                    context: context,
+                    builder: (context) {
+                      return CupertinoAlertDialog(
+                        title: const Text('Logout'),
+                        content: const Text('Are you sure you want to logout?'),
+                        actions: <Widget>[
+                          CupertinoDialogAction(
+                            child: const Text('Yes'),
+                            onPressed: () {
+                              user.signOut();
+                            },
+                          ),
+                          CupertinoDialogAction(
+                            child: const Text('No'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
               },
               bgColor: const Color.fromARGB(255, 218, 60, 49),
               forwardIcon: false,
