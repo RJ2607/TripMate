@@ -1,5 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TFlexTheme {
   TFlexTheme._();
@@ -19,6 +20,7 @@ class TFlexTheme {
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     useMaterial3: false,
+    fontFamily: GoogleFonts.nunito().fontFamily,
   );
 
   static ThemeData darkTheme = FlexThemeData.dark(
@@ -34,6 +36,8 @@ class TFlexTheme {
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     useMaterial3: false,
+    fontFamily: GoogleFonts.nunito().fontFamily,
+
     // To use the Playground font, add GoogleFonts package and uncomment
     // fontFamily: GoogleFonts.notoSans().fontFamily,
   );
