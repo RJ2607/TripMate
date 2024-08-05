@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/utils/theme.dart';
-import 'package:tripmate/views/navBarMenu.dart';
-import 'package:tripmate/views/onboardingScreen.dart';
 
 import 'routes.dart';
+import 'views/navBarMenu.dart';
+import 'views/onboardingScreen.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -33,11 +33,12 @@ class _AppState extends State<App> {
             );
           }
           if (snapshot.hasData) {
-            return const NavBarMenu();
+            return NavBarMenu();
           }
-          return const OnboardingScreen();
+          return OnboardingScreen();
         },
       ),
+      // home: HomePage(),
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
       darkTheme: TFlexTheme.darkTheme,
