@@ -16,7 +16,23 @@ class NavBarMenu extends StatefulWidget {
 
 class _NavBarMenuState extends State<NavBarMenu> {
   int _selectedindex = 0;
-  PageController pagecontroller = PageController();
+  late PageController _pagecontroller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _pagecontroller = PageController(initialPage: _selectedindex);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _pagecontroller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,7 +55,7 @@ class _NavBarMenuState extends State<NavBarMenu> {
               ],
               onItemSelected: (index) => setState(() {
                 _selectedindex = index;
-                pagecontroller.jumpToPage(index);
+                _pagecontroller.jumpToPage(index);
               }),
               items: [
                 FlashyTabBarItem(
@@ -72,7 +88,7 @@ class _NavBarMenuState extends State<NavBarMenu> {
                     BoxIcons.bx_trip,
                   ),
                   title: Text(
-                    'My Trip',
+                    'My Trips',
                     style: TextStyle(
                       color: Theme.of(context)
                           .bottomNavigationBarTheme
@@ -122,7 +138,7 @@ class _NavBarMenuState extends State<NavBarMenu> {
               selectedIndex: _selectedindex,
             ),
             body: PageView(
-              controller: pagecontroller,
+              controller: _pagecontroller,
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 HomeScreen(),
