@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
       stretchTriggerOffset: 100,
       appBarColor: Theme.of(context).colorScheme.primaryContainer,
       alwaysShowTitle: true,
+      
       centerTitle: true,
       alwaysShowLeadingAndAction: true,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         style: Theme.of(context)
             .textTheme
             .titleLarge!
-            .copyWith(fontWeight: FontWeight.w600),
+            .copyWith(fontWeight: FontWeight.w500),
       ),
       headerWidget: HeaderWidget(),
       body: [],
