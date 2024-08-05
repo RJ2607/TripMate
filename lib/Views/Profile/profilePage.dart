@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:tripmate/controller/userData.dart';
 
-import 'Widgets/profileIbfoCard.dart';
+import 'Widgets/profileInfoCard.dart';
 import 'Widgets/profileTile.dart';
 
 class Profile extends StatefulWidget {
