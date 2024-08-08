@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tripmate/views/Auth/loginPage.dart';
 import 'package:tripmate/views/Home/homeScreen.dart';
 import 'package:tripmate/views/Maps/mapPage.dart';
-import 'package:tripmate/views/My%20Trip/addTrips.dart';
+import 'package:tripmate/views/My%20Trip/add%20trip/initialTripSection.dart';
 import 'package:tripmate/views/My%20Trip/myTripPage.dart';
 import 'package:tripmate/views/Profile/profilePage.dart';
 

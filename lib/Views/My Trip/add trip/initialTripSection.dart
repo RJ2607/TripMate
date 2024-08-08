@@ -6,8 +6,8 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:tripmate/constant/firestoreFunc.dart';
 import 'package:tripmate/constant/widgets/dateRangeField.dart';
 
-import '../../controller/dateRangeController.dart';
-import '../../controller/userData.dart';
+import '../../../controller/dateRangeController.dart';
+import '../../../controller/userData.dart';
 
 class AddTrips extends StatefulWidget {
   const AddTrips({super.key});
