@@ -6,11 +6,11 @@ import 'app.dart';
 import 'controller/userData.dart';
 import 'firebase_options.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() async {WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
   Get.put(UserData());
   runApp(const App());
 }

@@ -39,6 +39,7 @@ class ActivityModel {
     String? transport,
     String? description,
     DateTime? totalTime,
+  
   }) {
     return ActivityModel(
       activityName: activityName ?? this.activityName,

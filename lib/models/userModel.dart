@@ -4,6 +4,8 @@ class UserModel {
   String email;
   // String phone;
   String profile;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   UserModel({
     required this.uid,
@@ -11,6 +13,8 @@ class UserModel {
     required this.email,
     // required this.phone,
     required this.profile,
+    this.createdAt,
+    this.updatedAt,
   });
 
   Map<String, dynamic> toJson() {
@@ -20,6 +24,8 @@ class UserModel {
       'email': email,
       // 'phone': phone,
       'profile': profile,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 
@@ -30,6 +36,8 @@ class UserModel {
       email: json['email'],
       // phone: json['phone'],
       profile: json['profile'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
     );
   }
 }
