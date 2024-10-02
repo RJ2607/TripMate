@@ -53,8 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
             .titleLarge!
             .copyWith(fontWeight: FontWeight.w500),
       ),
-      headerWidget: HeaderWidget(),
-      body: [],
+      headerWidget: const HeaderWidget(),
+      body: const [],
     );
   }
 }

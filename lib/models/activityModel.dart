@@ -1,14 +1,12 @@
 class ActivityModel {
   String activityName;
-  String location;
-  String transport;
+  String category;
   String description;
   DateTime totalTime;
 
   ActivityModel({
     required this.activityName,
-    required this.location,
-    required this.transport,
+    required this.category,
     required this.description,
     required this.totalTime,
   });
@@ -16,8 +14,7 @@ class ActivityModel {
   Map<String, dynamic> toJson() {
     return {
       'activityName': activityName,
-      'location': location,
-      'transport': transport,
+      'category': category,
       'description': description,
       'totalTime': totalTime,
     };
@@ -26,8 +23,7 @@ class ActivityModel {
   factory ActivityModel.fromJson(Map<String, dynamic> data) {
     return ActivityModel(
       activityName: data['activityName'],
-      location: data['location'],
-      transport: data['transport'],
+      category: data['category'],
       description: data['description'],
       totalTime: data['totalTime'].toDate(),
     );
@@ -35,16 +31,14 @@ class ActivityModel {
 
   ActivityModel copyWith({
     String? activityName,
-    String? location,
+    String? category,
     String? transport,
     String? description,
     DateTime? totalTime,
-  
   }) {
     return ActivityModel(
       activityName: activityName ?? this.activityName,
-      location: location ?? this.location,
-      transport: transport ?? this.transport,
+      category: category ?? this.category,
       description: description ?? this.description,
       totalTime: totalTime ?? this.totalTime,
     );

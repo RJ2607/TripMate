@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class NeonAvatar extends StatelessWidget {
   final String imagePath;
 
-  NeonAvatar({required this.imagePath});
+  const NeonAvatar({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {

@@ -16,14 +16,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 100),
-              Center(
+              const SizedBox(height: 100),
+              const Center(
                 child: Text(
                   'Login',
                   style: TextStyle(
@@ -33,47 +33,47 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Username',
                 ),
               ),
               const SizedBox(height: 20),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   OutlinedButton(
                     onPressed: () {},
                     style:
                         Theme.of(context).outlinedButtonTheme.style!.copyWith(
-                              backgroundColor: MaterialStateProperty.all(
+                              backgroundColor: WidgetStateProperty.all(
                                 Theme.of(context)
                                     .colorScheme
-                                    .background
+                                    .surface
                                     .withOpacity(0.2),
                               ),
-                              shape: MaterialStateProperty.all(
+                              shape: WidgetStateProperty.all(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
                               ),
-                              padding: MaterialStateProperty.all(
+                              padding: WidgetStateProperty.all(
                                 const EdgeInsets.symmetric(
                                   horizontal: 60,
                                   vertical: 10,
                                 ),
                               ),
                             ),
-                    child: Text('Login'),
+                    child: const Text('Login'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   IconButton(
@@ -87,12 +87,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Row(
                 children: [
-                  Text('Don\'t have an account?'),
+                  const Text('Don\'t have an account?'),
                   TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/register');
                     },
-                    child: Text('Register'),
+                    child: const Text('Register'),
                   ),
                 ],
               ),

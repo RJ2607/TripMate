@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tripmate/models/userModel.dart';
 
 class FireStoreOp {
-  static FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static CollectionReference<Map<String, dynamic>> get userCollection =>
       _firestore.collection('users');
 

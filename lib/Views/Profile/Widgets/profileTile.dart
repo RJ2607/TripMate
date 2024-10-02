@@ -21,8 +21,8 @@ class ProfileTile extends StatelessWidget {
     return GestureDetector(
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           height: MediaQuery.of(context).size.height * 0.074,
           width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
@@ -43,8 +43,8 @@ class ProfileTile extends StatelessWidget {
                     child: Icon(icon),
                   ), // Icon
                   Text(
-                    '${tileText}',
-                    style: TextStyle(
+                    tileText,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -52,11 +52,11 @@ class ProfileTile extends StatelessWidget {
                 ],
               ),
               forwardIcon
-                  ? Icon(
+                  ? const Icon(
                       Icons.arrow_forward_ios,
                       size: 20,
                     )
-                  : SizedBox()
+                  : const SizedBox()
             ],
           ),
         ));

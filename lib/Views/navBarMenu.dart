@@ -65,7 +65,7 @@ class _NavBarMenuState extends State<NavBarMenu> {
                   inactiveColor: Theme.of(context)
                       .bottomNavigationBarTheme
                       .unselectedItemColor as Color,
-                  icon: Icon(
+                  icon: const Icon(
                     BoxIcons.bx_home,
                   ),
                   title: Text(
@@ -84,7 +84,7 @@ class _NavBarMenuState extends State<NavBarMenu> {
                   inactiveColor: Theme.of(context)
                       .bottomNavigationBarTheme
                       .unselectedItemColor as Color,
-                  icon: Icon(
+                  icon: const Icon(
                     BoxIcons.bx_trip,
                   ),
                   title: Text(
@@ -140,7 +140,7 @@ class _NavBarMenuState extends State<NavBarMenu> {
             body: PageView(
               controller: _pagecontroller,
               physics: const NeverScrollableScrollPhysics(),
-              children: [
+              children: const [
                 HomeScreen(),
                 MyTrip(),
                 Maps(),

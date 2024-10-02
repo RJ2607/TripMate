@@ -13,21 +13,23 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => OnboardingScreen());
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
       case '/login':
-        return MaterialPageRoute(builder: (_) => LoginPage());
+        return MaterialPageRoute(builder: (_) => const LoginPage());
       case '/home':
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/navigation':
-        return MaterialPageRoute(builder: (_) => NavBarMenu());
+        return MaterialPageRoute(builder: (_) => const NavBarMenu());
       case '/mytrip':
-        return MaterialPageRoute(builder: (_) => MyTrip());
+        return MaterialPageRoute(builder: (_) => const MyTrip());
       case '/maps':
-        return MaterialPageRoute(builder: (_) => Maps());
+        return MaterialPageRoute(builder: (_) => const Maps());
       case '/profile':
-        return MaterialPageRoute(builder: (_) => Profile());
+        return MaterialPageRoute(builder: (_) => const Profile());
       case '/addTrips':
         return MaterialPageRoute(builder: (_) => AddTrips());
+      // case '/addTrip/daySection':
+      //   return MaterialPageRoute(builder: (_) => DaySelect());
       default:
         return _errorRoute();
     }
@@ -35,9 +37,9 @@ class RouteGenerator {
 
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
-          child: const Text('Page not found'),
+          child: Text('Page not found'),
         ),
       );
     });

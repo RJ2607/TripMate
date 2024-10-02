@@ -11,13 +11,13 @@ class HeaderWidget extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: Theme.of(context).brightness == Brightness.dark
-                ? AssetImage('assets/images/dark_home_wallpaper.jpeg')
-                : AssetImage('assets/images/light_home_wallpaper.jpeg'),
+                ? const AssetImage('assets/images/dark_home_wallpaper.jpeg')
+                : const AssetImage('assets/images/light_home_wallpaper.jpeg'),
             fit: BoxFit.cover,
             filterQuality: FilterQuality.high,
           ),
         ),
-        child: SingleChildScrollView(
+        child: const SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

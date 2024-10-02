@@ -14,7 +14,7 @@ class ProfileInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       padding: const EdgeInsets.all(15),
       height: MediaQuery.of(context).size.height * 0.2,
       width: MediaQuery.of(context).size.width * 0.9,

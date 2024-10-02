@@ -20,6 +20,7 @@ class _AppState extends State<App> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Trip Mate',
@@ -33,9 +34,9 @@ class _AppState extends State<App> {
             );
           }
           if (snapshot.hasData) {
-            return NavBarMenu();
+            return const NavBarMenu();
           }
-          return OnboardingScreen();
+          return const OnboardingScreen();
         },
       ),
       // home: HomePage(),

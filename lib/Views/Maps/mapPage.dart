@@ -10,6 +10,6 @@ class Maps extends StatefulWidget {
 class _MapsState extends State<Maps> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }

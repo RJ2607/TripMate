@@ -51,7 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           color: Theme.of(context)
                               .primaryColorDark
                               .withOpacity(0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                          borderRadius: const BorderRadius.all(Radius.circular(50.0)),
                           border: Border.all(
                             width: 1.5,
                             color: Colors.white.withOpacity(0.2),
@@ -62,8 +62,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           onTap: () {
                             Navigator.pushNamed(context, '/login');
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: Text(
                               'Skip',
                               style: TextStyle(
@@ -114,14 +114,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             OnBoardContent(
               title: OnBoardData.onBoardData[_pageIndex].title,
               description: OnBoardData.onBoardData[_pageIndex].description,
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: Row(
@@ -144,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       color: Theme.of(context)
                                           .primaryColorDark
                                           .withOpacity(0.1),
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(50.0)),
                                       border: Border.all(
                                         width: 1.5,
@@ -169,8 +169,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                           curve: Curves.easeIn,
                                         );
                                       },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           'Back',
                                           style: TextStyle(
@@ -187,8 +187,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ],
                           ),
                         )
-                      : SizedBox(),
-                  Spacer(),
+                      : const SizedBox(),
+                  const Spacer(),
                   _lastPage
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -207,7 +207,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       color: Theme.of(context)
                                           .primaryColorDark
                                           .withOpacity(0.1),
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(50.0)),
                                       border: Border.all(
                                         width: 1.5,
@@ -219,8 +219,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       onTap: () {
                                         Navigator.pushNamed(context, '/login');
                                       },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           'Done',
                                           style: TextStyle(
@@ -254,7 +254,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       color: Theme.of(context)
                                           .primaryColorDark
                                           .withOpacity(0.1),
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(50.0)),
                                       border: Border.all(
                                         width: 1.5,
@@ -279,8 +279,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                           curve: Curves.easeIn,
                                         );
                                       },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           'Next',
                                           style: TextStyle(
@@ -354,7 +354,7 @@ class OnBoardImage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // const Spacer(),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.4,
           width: MediaQuery.of(context).size.width * 0.8,
@@ -420,7 +420,7 @@ class DotIndicator extends StatelessWidget {
       height: 15,
       width: isActive ? 35 : 15,
       decoration: BoxDecoration(
-        color: isActive ? Color(0xFF479985) : Colors.white,
+        color: isActive ? const Color(0xFF479985) : Colors.white,
         border: Border.all(color: Colors.white, width: 1.5),
         borderRadius: const BorderRadius.all(
           Radius.circular(12),
