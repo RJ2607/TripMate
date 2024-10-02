@@ -15,16 +15,16 @@ class _MyTripState extends State<MyTrip> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor:
             Theme.of(context).floatingActionButtonTheme.backgroundColor,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15))),
         extendedIconLabelSpacing: 0,
-        extendedPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+        extendedPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         tooltip: 'Add Trips',
-        label: Text('Add Trips'),
+        label: const Text('Add Trips'),
         onPressed: () {
           Navigator.pushNamed(context, '/addTrips');
         },
-        icon: Icon(Bootstrap.plus),
+        icon: const Icon(Bootstrap.plus),
       ),
     );
   }

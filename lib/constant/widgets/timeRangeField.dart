@@ -1,14 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import '../../controller/dateRangeController.dart';
 
-class DateRangePickerWidget extends StatelessWidget {
+class TimeRangePickerWidget extends StatelessWidget {
   final DateRangePickerController controller =
       Get.put(DateRangePickerController());
 
-  const DateRangePickerWidget({super.key});
+  const TimeRangePickerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +17,15 @@ class DateRangePickerWidget extends StatelessWidget {
   }
 
   Widget _buildDateRangePicker(BuildContext context) {
-    String endDate;
-    String startDate;
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    String startTime;
+    final localizations = MaterialLocalizations.of(context);
+    final formatter = localizations;
+
     return GestureDetector(
-      onTap: () => controller.pickDateRange(context),
+      onTap: () => controller.pickTimeRange(context),
       child: Container(
         padding: const EdgeInsets.all(16.0),
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.09,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary.withAlpha(24),
           borderRadius: BorderRadius.circular(10.0),
@@ -34,24 +36,13 @@ class DateRangePickerWidget extends StatelessWidget {
         ),
         child: IntrinsicHeight(
           child: Obx(() {
-            startDate = controller.selectedDateRange.value != null
-                ? formatter.format(controller.selectedDateRange.value!.start)
-                : 'Start day';
-            endDate = controller.selectedDateRange.value != null
-                ? formatter.format(controller.selectedDateRange.value!.end)
-                : 'End day';
+            startTime = controller.selectedTimeRange.value != null
+                ? formatter.formatTimeOfDay(controller.selectedTimeRange.value!)
+                : 'Start time';
 
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildDateField(context, 'Start day', startDate),
-                VerticalDivider(
-                  color: Theme.of(context).textTheme.titleSmall!.color,
-                  thickness: 1.0,
-                ),
-                _buildDateField(context, 'End day', endDate),
-              ],
-            );
+            log(startTime.toString());
+
+            return _buildDateField(context, 'Start time', startTime);
           }),
         ),
       ),
@@ -66,7 +57,7 @@ class DateRangePickerWidget extends StatelessWidget {
           label,
           style: TextStyle(
             color: Theme.of(context).textTheme.titleSmall!.color,
-            fontSize: 12.0,
+            fontSize: MediaQuery.of(context).size.width * 0.03,
           ),
         ),
         const SizedBox(height: 4.0),
@@ -74,7 +65,7 @@ class DateRangePickerWidget extends StatelessWidget {
           value,
           style: TextStyle(
             color: Theme.of(context).textTheme.titleSmall!.color,
-            fontSize: 16.0,
+            fontSize: MediaQuery.of(context).size.width * 0.04,
           ),
         ),
       ],
