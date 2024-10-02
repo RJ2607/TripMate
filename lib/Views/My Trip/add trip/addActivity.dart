@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/constant/widgets/timeRangeField.dart';
+import 'package:tripmate/views/My%20Trip/add%20trip/category%20fields/LodgingFields.dart';
+import 'package:tripmate/views/My%20Trip/add%20trip/category%20fields/restaurantFields.dart';
+import 'package:tripmate/views/My%20Trip/add%20trip/category%20fields/sightseeingFields.dart';
+import 'package:tripmate/views/My%20Trip/add%20trip/category%20fields/travelFields.dart';
 
 import '../../../controller/dateRangeController.dart';
 
-class AddActivity extends StatelessWidget {
-  AddActivity({super.key});
+class AddActivityController extends GetxController {
+  Rx<String> selectedCategory = ''.obs;
+  Rx<TextEditingController> activityNameController =
+      TextEditingController().obs;
+  Rx<TextEditingController> descriptionController = TextEditingController().obs;
+}
 
-  DateRangePickerController dateRangeController =
+class AddActivity extends StatelessWidget {
+  final AddActivityController addActivityController =
+      Get.put(AddActivityController());
+  final DateRangePickerController dateRangeController =
       Get.put(DateRangePickerController());
+
+  AddActivity({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +69,18 @@ class AddActivity extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: addActivityController.activityNameController.value,
+                decoration: const InputDecoration(
                   labelText: 'Activity Name',
                 ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: addActivityController.descriptionController.value,
+                decoration: const InputDecoration(
                   labelText: 'Description',
                 ),
               ),
@@ -76,38 +91,65 @@ class AddActivity extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TimeRangePickerWidget(),
-                  DropdownMenu(
-                      // controller: categoryController,
-                      enableFilter: true,
-                      label: const Text('Category',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          )),
-                      width: MediaQuery.of(context).size.width * 0.55,
-                      inputDecorationTheme: InputDecorationTheme(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  Obx(() => DropdownMenu<String>(
+                        initialSelection:
+                            addActivityController.selectedCategory.value,
+                        onSelected: (String? value) {
+                          if (value != null) {
+                            addActivityController.selectedCategory.value =
+                                value;
+                          }
+                        },
+                        enableFilter: true,
+                        label: const Text(
+                          'Category',
+                          style: TextStyle(color: Colors.grey),
                         ),
-                      ),
-                      dropdownMenuEntries: const <DropdownMenuEntry<String>>[
-                        DropdownMenuEntry(
-                          value: 'Travel',
-                          label: 'Travel',
+                        width: MediaQuery.of(context).size.width * 0.55,
+                        inputDecorationTheme: InputDecorationTheme(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
-                        DropdownMenuEntry(
-                          value: 'Restaurant',
-                          label: 'Restaurant',
-                        ),
-                        DropdownMenuEntry(
-                          value: 'Sightseeing',
-                          label: 'Sightseeing',
-                        ),
-                        DropdownMenuEntry(
-                          value: 'Lodging',
-                          label: 'Lodging',
-                        ),
-                      ]),
+                        dropdownMenuEntries: const <DropdownMenuEntry<String>>[
+                          DropdownMenuEntry(
+                            value: 'Travel',
+                            label: 'Travel',
+                          ),
+                          DropdownMenuEntry(
+                            value: 'Restaurant',
+                            label: 'Restaurant',
+                          ),
+                          DropdownMenuEntry(
+                            value: 'Sightseeing',
+                            label: 'Sightseeing',
+                          ),
+                          DropdownMenuEntry(
+                            value: 'Lodging',
+                            label: 'Lodging',
+                          ),
+                        ],
+                      )),
                 ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
+              Obx(
+                () {
+                  switch (addActivityController.selectedCategory.value) {
+                    case 'Travel':
+                      return TravelFields();
+                    case 'Restaurant':
+                      return RestaurantFields();
+                    case 'Sightseeing':
+                      return SightseeingFields();
+                    case 'Lodging':
+                      return LodgingFields();
+                    default:
+                      return Container();
+                  }
+                },
               ),
             ],
           ),
