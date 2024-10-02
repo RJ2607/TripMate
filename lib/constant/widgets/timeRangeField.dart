@@ -9,7 +9,7 @@ class TimeRangePickerWidget extends StatelessWidget {
   final DateRangePickerController controller =
       Get.put(DateRangePickerController());
 
-  const TimeRangePickerWidget({super.key});
+  TimeRangePickerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

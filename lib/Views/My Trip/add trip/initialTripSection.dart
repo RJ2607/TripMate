@@ -42,7 +42,7 @@ class AddTrips extends StatelessWidget {
 
       invitedFriends.add(friends);
       log(invitedFriends[0]['uid']);
-        } catch (e) {
+    } catch (e) {
       log(e.toString());
     }
   }
@@ -111,7 +111,7 @@ class AddTrips extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
-                const DateRangePickerWidget(),
+                DateRangePickerWidget(),
                 Row(
                   children: [
                     Checkbox(

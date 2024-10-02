@@ -75,7 +75,7 @@ class AddActivity extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const TimeRangePickerWidget(),
+                  TimeRangePickerWidget(),
                   DropdownMenu(
                       // controller: categoryController,
                       enableFilter: true,
