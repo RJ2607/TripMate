@@ -34,7 +34,9 @@ class _AppState extends State<App> {
             );
           }
           if (snapshot.hasData) {
-            return const NavBarMenu();
+            return NavBarMenu(
+              selectedIndex: 0,
+            );
           }
           return const OnboardingScreen();
         },
