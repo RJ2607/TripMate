@@ -8,14 +8,18 @@ import 'Maps/mapPage.dart';
 import 'Profile/profilePage.dart';
 
 class NavBarMenu extends StatefulWidget {
-  const NavBarMenu({super.key});
+  NavBarMenu({
+    Key? key,
+    required this.selectedIndex,
+  }) : super(key: key);
+
+  int selectedIndex = 0;
 
   @override
   State<NavBarMenu> createState() => _NavBarMenuState();
 }
 
 class _NavBarMenuState extends State<NavBarMenu> {
-  int _selectedindex = 0;
   late PageController _pagecontroller;
 
   @override
@@ -23,7 +27,7 @@ class _NavBarMenuState extends State<NavBarMenu> {
     // TODO: implement initState
     super.initState();
 
-    _pagecontroller = PageController(initialPage: _selectedindex);
+    _pagecontroller = PageController(initialPage: widget.selectedIndex);
   }
 
   @override
@@ -54,7 +58,7 @@ class _NavBarMenuState extends State<NavBarMenu> {
                 ),
               ],
               onItemSelected: (index) => setState(() {
-                _selectedindex = index;
+                widget.selectedIndex = index;
                 _pagecontroller.jumpToPage(index);
               }),
               items: [
@@ -135,14 +139,14 @@ class _NavBarMenuState extends State<NavBarMenu> {
                   ),
                 ),
               ],
-              selectedIndex: _selectedindex,
+              selectedIndex: widget.selectedIndex,
             ),
             body: PageView(
               controller: _pagecontroller,
               physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                HomeScreen(),
+              children: [
                 MyTrip(),
+                HomeScreen(),
                 Maps(),
                 Profile(),
               ],
