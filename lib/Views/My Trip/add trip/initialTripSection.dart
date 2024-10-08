@@ -5,50 +5,46 @@ import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:tripmate/constant/firestoreFunc.dart';
 import 'package:tripmate/constant/widgets/dateRangeField.dart';
+import 'package:tripmate/controller/tripsController.dart';
+import 'package:tripmate/views/navBarMenu.dart';
 
-import '../../../controller/dateRangeController.dart';
 import '../../../controller/userData.dart';
-import '../activity/daySelect.dart';
 
 class AddTrips extends StatelessWidget {
   AddTrips({super.key});
 
-  final DateRangePickerController dateRangeController =
-      Get.put(DateRangePickerController());
-  final TextEditingController destinationController = TextEditingController();
-  final TextEditingController inviteController = TextEditingController();
-  final FirestoreFunc firestoreFunc = FirestoreFunc();
-  final RxList<Map<String, dynamic>> invitedFriends =
-      <Map<String, dynamic>>[].obs;
+  TripsController tripsController = Get.put(TripsController());
   final UserData user = Get.find();
-  final Rx<bool> isGroupTrip = false.obs;
+  FirestoreFunc firestoreFunc = Get.put(FirestoreFunc());
+  String groupID = '';
 
   void inviteUser(String email) async {
     try {
-      var friends = await FirestoreFunc.getUserByEmail(email);
+      var friends = await firestoreFunc.getUserByEmail(email);
+
       if (user.user.value!.uid == friends!['uid']) {
         log("You can't invite yourself");
         Get.snackbar('Wrong Invite', "You can't invite yourself");
         return;
       }
 
-      for (var i = 0; i < invitedFriends.length; i++) {
-        if (invitedFriends[i]['uid'] == friends['uid']) {
+      for (var i = 0; i < tripsController.invitedFriends.length; i++) {
+        if (tripsController.invitedFriends.contains(friends)) {
           log("User already invited");
           Get.snackbar('Wrong Invite', "User already invited");
           return;
         }
       }
 
-      invitedFriends.add(friends);
-      log(invitedFriends[0]['uid']);
+      tripsController.invitedFriends.add(friends);
     } catch (e) {
       log(e.toString());
+      Get.snackbar('Unknown Invite', "User not found");
     }
   }
 
   void clearInviteUser() {
-    invitedFriends.clear();
+    tripsController.invitedFriends.clear();
   }
 
   @override
@@ -69,9 +65,10 @@ class AddTrips extends StatelessWidget {
                 GestureDetector(
                   child: const Icon(Bootstrap.arrow_left),
                   onTap: () {
-                    dateRangeController.selectedDateRange.value = null;
-                    destinationController.clear();
-                    inviteController.clear();
+                    tripsController
+                        .dateRangeController.selectedDateRange.value = null;
+                    tripsController.destinationController.clear();
+                    tripsController.inviteController.clear();
                     Navigator.pop(context);
                   },
                 ),
@@ -97,7 +94,7 @@ class AddTrips extends StatelessWidget {
                 Form(
                     child: TextFormField(
                   textInputAction: TextInputAction.search,
-                  controller: destinationController,
+                  controller: tripsController.destinationController,
                   decoration: InputDecoration(
                     labelText: "Where To?!",
                     hintStyle: const TextStyle(
@@ -115,9 +112,9 @@ class AddTrips extends StatelessWidget {
                 Row(
                   children: [
                     Checkbox(
-                      value: isGroupTrip.value,
+                      value: tripsController.isGroupTrip.value,
                       onChanged: (value) {
-                        isGroupTrip.value = value!;
+                        tripsController.isGroupTrip.value = value!;
                       },
                     ),
                     Text(
@@ -127,14 +124,14 @@ class AddTrips extends StatelessWidget {
                     ),
                   ],
                 ),
-                if (isGroupTrip.value)
+                if (tripsController.isGroupTrip.value)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Form(
                           child: TextFormField(
                         textInputAction: TextInputAction.search,
-                        controller: inviteController,
+                        controller: tripsController.inviteController,
                         decoration: InputDecoration(
                           labelText: "Invite friends",
                           hintStyle: const TextStyle(
@@ -150,7 +147,8 @@ class AddTrips extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          inviteUser(inviteController.text);
+                          inviteUser(tripsController.inviteController.text);
+                          tripsController.inviteController.clear();
                         },
                         child: const Row(
                           children: [
@@ -174,18 +172,20 @@ class AddTrips extends StatelessWidget {
                         child: Row(
                           children: [
                             ...List.generate(
-                                invitedFriends.length,
+                                tripsController.invitedFriends.length,
                                 (index) => Padding(
                                       padding: const EdgeInsets.only(right: 10),
                                       child: Column(
                                         children: [
                                           CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                                invitedFriends[index]
+                                                tripsController
+                                                        .invitedFriends[index]
                                                     ['profile']),
                                           ),
                                           Text(
-                                            invitedFriends[index]['name']
+                                            tripsController
+                                                .invitedFriends[index]['name']
                                                 .toString()
                                                 .split(' ')
                                                 .first,
@@ -204,20 +204,8 @@ class AddTrips extends StatelessWidget {
                 Center(
                   child: OutlinedButton(
                     onPressed: () {
-                      Get.to(() => DaySelect(
-                            startDate: dateRangeController
-                                .selectedDateRange.value!.start,
-                            endDate: dateRangeController
-                                .selectedDateRange.value!.end,
-                            totalDays: dateRangeController
-                                .selectedDateRange.value!.end
-                                .difference(dateRangeController
-                                    .selectedDateRange.value!.start)
-                                .inDays,
-                            startWeekDay: dateRangeController
-                                .selectedDateRange.value!.start.weekday,
-                          ));
-                      log((7 % 7).toString());
+                      tripsController.addTrip();
+                      // log(invitedFriends[0].toString());
                     },
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
