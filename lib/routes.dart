@@ -19,9 +19,12 @@ class RouteGenerator {
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/navigation':
-        return MaterialPageRoute(builder: (_) => const NavBarMenu());
+        return MaterialPageRoute(
+            builder: (_) => NavBarMenu(
+                  selectedIndex: 0,
+                ));
       case '/mytrip':
-        return MaterialPageRoute(builder: (_) => const MyTrip());
+        return MaterialPageRoute(builder: (_) => MyTrip());
       case '/maps':
         return MaterialPageRoute(builder: (_) => const Maps());
       case '/profile':
