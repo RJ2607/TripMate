@@ -1,39 +1,35 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 
+import '../../../constant/firestoreFunc.dart';
 import 'dayActivity.dart';
 
-class DaySelect extends StatefulWidget {
-  DateTime startDate;
-  DateTime endDate;
-  int totalDays;
-  int startWeekDay;
+class DaySelect extends StatelessWidget {
+  String tripID;
+  bool isGroupTrip;
 
-  DaySelect(
-      {super.key,
-      required this.startDate,
-      required this.endDate,
-      required this.totalDays,
-      required this.startWeekDay});
+  DaySelect({
+    super.key,
+    required this.tripID,
+    required this.isGroupTrip,
+  });
 
-  @override
-  State<DaySelect> createState() => _DaySelectState();
-}
+  FirestoreFunc firestoreFunc = Get.put(FirestoreFunc());
 
-class _DaySelectState extends State<DaySelect> {
   Map<int, String> days = {
-    0: 'Sunday',
-    1: 'Monday',
-    2: 'Tuesday',
-    3: 'Wednesday',
-    4: 'Thursday',
-    5: 'Friday',
-    6: 'Saturday',
+    0: 'Monday',
+    1: 'Tuesday',
+    2: 'Wednesday',
+    3: 'Thursday',
+    4: 'Friday',
+    5: 'Saturday',
+    6: 'Sunday',
   };
 
   // Color selectedColor = Colors.blue;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +50,7 @@ class _DaySelectState extends State<DaySelect> {
                   GestureDetector(
                     child: const Icon(Bootstrap.arrow_left),
                     onTap: () {
-                      Navigator.pop(context);
+                      Get.back();
                     },
                   ),
                   const Text(
@@ -83,61 +79,86 @@ class _DaySelectState extends State<DaySelect> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              Center(
-                child: Wrap(
-                  spacing: 5,
-                  runSpacing: 10,
-                  direction: Axis.horizontal,
-                  alignment: WrapAlignment.start,
-                  children: List.generate(widget.totalDays, (index) {
-                    // log((days[(widget.startWeekDay + index) % 7]).toString());
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(() => DayActivity(
-                              weekDay: days[(widget.startWeekDay + index) % 7]!,
-                              date: widget.startDate.add(Duration(days: index)),
-                              dayNumber: index + 1,
-                            ));
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).primaryColor.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(40),
-                          border: Border.all(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              '${widget.startDate.day + index}',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              days[(widget.startWeekDay + index) % 7]!.substring(0, 3),
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+              FutureBuilder(
+                future: isGroupTrip
+                    ? firestoreFunc.getGroupTripsById(tripID)
+                    : firestoreFunc.getIndividualTripById(tripID),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-                  }),
-                ),
-              )
+                  }
+                  var data = snapshot.data;
+                  DateTime startDate = DateTime.fromMillisecondsSinceEpoch(
+                      data['startDate'].millisecondsSinceEpoch);
+                  DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
+                      data['endDate'].millisecondsSinceEpoch);
+                  int totalDays = endDate.difference(startDate).inDays + 1;
+                  int startWeekDay = startDate.weekday - 1;
+                  log('Start Date: $startDate');
+                  log('End Date: $endDate');
+                  log('Total Days: $totalDays');
+                  log('Start Week Day: $startWeekDay');
+                  return Center(
+                    child: Wrap(
+                      spacing: 5,
+                      runSpacing: 10,
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.start,
+                      children: List.generate(totalDays, (index) {
+                        // log((days[(widget.startWeekDay + index) % 7]).toString());
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(() => DayActivity(
+                                  weekDay: days[(startWeekDay + index) % 7]!,
+                                  date: startDate.add(Duration(days: index)),
+                                  dayNumber: index + 1,
+                                ));
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 20,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(40),
+                              border: Border.all(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  '${startDate.day + index}',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  days[(startWeekDay + index) % 7]!
+                                      .substring(0, 3),
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
