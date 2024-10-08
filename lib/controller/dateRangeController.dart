@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 
 class DateRangePickerController extends GetxController {
   var selectedDateRange = Rxn<DateTimeRange>();
-  var selectedTimeRange = Rxn<TimeOfDay>();
+  var selectedStartTimeRange = Rxn<TimeOfDay>();
+  var selectedEndTimeRange = Rxn<TimeOfDay>();
 
   Future<void> pickDateRange(BuildContext context) async {
     final DateTimeRange? picked = await showDateRangePicker(
@@ -17,11 +18,16 @@ class DateRangePickerController extends GetxController {
   }
 
   // write code for time picker for certain date
-  Future<void> pickTimeRange(BuildContext context) async {
+  Future<void> pickTimeRange(BuildContext context,
+      {required bool isStartTime}) async {
     final TimeOfDay? picked =
         await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    if (picked != null && picked != selectedTimeRange.value) {
-      selectedTimeRange.value = picked;
+    if (picked != null) {
+      if (isStartTime) {
+        selectedStartTimeRange.value = picked;
+      } else {
+        selectedEndTimeRange.value = picked;
+      }
     }
   }
 }
