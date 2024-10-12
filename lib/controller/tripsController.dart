@@ -8,6 +8,8 @@ import 'package:tripmate/controller/userData.dart';
 import 'dateRangeController.dart';
 
 class TripsController extends GetxController {
+  Rx<String> tripId = ''.obs;
+  Rx<String> dayId = ''.obs;
   FirestoreFunc firestoreFunc = Get.put(FirestoreFunc());
   final DateRangePickerController dateRangeController =
       Get.put(DateRangePickerController());
