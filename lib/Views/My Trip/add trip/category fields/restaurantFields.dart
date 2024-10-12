@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tripmate/constant/widgets/timeRangePickerWidget.dart';
+import 'package:tripmate/controller/activity%20controllers/restaurantController.dart';
+
+import '../addActivity.dart';
 
 class RestaurantFields extends StatelessWidget {
-  const RestaurantFields({super.key});
+  bool isGroupTrip;
+  RestaurantFields({
+    Key? key,
+    required this.isGroupTrip,
+  });
+
+  AddActivityController addActivityController =
+      Get.put(AddActivityController());
+  RestaurantController restaurantController = Get.put(RestaurantController());
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +23,14 @@ class RestaurantFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
+          controller: restaurantController.accommodationController.value,
           decoration: InputDecoration(labelText: "Accommodation Name"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
         ),
         TextFormField(
+          controller: restaurantController.locationController.value,
           decoration: InputDecoration(labelText: "Location"),
         ),
         SizedBox(
@@ -25,6 +39,31 @@ class RestaurantFields extends StatelessWidget {
         TimeRangePickerWidget(label: 'Reservation Time', isStartTime: true),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: OutlinedButton(
+            onPressed: () {
+              if (addActivityController.selectedCategory.value ==
+                  'Restaurant') {
+                restaurantController.updateRestaurant(
+                  isGroupTrip,
+                  addActivityController.selectedCategory.value,
+                  '${addActivityController.activityDate.value.toString()} dayactivity',
+                );
+              }
+            },
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 50,
+                vertical: 15,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: const Text("Add Restaurant"),
+          ),
         ),
       ],
     );
