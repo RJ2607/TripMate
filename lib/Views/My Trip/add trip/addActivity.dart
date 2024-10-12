@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tripmate/controller/activity%20controllers/transportController.dart';
 import 'package:tripmate/views/My%20Trip/add%20trip/category%20fields/sightseeingFields.dart';
 
 import '../../../controller/dateRangeController.dart';
@@ -8,19 +9,25 @@ import 'category fields/restaurantFields.dart';
 import 'category fields/transportField.dart';
 
 class AddActivityController extends GetxController {
+  Rx<DateTime> activityDate = DateTime.now().obs;
   Rx<String> selectedCategory = ''.obs;
   Rx<TextEditingController> activityNameController =
       TextEditingController().obs;
-  Rx<TextEditingController> descriptionController = TextEditingController().obs;
+  Rx<TextEditingController> noteController = TextEditingController().obs;
   Rx<TextEditingController> categoryController = TextEditingController().obs;
 }
 
 class AddActivity extends StatelessWidget {
-  AddActivity({super.key});
+  AddActivity({
+    super.key,
+    required this.isGroupTrip,
+  });
+  bool isGroupTrip;
   AddActivityController addActivityController =
       Get.put(AddActivityController());
   DateRangePickerController dateRangeController =
       Get.put(DateRangePickerController());
+  TransportController transportController = Get.put(TransportController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +50,13 @@ class AddActivity extends StatelessWidget {
                     onTap: () {
                       dateRangeController.selectedStartTimeRange.value = null;
                       dateRangeController.selectedEndTimeRange.value = null;
-                      Navigator.pop(context);
+                      addActivityController.activityNameController.value
+                          .clear();
+                      addActivityController.noteController.value.clear();
+                      addActivityController.categoryController.value.clear();
+                      addActivityController.selectedCategory.value = '';
+
+                      Get.back(closeOverlays: true);
                     },
                   ),
                   const Text(
@@ -61,7 +74,12 @@ class AddActivity extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              const TextField(
+              TextField(
+                controller: addActivityController.activityNameController.value,
+                onChanged: (value) {
+                  addActivityController.activityNameController.value.text =
+                      value;
+                },
                 decoration: InputDecoration(
                   labelText: 'Activity Name',
                 ),
@@ -69,7 +87,11 @@ class AddActivity extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              const TextField(
+              TextField(
+                controller: addActivityController.noteController.value,
+                onChanged: (value) {
+                  addActivityController.noteController.value.text = value;
+                },
                 decoration: InputDecoration(
                   labelText: 'Notes',
                 ),
@@ -79,44 +101,51 @@ class AddActivity extends StatelessWidget {
               ),
               Obx(
                 () => DropdownMenu(
-                    expandedInsets: EdgeInsets.symmetric(
-                      horizontal: 0,
-                    ),
-                    controller: addActivityController.categoryController.value,
-                    enableFilter: true,
-                    onSelected: (value) {
+                  expandedInsets: EdgeInsets.symmetric(
+                    horizontal: 0,
+                  ),
+                  controller: addActivityController.categoryController.value,
+                  enableFilter: true,
+                  onSelected: (i) {
+                    addActivityController.selectedCategory.value = i!;
+                    if (dateRangeController.selectedStartTimeRange.value !=
+                        null) {
                       dateRangeController.selectedStartTimeRange.value = null;
+                    }
+                    if (dateRangeController.selectedEndTimeRange.value !=
+                        null) {
                       dateRangeController.selectedEndTimeRange.value = null;
-                      addActivityController.selectedCategory.value = value!;
-                    },
-                    label: const Text('Category',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        )),
-                    width: MediaQuery.of(context).size.width * 0.55,
-                    inputDecorationTheme: InputDecorationTheme(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                    }
+                  },
+                  label: const Text('Category',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      )),
+                  width: MediaQuery.of(context).size.width * 0.55,
+                  inputDecorationTheme: InputDecorationTheme(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    dropdownMenuEntries: const <DropdownMenuEntry<String>>[
-                      DropdownMenuEntry(
-                        value: 'Transport',
-                        label: 'Transport',
-                      ),
-                      DropdownMenuEntry(
-                        value: 'Restaurant',
-                        label: 'Restaurant',
-                      ),
-                      DropdownMenuEntry(
-                        value: 'Sightseeing',
-                        label: 'Sightseeing',
-                      ),
-                      DropdownMenuEntry(
-                        value: 'Lodging',
-                        label: 'Lodging',
-                      ),
-                    ]),
+                  ),
+                  dropdownMenuEntries: const <DropdownMenuEntry<String>>[
+                    DropdownMenuEntry(
+                      value: 'Transport',
+                      label: 'Transport',
+                    ),
+                    DropdownMenuEntry(
+                      value: 'Restaurant',
+                      label: 'Restaurant',
+                    ),
+                    DropdownMenuEntry(
+                      value: 'Sightseeing',
+                      label: 'Sightseeing',
+                    ),
+                    DropdownMenuEntry(
+                      value: 'Lodging',
+                      label: 'Lodging',
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
@@ -124,36 +153,28 @@ class AddActivity extends StatelessWidget {
               Obx(() {
                 if (addActivityController.selectedCategory.value ==
                     'Transport') {
-                  return TransportFields();
+                  return TransportFields(
+                    isGroupTrip: isGroupTrip,
+                  );
                 } else if (addActivityController.selectedCategory.value ==
                     'Sightseeing') {
-                  return const SightseeingFields();
+                  return SightseeingFields(
+                    isGroupTrip: isGroupTrip,
+                  );
                 } else if (addActivityController.selectedCategory.value ==
                     'Restaurant') {
-                  return RestaurantFields();
+                  return RestaurantFields(
+                    isGroupTrip: isGroupTrip,
+                  );
                 } else if (addActivityController.selectedCategory.value ==
                     'Lodging') {
-                  return LodgingFields();
+                  return LodgingFields(
+                    isGroupTrip: isGroupTrip,
+                  );
                 } else {
-                  return const SizedBox();
+                  return const SizedBox.shrink();
                 }
               }),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 50,
-                      vertical: 15,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text("Add Activity"),
-                ),
-              ),
             ],
           ),
         ),
