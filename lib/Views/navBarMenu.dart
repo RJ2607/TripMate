@@ -145,8 +145,8 @@ class _NavBarMenuState extends State<NavBarMenu> {
               controller: _pagecontroller,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                MyTrip(),
                 HomeScreen(),
+                MyTrip(),
                 Maps(),
                 Profile(),
               ],
