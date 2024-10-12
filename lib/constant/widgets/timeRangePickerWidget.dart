@@ -24,7 +24,7 @@ class TimeRangePickerWidget extends StatelessWidget {
             controller.pickTimeRange(context, isStartTime: isStartTime),
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          height: MediaQuery.of(context).size.height * 0.09,
+          height: MediaQuery.of(context).size.height * 0.093,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary.withAlpha(24),
             borderRadius: BorderRadius.circular(10.0),
@@ -51,7 +51,7 @@ class TimeRangePickerWidget extends StatelessWidget {
             controller.pickTimeRange(context, isStartTime: isStartTime),
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          height: MediaQuery.of(context).size.height * 0.09,
+          height: MediaQuery.of(context).size.height * 0.093,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary.withAlpha(24),
             borderRadius: BorderRadius.circular(10.0),
