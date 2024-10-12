@@ -1,35 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tripmate/controller/activity%20controllers/lodgingController.dart';
 
 import '../../../../constant/widgets/timeRangePickerWidget.dart';
 
 class LodgingFields extends StatelessWidget {
-  LodgingFields({super.key});
+  bool isGroupTrip;
+  LodgingFields({
+    Key? key,
+    required this.isGroupTrip,
+  });
 
-  Rx<bool> isCheckOut = false.obs;
+  LodgingController lodgingController = Get.put(LodgingController());
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            controller: lodgingController.accommodationController.value,
             decoration: InputDecoration(labelText: "Accommodation Name"),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
           ),
           TextFormField(
+            controller: lodgingController.locationController.value,
             decoration: InputDecoration(labelText: "Location"),
           ),
           Row(
             children: [
               Checkbox(
-                value: isCheckOut.value,
+                value: lodgingController.isCheckOut.value,
                 onChanged: (value) {
-                  isCheckOut.value = value!;
+                  lodgingController.isCheckOut.value = value!;
                 },
               ),
               Text(
@@ -38,10 +44,10 @@ class LodgingFields extends StatelessWidget {
               ),
             ],
           ),
-          if (isCheckOut.value)
+          if (lodgingController.isCheckOut.value)
             TimeRangePickerWidget(
               label: 'Check Out Time',
-              isStartTime: true,
+              isStartTime: false,
             )
           else
             TimeRangePickerWidget(
@@ -50,6 +56,27 @@ class LodgingFields extends StatelessWidget {
             ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: OutlinedButton(
+              onPressed: () {
+                lodgingController.updateLodging(
+                  isGroupTrip,
+                  'Lodging',
+                  '${lodgingController.addActivityController.activityDate.value.toString()} dayactivity',
+                );
+              },
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 50,
+                  vertical: 15,
+                ),
+              ),
+              child: Text(
+                'Add Lodging',
+              ),
+            ),
           ),
         ],
       ),
