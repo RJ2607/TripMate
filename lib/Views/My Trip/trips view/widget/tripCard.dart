@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tripmate/constant/firestoreFunc.dart';
+import 'package:tripmate/controller/tripsController.dart';
 
 import '../../activity/daySelect.dart';
 
@@ -28,6 +29,8 @@ class TripCard extends StatelessWidget {
 
   List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
+  TripsController tripsController = Get.put(TripsController());
+
   List<String> months = [
     'January',
     'February',
@@ -52,8 +55,8 @@ class TripCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        tripsController.tripId.value = tripID;
         Get.to(() => DaySelect(
-              tripID: tripID,
               isGroupTrip: isGroupTrip,
             ));
       },
