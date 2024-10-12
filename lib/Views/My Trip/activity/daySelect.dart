@@ -3,21 +3,25 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:tripmate/controller/tripsController.dart';
+import 'package:tripmate/views/My%20Trip/add%20trip/addActivity.dart';
 
 import '../../../constant/firestoreFunc.dart';
 import 'dayActivity.dart';
 
 class DaySelect extends StatelessWidget {
-  String tripID;
   bool isGroupTrip;
 
   DaySelect({
     super.key,
-    required this.tripID,
     required this.isGroupTrip,
   });
 
   FirestoreFunc firestoreFunc = Get.put(FirestoreFunc());
+
+  TripsController tripsController = Get.put(TripsController());
+  AddActivityController addActivityController =
+      Get.put(AddActivityController());
 
   Map<int, String> days = {
     0: 'Monday',
@@ -81,8 +85,10 @@ class DaySelect extends StatelessWidget {
               ),
               FutureBuilder(
                 future: isGroupTrip
-                    ? firestoreFunc.getGroupTripsById(tripID)
-                    : firestoreFunc.getIndividualTripById(tripID),
+                    ? firestoreFunc
+                        .getGroupTripsById(tripsController.tripId.value)
+                    : firestoreFunc
+                        .getIndividualTripById(tripsController.tripId.value),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -110,10 +116,15 @@ class DaySelect extends StatelessWidget {
                         // log((days[(widget.startWeekDay + index) % 7]).toString());
                         return GestureDetector(
                           onTap: () {
+                            addActivityController.activityDate.value =
+                                startDate.add(Duration(days: index));
+                            log(startDate
+                                .add(Duration(days: index))
+                                .toString());
                             Get.to(() => DayActivity(
                                   weekDay: days[(startWeekDay + index) % 7]!,
-                                  date: startDate.add(Duration(days: index)),
                                   dayNumber: index + 1,
+                                  isGroupTrip: isGroupTrip,
                                 ));
                           },
                           child: Container(

@@ -1,25 +1,26 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tripmate/controller/tripsController.dart';
 
 import '../add trip/addActivity.dart';
 
-class DayActivity extends StatefulWidget {
+class DayActivity extends StatelessWidget {
   String weekDay;
-  DateTime date;
   int dayNumber;
+  bool isGroupTrip;
+  TripsController tripsController = Get.put(TripsController());
+  AddActivityController addActivityController =
+      Get.put(AddActivityController());
 
   DayActivity({
     super.key,
     required this.weekDay,
-    required this.date,
     required this.dayNumber,
+    required this.isGroupTrip,
   });
 
-  @override
-  State<DayActivity> createState() => _DayActivityState();
-}
-
-class _DayActivityState extends State<DayActivity> {
   //dummy data for chips
   List<String> categories = [
     'Food',
@@ -53,7 +54,7 @@ class _DayActivityState extends State<DayActivity> {
                     },
                   ),
                   Text(
-                    'Day ${widget.dayNumber}',
+                    'Day $dayNumber',
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -73,7 +74,9 @@ class _DayActivityState extends State<DayActivity> {
                   ...List.generate(categories.length + 1, (index) {
                     if (index == categories.length) {
                       return GestureDetector(
-                        onTap: () => Get.to(() => AddActivity()),
+                        onTap: () => Get.to(() => AddActivity(
+                              isGroupTrip: isGroupTrip,
+                            )),
                         child: Chip(
                           label: const Icon(Icons.add),
                           padding: const EdgeInsets.all(8),
@@ -87,7 +90,10 @@ class _DayActivityState extends State<DayActivity> {
                     }
 
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        log(addActivityController.activityDate.value
+                            .toString());
+                      },
                       child: Chip(
                         label: Text(categories[index]),
                         padding: const EdgeInsets.all(8),
