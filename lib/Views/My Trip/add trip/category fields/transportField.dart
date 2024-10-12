@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tripmate/constant/widgets/timeRangePickerWidget.dart';
+import 'package:tripmate/controller/activity%20controllers/transportController.dart';
+import 'package:tripmate/views/My%20Trip/add%20trip/addActivity.dart';
 
 class TransportFields extends StatelessWidget {
-  const TransportFields({super.key});
+  bool isGroupTrip;
+  TransportFields({
+    super.key,
+    required this.isGroupTrip,
+  });
+
+  TransportController transportController = Get.put(TransportController());
+
+  AddActivityController addActivityController =
+      Get.put(AddActivityController());
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         TextFormField(
+          controller: transportController.travelModeController.value,
           decoration: InputDecoration(labelText: "Travel Mode"),
         ),
         SizedBox(
@@ -28,16 +41,42 @@ class TransportFields extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.03,
         ),
         TextFormField(
+          controller: transportController.departureLocationController.value,
           decoration: InputDecoration(labelText: "Departure Location"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
         ),
         TextFormField(
+          controller: transportController.arrivalLocationController.value,
           decoration: InputDecoration(labelText: "Arrival Location"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: OutlinedButton(
+            onPressed: () {
+              if (addActivityController.selectedCategory.value == 'Transport') {
+                transportController.updateTransport(
+                  isGroupTrip,
+                  addActivityController.selectedCategory.value,
+                  '${addActivityController.activityDate.value.toString()} dayactivity',
+                );
+              }
+            },
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 50,
+                vertical: 15,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: const Text("Add Transport"),
+          ),
         ),
       ],
     );
