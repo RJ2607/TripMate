@@ -9,8 +9,8 @@ class MyTab extends GetxController {
   late TabController controller;
 
   final List<Tab> tabs = [
-    Tab(text: 'Individual Trip'),
-    Tab(text: 'Group Trip'),
+    const Tab(text: 'Individual Trip'),
+    const Tab(text: 'Group Trip'),
   ];
 
   void initController(TickerProvider vsync) {
@@ -25,7 +25,7 @@ class MyTab extends GetxController {
 }
 
 class MyTrip extends StatefulWidget {
-  MyTrip({super.key});
+  const MyTrip({super.key});
 
   @override
   State<MyTrip> createState() => _MyTripState();
@@ -48,12 +48,12 @@ class _MyTripState extends State<MyTrip> with SingleTickerProviderStateMixin {
         automaticallyImplyLeading: false,
         bottom: TabBar(
           labelColor: Theme.of(context).colorScheme.primaryContainer,
-          unselectedLabelColor: Theme.of(context).colorScheme.onBackground,
+          unselectedLabelColor: Theme.of(context).colorScheme.onSurface,
           indicatorColor: Theme.of(context).colorScheme.primaryContainer,
           controller: myTab.controller,
           tabs: myTab.tabs,
         ),
-        title: Text(
+        title: const Text(
           'My Trips',
           style: TextStyle(
             fontSize: 20,
@@ -76,7 +76,7 @@ class _MyTripState extends State<MyTrip> with SingleTickerProviderStateMixin {
         icon: const Icon(Bootstrap.plus),
       ),
       body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: TabBarView(
             physics: const ScrollPhysics(),
             controller: myTab.controller,

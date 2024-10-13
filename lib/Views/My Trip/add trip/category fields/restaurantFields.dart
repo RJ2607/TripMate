@@ -7,8 +7,7 @@ import '../addActivity.dart';
 
 class RestaurantFields extends StatelessWidget {
   bool isGroupTrip;
-  RestaurantFields({
-    Key? key,
+  RestaurantFields({super.key, 
     required this.isGroupTrip,
   });
 
@@ -24,14 +23,14 @@ class RestaurantFields extends StatelessWidget {
       children: [
         TextFormField(
           controller: restaurantController.accommodationController.value,
-          decoration: InputDecoration(labelText: "Accommodation Name"),
+          decoration: const InputDecoration(labelText: "Accommodation Name"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
         ),
         TextFormField(
           controller: restaurantController.locationController.value,
-          decoration: InputDecoration(labelText: "Location"),
+          decoration: const InputDecoration(labelText: "Location"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,

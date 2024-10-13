@@ -26,18 +26,6 @@ class IndividualTrip extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Shimmer(
-                      child: SmoothContainer(
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        smoothness: 0.6,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        borderRadius: BorderRadius.circular(25),
-                        side: BorderSide(
-                          width: 1,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
                       gradient: LinearGradient(
                         colors: [
                           Colors.grey.shade300,
@@ -46,6 +34,18 @@ class IndividualTrip extends StatelessWidget {
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
+                      ),
+                      child: SmoothContainer(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        smoothness: 0.6,
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        borderRadius: BorderRadius.circular(25),
+                        side: BorderSide(
+                          width: 1,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ));
                 }
                 var data = snapshot.data!.docs;
@@ -74,8 +74,9 @@ class IndividualTrip extends StatelessWidget {
                           isGroupTrip: data[index]['isGroupTrip']);
                     }
                     if (data[index]['isGroupTrip'] == true) {
-                      return SizedBox.shrink();
+                      return const SizedBox.shrink();
                     }
+                    return null;
                   },
                 );
               }),

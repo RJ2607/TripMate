@@ -80,7 +80,7 @@ class AddActivity extends StatelessWidget {
                   addActivityController.activityNameController.value.text =
                       value;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Activity Name',
                 ),
               ),
@@ -92,7 +92,7 @@ class AddActivity extends StatelessWidget {
                 onChanged: (value) {
                   addActivityController.noteController.value.text = value;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Notes',
                 ),
               ),
@@ -101,7 +101,7 @@ class AddActivity extends StatelessWidget {
               ),
               Obx(
                 () => DropdownMenu(
-                  expandedInsets: EdgeInsets.symmetric(
+                  expandedInsets: const EdgeInsets.symmetric(
                     horizontal: 0,
                   ),
                   controller: addActivityController.categoryController.value,

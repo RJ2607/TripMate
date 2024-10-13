@@ -22,7 +22,7 @@ class TransportFields extends StatelessWidget {
       children: [
         TextFormField(
           controller: transportController.travelModeController.value,
-          decoration: InputDecoration(labelText: "Travel Mode"),
+          decoration: const InputDecoration(labelText: "Travel Mode"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
@@ -42,14 +42,14 @@ class TransportFields extends StatelessWidget {
         ),
         TextFormField(
           controller: transportController.departureLocationController.value,
-          decoration: InputDecoration(labelText: "Departure Location"),
+          decoration: const InputDecoration(labelText: "Departure Location"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
         ),
         TextFormField(
           controller: transportController.arrivalLocationController.value,
-          decoration: InputDecoration(labelText: "Arrival Location"),
+          decoration: const InputDecoration(labelText: "Arrival Location"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,

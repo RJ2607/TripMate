@@ -6,8 +6,7 @@ import '../../../../constant/widgets/timeRangePickerWidget.dart';
 
 class LodgingFields extends StatelessWidget {
   bool isGroupTrip;
-  LodgingFields({
-    Key? key,
+  LodgingFields({super.key, 
     required this.isGroupTrip,
   });
 
@@ -21,14 +20,14 @@ class LodgingFields extends StatelessWidget {
         children: [
           TextFormField(
             controller: lodgingController.accommodationController.value,
-            decoration: InputDecoration(labelText: "Accommodation Name"),
+            decoration: const InputDecoration(labelText: "Accommodation Name"),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
           ),
           TextFormField(
             controller: lodgingController.locationController.value,
-            decoration: InputDecoration(labelText: "Location"),
+            decoration: const InputDecoration(labelText: "Location"),
           ),
           Row(
             children: [
@@ -73,7 +72,7 @@ class LodgingFields extends StatelessWidget {
                   vertical: 15,
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Add Lodging',
               ),
             ),

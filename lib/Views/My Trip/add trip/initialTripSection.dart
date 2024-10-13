@@ -6,7 +6,6 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:tripmate/constant/firestoreFunc.dart';
 import 'package:tripmate/constant/widgets/dateRangeField.dart';
 import 'package:tripmate/controller/tripsController.dart';
-import 'package:tripmate/views/navBarMenu.dart';
 
 import '../../../controller/userData.dart';
 

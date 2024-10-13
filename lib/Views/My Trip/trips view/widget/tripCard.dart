@@ -9,14 +9,14 @@ import '../../activity/daySelect.dart';
 
 class TripCard extends StatelessWidget {
   TripCard({
-    Key? key,
+    super.key,
     required this.tripID,
     required this.destination,
     required this.startDate,
     required this.endDate,
     required this.isGroupTrip,
     this.invitedFriends,
-  }) : super(key: key);
+  });
 
   String tripID;
   String destination;
@@ -61,21 +61,21 @@ class TripCard extends StatelessWidget {
             ));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        padding: EdgeInsets.all(2),
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color.fromARGB(255, 167, 165, 165),
+                Color.fromARGB(255, 167, 165, 165),
                 Color.fromARGB(255, 82, 81, 81),
                 // Colors.white
               ]),
           borderRadius: BorderRadius.circular(25),
         ),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
             color: Theme.of(context).colorScheme.secondaryContainer,
@@ -98,7 +98,7 @@ class TripCard extends StatelessWidget {
                         fontSize: MediaQuery.textScalerOf(context).scale(20),
                         fontWeight: FontWeight.w500,
                       )),
-                  Icon(FontAwesome.road_solid),
+                  const Icon(FontAwesome.road_solid),
                   Text(endDay,
                       style: TextStyle(
                         fontSize: MediaQuery.textScalerOf(context).scale(20),
@@ -108,7 +108,7 @@ class TripCard extends StatelessWidget {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               Divider(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,6 +136,13 @@ class TripCard extends StatelessWidget {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
                                           return Shimmer(
+                                              gradient: const LinearGradient(colors: [
+                                                Color.fromARGB(
+                                                    255, 53, 53, 53),
+                                                Colors.white,
+                                                Color.fromARGB(
+                                                    255, 53, 53, 53)
+                                              ]),
                                               child: Align(
                                                 widthFactor: 0.5,
                                                 child: CircleAvatar(
@@ -152,14 +159,7 @@ class TripCard extends StatelessWidget {
                                                             0.041,
                                                   ),
                                                 ),
-                                              ),
-                                              gradient: LinearGradient(colors: [
-                                                const Color.fromARGB(
-                                                    255, 53, 53, 53),
-                                                Colors.white,
-                                                const Color.fromARGB(
-                                                    255, 53, 53, 53)
-                                              ]));
+                                              ));
                                         }
                                         return Align(
                                           widthFactor: 0.5,
@@ -189,7 +189,7 @@ class TripCard extends StatelessWidget {
                             ),
                           ],
                         )
-                      : SizedBox(width: 0),
+                      : const SizedBox(width: 0),
                 ],
               )
             ],

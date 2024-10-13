@@ -5,8 +5,7 @@ import '../../../../constant/widgets/timeRangePickerWidget.dart';
 
 class SightseeingFields extends StatelessWidget {
   bool isGroupTrip;
-  SightseeingFields({
-    Key? key,
+  SightseeingFields({super.key, 
     required this.isGroupTrip,
   });
 
@@ -31,14 +30,14 @@ class SightseeingFields extends StatelessWidget {
         ),
         TextFormField(
           controller: sightseeingController.placeNameController.value,
-          decoration: InputDecoration(labelText: "Place Name"),
+          decoration: const InputDecoration(labelText: "Place Name"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
         ),
         TextFormField(
           controller: sightseeingController.locationController.value,
-          decoration: InputDecoration(labelText: "Location"),
+          decoration: const InputDecoration(labelText: "Location"),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,

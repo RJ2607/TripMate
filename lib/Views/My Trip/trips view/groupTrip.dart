@@ -44,7 +44,7 @@ class GroupTrip extends StatelessWidget {
                   itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
                     if (data[index]['isGroupTrip'] == false) {
-                      return SizedBox.shrink();
+                      return const SizedBox.shrink();
                     }
 
                     return FutureBuilder(
@@ -56,22 +56,7 @@ class GroupTrip extends StatelessWidget {
                           return Shimmer(
                               enabled: true,
                               loop: 10,
-                              child: SmoothContainer(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.2,
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                smoothness: 0.6,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 20),
-                                borderRadius: BorderRadius.circular(25),
-                                side: BorderSide(
-                                  width: 1,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                ),
-                              ),
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 colors: [
                                   Colors.black,
                                   Colors.white,
@@ -79,6 +64,21 @@ class GroupTrip extends StatelessWidget {
                                 ],
                                 begin: Alignment(-1, -1),
                                 end: Alignment(1, 1),
+                              ),
+                              child: SmoothContainer(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.2,
+                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                smoothness: 0.6,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
+                                borderRadius: BorderRadius.circular(25),
+                                side: BorderSide(
+                                  width: 1,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface,
+                                ),
                               ));
                         }
 

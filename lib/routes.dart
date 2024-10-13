@@ -24,7 +24,7 @@ class RouteGenerator {
                   selectedIndex: 0,
                 ));
       case '/mytrip':
-        return MaterialPageRoute(builder: (_) => MyTrip());
+        return MaterialPageRoute(builder: (_) => const MyTrip());
       case '/maps':
         return MaterialPageRoute(builder: (_) => const Maps());
       case '/profile':

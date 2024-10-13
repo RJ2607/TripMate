@@ -9,9 +9,9 @@ import 'Profile/profilePage.dart';
 
 class NavBarMenu extends StatefulWidget {
   NavBarMenu({
-    Key? key,
+    super.key,
     required this.selectedIndex,
-  }) : super(key: key);
+  });
 
   int selectedIndex = 0;
 
@@ -144,7 +144,7 @@ class _NavBarMenuState extends State<NavBarMenu> {
             body: PageView(
               controller: _pagecontroller,
               physics: const NeverScrollableScrollPhysics(),
-              children: [
+              children: const [
                 HomeScreen(),
                 MyTrip(),
                 Maps(),
