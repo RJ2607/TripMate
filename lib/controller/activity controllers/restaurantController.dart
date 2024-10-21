@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:tripmate/models/Activities%20Model/restaurantModel.dart';
 
 import '../../constant/firestoreFunc.dart';
-import '../../views/My Trip/add trip/addActivity.dart';
+import '../../views/My Trip/activity/addActivity.dart';
 import '../dateRangeController.dart';
 import '../tripsController.dart';
 
