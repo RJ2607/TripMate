@@ -5,6 +5,7 @@ class TripModel {
   DateTime startDate;
   DateTime endDate;
   bool isGroup;
+  String createdBy;
   List<String>? invitees;
 
   TripModel({
@@ -14,6 +15,7 @@ class TripModel {
     required this.startDate,
     required this.endDate,
     required this.isGroup,
+    required this.createdBy,
     this.invitees,
   });
 
@@ -25,6 +27,7 @@ class TripModel {
       'startDate': startDate,
       'endDate': endDate,
       'isGroup': isGroup,
+      'createdBy': createdBy,
       'invitees': invitees,
     };
   }
@@ -37,6 +40,7 @@ class TripModel {
       startDate: data['startDate'].toDate(),
       endDate: data['endDate'].toDate(),
       isGroup: data['isGroup'],
+      createdBy: data['createdBy'],
       invitees: data['invitees'] != null
           ? List<String>.from(data['invitees'].map((x) => x))
           : null,
@@ -50,6 +54,7 @@ class TripModel {
     DateTime? startDate,
     DateTime? endDate,
     bool? isGroup,
+    String? createdBy,
     List<String>? invitees,
   }) {
     return TripModel(
@@ -59,6 +64,7 @@ class TripModel {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       isGroup: isGroup ?? this.isGroup,
+      createdBy: createdBy ?? this.createdBy,
       invitees: invitees ?? this.invitees,
     );
   }
