@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:tripmate/constant/firestoreFunc.dart';
 import 'package:tripmate/controller/tripsController.dart';
 
-import '../../activity/daySelect.dart';
+import '../../activity/day activity/daySelect.dart';
 
 class TripCard extends StatelessWidget {
   TripCard({
