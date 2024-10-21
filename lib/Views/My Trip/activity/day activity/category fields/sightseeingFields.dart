@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tripmate/controller/activity%20controllers/sightseeingController.dart';
 
-import '../../../../constant/widgets/timeRangePickerWidget.dart';
+import '../../../../../constant/widgets/timeRangePickerWidget.dart';
 
 class SightseeingFields extends StatelessWidget {
   bool isGroupTrip;
