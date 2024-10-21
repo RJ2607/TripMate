@@ -15,14 +15,14 @@ class FirestoreFunc extends GetxController {
       db.collection('groupTrip');
   CollectionReference<Map<String, dynamic>> get userCollection =>
       db.collection(users);
-  CollectionReference<Map<String, dynamic>> trips(String uid) =>
-      userCollection.doc(uid).collection('trips');
+  CollectionReference<Map<String, dynamic>> individualTrip =
+      db.collection('individualTrip');
 
   CollectionReference<Map<String, dynamic>> groupDayActivity(String groupId) =>
       groupTrip.doc(groupId).collection('dayActivity');
   CollectionReference<Map<String, dynamic>> individualDayActivity(
           String tripId) =>
-      trips(user!.uid).doc(tripId).collection('dayActivity');
+      individualTrip.doc(tripId).collection('dayActivity');
 
   Future<Map<String, dynamic>?> getUserByEmail(String email) async {
     return await userCollection
@@ -57,7 +57,7 @@ class FirestoreFunc extends GetxController {
 
   updateTrip(String uid, Map<String, dynamic> data) {
     try {
-      trips(uid).doc(data['tripId']).update(data);
+      individualTrip.doc(uid).update(data);
     } catch (e) {
       print(e);
     }
@@ -73,7 +73,7 @@ class FirestoreFunc extends GetxController {
 
   addIndividualTrip(String uid, Map<String, dynamic> data) {
     try {
-      trips(uid).add(data).then((value) {
+      individualTrip.add(data).then((value) {
         Get.back();
         Get.snackbar('Success', 'Trip added successfully');
 
@@ -88,13 +88,6 @@ class FirestoreFunc extends GetxController {
     try {
       groupTrip.add(data).then((value) {
         Get.back();
-        addIndividualTrip(
-          uid,
-          {
-            'groupId': value.id,
-            'isGroupTrip': true,
-          },
-        );
         Get.snackbar('Success', 'Trip added successfully');
         return value.id;
       });
@@ -103,8 +96,12 @@ class FirestoreFunc extends GetxController {
     }
   }
 
-  getTripsStream() {
-    return trips(FirebaseAuth.instance.currentUser!.uid).snapshots();
+  getIndividualTripsStream() {
+    return individualTrip.snapshots();
+  }
+
+  getGroupTripsStream() {
+    return groupTrip.snapshots();
   }
 
   Future getGroupTripsById(String uid) async {
@@ -112,10 +109,7 @@ class FirestoreFunc extends GetxController {
   }
 
   Future getIndividualTripById(String tripId) async {
-    return await trips(user!.uid)
-        .doc(tripId)
-        .get()
-        .then((value) => value.data());
+    return await individualTrip.doc(tripId).get().then((value) => value.data());
   }
 
   addDayActivity(String tripId, String dayId, String category, bool isGroupTrip,
