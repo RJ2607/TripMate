@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/controller/tripsController.dart';
 
-import '../add trip/addActivity.dart';
+import '../addActivity.dart';
 
 class DayActivity extends StatelessWidget {
   String weekDay;
