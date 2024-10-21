@@ -10,6 +10,7 @@ import 'dateRangeController.dart';
 class TripsController extends GetxController {
   Rx<String> tripId = ''.obs;
   Rx<String> dayId = ''.obs;
+  Rx<bool> isLoading = false.obs;
   FirestoreFunc firestoreFunc = Get.put(FirestoreFunc());
   final DateRangePickerController dateRangeController =
       Get.put(DateRangePickerController());
@@ -27,6 +28,7 @@ class TripsController extends GetxController {
       'startDate': dateRangeController.selectedDateRange.value!.start,
       'endDate': dateRangeController.selectedDateRange.value!.end,
       'isGroupTrip': isGroupTrip.value,
+      'createdBy': user.user.value!.uid,
     };
 
     if (isGroupTrip.value) {
@@ -38,6 +40,7 @@ class TripsController extends GetxController {
   }
 
   addTrip() async {
+    isLoading.value = true;
     try {
       if (dateRangeController.selectedDateRange.value == null) {
         Get.snackbar('Date Range', 'Please select a date range');
@@ -61,6 +64,7 @@ class TripsController extends GetxController {
         'startDate': dateRangeController.selectedDateRange.value!.start,
         'endDate': dateRangeController.selectedDateRange.value!.end,
         'isGroupTrip': isGroupTrip.value,
+        'createdBy': user.user.value!.uid,
       };
 
       if (isGroupTrip.value) {
@@ -76,12 +80,13 @@ class TripsController extends GetxController {
         isGroupTrip.value = false;
         firestoreFunc.addIndividualTrip(user.user.value!.uid, trip);
       }
+      isLoading.value = false;
     } catch (e) {
       log(e.toString());
     }
   }
 
-  getTrip(String uid) {
-    return firestoreFunc.trips(uid).snapshots();
+  getIndividualTrip(String uid) {
+    return firestoreFunc.getIndividualTripsStream();
   }
 }
