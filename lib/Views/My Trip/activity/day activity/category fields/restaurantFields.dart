@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:tripmate/constant/widgets/timeRangePickerWidget.dart';
 import 'package:tripmate/controller/activity%20controllers/restaurantController.dart';
 
-import '../addActivity.dart';
+import '../../addActivity.dart';
 
 class RestaurantFields extends StatelessWidget {
   bool isGroupTrip;
