@@ -4,7 +4,7 @@ import 'package:tripmate/controller/dateRangeController.dart';
 import 'package:tripmate/models/Activities%20Model/lodgingModel.dart';
 
 import '../../constant/firestoreFunc.dart';
-import '../../views/My Trip/add trip/addActivity.dart';
+import '../../views/My Trip/activity/addActivity.dart';
 import '../tripsController.dart';
 
 class LodgingController extends GetxController {
