@@ -4,7 +4,7 @@ import 'package:tripmate/constant/firestoreFunc.dart';
 import 'package:tripmate/controller/dateRangeController.dart';
 import 'package:tripmate/controller/tripsController.dart';
 import 'package:tripmate/models/Activities%20Model/transportModel.dart';
-import 'package:tripmate/views/My%20Trip/add%20trip/addActivity.dart';
+import 'package:tripmate/views/My%20Trip/activity/addActivity.dart';
 
 class TransportController extends GetxController {
   Rx<TransportModel> transportModel = TransportModel().obs;
