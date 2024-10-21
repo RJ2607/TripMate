@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:tripmate/controller/tripsController.dart';
-import 'package:tripmate/views/My%20Trip/add%20trip/addActivity.dart';
+import 'package:tripmate/views/My%20Trip/activity/addActivity.dart';
 
-import '../../../constant/firestoreFunc.dart';
+import '../../../../constant/firestoreFunc.dart';
 import 'dayActivity.dart';
 
 class DaySelect extends StatelessWidget {
