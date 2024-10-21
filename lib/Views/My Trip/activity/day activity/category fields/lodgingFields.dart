@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/controller/activity%20controllers/lodgingController.dart';
 
-import '../../../../constant/widgets/timeRangePickerWidget.dart';
+import '../../../../../constant/widgets/timeRangePickerWidget.dart';
 
 class LodgingFields extends StatelessWidget {
   bool isGroupTrip;
