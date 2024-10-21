@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:smooth_corner/smooth_corner.dart';
 import 'package:tripmate/constant/firestoreFunc.dart';
+import 'package:tripmate/controller/userData.dart';
 
 import 'widget/tripCard.dart';
 
@@ -12,6 +11,8 @@ class GroupTrip extends StatelessWidget {
 
   FirestoreFunc firestoreFunc = Get.put(FirestoreFunc());
 
+  UserData user = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,7 +20,7 @@ class GroupTrip extends StatelessWidget {
       children: [
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
-              stream: firestoreFunc.getTripsStream(),
+              stream: firestoreFunc.getGroupTripsStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -43,62 +44,21 @@ class GroupTrip extends StatelessWidget {
                 return ListView.builder(
                   itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
-                    if (data[index]['isGroupTrip'] == false) {
+                    if (data[index]['createdBy'] != user.user.value!.uid) {
                       return const SizedBox.shrink();
                     }
+                    DateTime startDate = DateTime.fromMillisecondsSinceEpoch(
+                        data[index]['startDate'].millisecondsSinceEpoch);
+                    DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
+                        data[index]['endDate'].millisecondsSinceEpoch);
 
-                    return FutureBuilder(
-                      future: firestoreFunc
-                          .getGroupTripsById(data[index]['groupId']),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Shimmer(
-                              enabled: true,
-                              loop: 10,
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Colors.black,
-                                  Colors.white,
-                                  // Colors.black
-                                ],
-                                begin: Alignment(-1, -1),
-                                end: Alignment(1, 1),
-                              ),
-                              child: SmoothContainer(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.2,
-                                margin: const EdgeInsets.symmetric(vertical: 10),
-                                smoothness: 0.6,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 20),
-                                borderRadius: BorderRadius.circular(25),
-                                side: BorderSide(
-                                  width: 1,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface,
-                                ),
-                              ));
-                        }
-
-                        var groupData = snapshot.data!;
-
-                        DateTime startDate =
-                            DateTime.fromMillisecondsSinceEpoch(
-                                groupData['startDate'].millisecondsSinceEpoch);
-                        DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
-                            groupData['endDate'].millisecondsSinceEpoch);
-
-                        return TripCard(
-                          tripID: data[index]['groupId'],
-                          destination: groupData['destination'].toString(),
-                          startDate: startDate,
-                          endDate: endDate,
-                          isGroupTrip: groupData['isGroupTrip'],
-                          invitedFriends: groupData['invitedFriends'],
-                        );
-                      },
+                    return TripCard(
+                      tripID: data[index].id,
+                      destination: data[index]['destination'].toString(),
+                      startDate: startDate,
+                      endDate: endDate,
+                      isGroupTrip: data[index]['isGroupTrip'],
+                      invitedFriends: data[index]['invitedFriends'],
                     );
                   },
                 );
