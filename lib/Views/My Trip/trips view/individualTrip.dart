@@ -22,7 +22,7 @@ class IndividualTrip extends StatelessWidget {
 
           // height: MediaQuery.of(context).size.height * 0.729,
           child: StreamBuilder<QuerySnapshot>(
-              stream: firestoreFunc.getTripsStream(),
+              stream: firestoreFunc.getIndividualTripsStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Shimmer(
@@ -39,8 +39,8 @@ class IndividualTrip extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.2,
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         smoothness: 0.6,
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
                         borderRadius: BorderRadius.circular(25),
                         side: BorderSide(
                           width: 1,
