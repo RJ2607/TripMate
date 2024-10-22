@@ -10,6 +10,7 @@ import '../../activity/day activity/daySelect.dart';
 class TripCard extends StatelessWidget {
   TripCard({
     super.key,
+    required this.createdBy,
     required this.tripID,
     required this.destination,
     required this.startDate,
@@ -18,6 +19,7 @@ class TripCard extends StatelessWidget {
     this.invitedFriends,
   });
 
+  String createdBy;
   String tripID;
   String destination;
   DateTime startDate;
@@ -107,6 +109,44 @@ class TripCard extends StatelessWidget {
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Created by: ',
+                      style: TextStyle(
+                        fontSize: MediaQuery.textScalerOf(context).scale(16),
+                        fontWeight: FontWeight.w400,
+                      )),
+                  FutureBuilder(
+                      future: fire.getUserByUid(createdBy),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Shimmer(
+                              gradient: const LinearGradient(colors: [
+                                Color.fromARGB(255, 0, 0, 0),
+                                Colors.white,
+                                Color.fromARGB(255, 0, 0, 0)
+                              ]),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius:
+                                    MediaQuery.of(context).size.width * 0.043,
+                                child: CircleAvatar(
+                                  radius:
+                                      MediaQuery.of(context).size.width * 0.041,
+                                ),
+                              ));
+                        }
+                        return CircleAvatar(
+                          radius: MediaQuery.of(context).size.width * 0.043,
+                          backgroundImage:
+                              NetworkImage(snapshot.data['profile']),
+                        );
+                      }),
+                ],
+              ),
+              // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               Divider(
                 color: Theme.of(context).colorScheme.onSurface,
               ),
@@ -130,34 +170,29 @@ class TripCard extends StatelessWidget {
                               child: ListView.builder(
                                 itemBuilder: (context, index) {
                                   return FutureBuilder(
-                                      future: fire.getuserByUid(
+                                      future: fire.getUserByUid(
                                           invitedFriends![index].toString()),
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
                                           return Shimmer(
-                                              gradient: const LinearGradient(colors: [
-                                                Color.fromARGB(
-                                                    255, 53, 53, 53),
+                                              gradient:
+                                                  const LinearGradient(colors: [
+                                                Color.fromARGB(255, 0, 0, 0),
                                                 Colors.white,
-                                                Color.fromARGB(
-                                                    255, 53, 53, 53)
+                                                Color.fromARGB(255, 0, 0, 0)
                                               ]),
-                                              child: Align(
-                                                widthFactor: 0.5,
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.white,
+                                                radius: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.043,
                                                 child: CircleAvatar(
-                                                  backgroundColor: Colors.white,
                                                   radius: MediaQuery.of(context)
                                                           .size
                                                           .width *
-                                                      0.043,
-                                                  child: CircleAvatar(
-                                                    radius:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.041,
-                                                  ),
+                                                      0.041,
                                                 ),
                                               ));
                                         }

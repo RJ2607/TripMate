@@ -59,7 +59,7 @@ class IndividualTrip extends StatelessWidget {
                 return ListView.builder(
                   itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
-                    if (data[index]['isGroupTrip'] == false) {
+                    if (data[index]['createdBy'] == firestoreFunc.user!.uid) {
                       DateTime startDate = DateTime.fromMillisecondsSinceEpoch(
                           data[index]['startDate'].millisecondsSinceEpoch);
                       DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
@@ -67,6 +67,7 @@ class IndividualTrip extends StatelessWidget {
                       // log(data[index].id);
 
                       return TripCard(
+                        createdBy: data[index]['createdBy'],
                           tripID: data[index].id,
                           destination: data[index]['destination'].toString(),
                           startDate: startDate,
@@ -74,6 +75,9 @@ class IndividualTrip extends StatelessWidget {
                           isGroupTrip: data[index]['isGroupTrip']);
                     }
                     if (data[index]['isGroupTrip'] == true) {
+                      return const SizedBox.shrink();
+                    }
+                    if (data[index]['createdBy'] != firestoreFunc.user!.uid) {
                       return const SizedBox.shrink();
                     }
                     return null;

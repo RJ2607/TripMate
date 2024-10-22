@@ -44,22 +44,32 @@ class GroupTrip extends StatelessWidget {
                 return ListView.builder(
                   itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
-                    if (data[index]['createdBy'] != user.user.value!.uid) {
+                    if (data[index]['createdBy'] == firestoreFunc.user!.uid ||
+                        data[index]['invitedFriends']
+                            .contains(user.user.value!.uid)) {
+                      DateTime startDate = DateTime.fromMillisecondsSinceEpoch(
+                          data[index]['startDate'].millisecondsSinceEpoch);
+                      DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
+                          data[index]['endDate'].millisecondsSinceEpoch);
+
+                      return TripCard(
+                        createdBy: data[index]['createdBy'],
+                        tripID: data[index].id,
+                        destination: data[index]['destination'].toString(),
+                        startDate: startDate,
+                        endDate: endDate,
+                        isGroupTrip: data[index]['isGroupTrip'],
+                        invitedFriends: data[index]['invitedFriends'],
+                      );
+                    }
+
+                    if (data[index]['isGroupTrip'] == true) {
                       return const SizedBox.shrink();
                     }
-                    DateTime startDate = DateTime.fromMillisecondsSinceEpoch(
-                        data[index]['startDate'].millisecondsSinceEpoch);
-                    DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
-                        data[index]['endDate'].millisecondsSinceEpoch);
-
-                    return TripCard(
-                      tripID: data[index].id,
-                      destination: data[index]['destination'].toString(),
-                      startDate: startDate,
-                      endDate: endDate,
-                      isGroupTrip: data[index]['isGroupTrip'],
-                      invitedFriends: data[index]['invitedFriends'],
-                    );
+                    if (data[index]['createdBy'] != firestoreFunc.user!.uid) {
+                      return const SizedBox.shrink();
+                    }
+                    return null;
                   },
                 );
               }),
