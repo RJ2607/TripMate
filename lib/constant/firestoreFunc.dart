@@ -31,7 +31,7 @@ class FirestoreFunc extends GetxController {
         .then((value) => value.docs.first.data());
   }
 
-  Future getuserByUid(String uid) async {
+  Future getUserByUid(String uid) async {
     // await Future.delayed(const Duration(seconds: 2));
     return await userCollection.doc(uid).get().then((value) => value.data());
   }
