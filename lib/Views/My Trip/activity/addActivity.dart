@@ -99,54 +99,59 @@ class AddActivity extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              Obx(
-                () => DropdownMenu(
-                  expandedInsets: const EdgeInsets.symmetric(
-                    horizontal: 0,
-                  ),
-                  controller: addActivityController.categoryController.value,
-                  enableFilter: true,
-                  onSelected: (i) {
-                    addActivityController.selectedCategory.value = i!;
-                    if (dateRangeController.selectedStartTimeRange.value !=
-                        null) {
-                      dateRangeController.selectedStartTimeRange.value = null;
-                    }
-                    if (dateRangeController.selectedEndTimeRange.value !=
-                        null) {
-                      dateRangeController.selectedEndTimeRange.value = null;
-                    }
-                  },
-                  label: const Text('Category',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      )),
-                  width: MediaQuery.of(context).size.width * 0.55,
-                  inputDecorationTheme: InputDecorationTheme(
-                    border: OutlineInputBorder(
+              Obx(() => Container(
+                    padding: EdgeInsets.symmetric(vertical: 7),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      border: Border.all(
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.8),
+                          width: 0.8),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-                  dropdownMenuEntries: const <DropdownMenuEntry<String>>[
-                    DropdownMenuEntry(
-                      value: 'Transport',
-                      label: 'Transport',
+                    child: DropdownButton(
+                      // alignment: Alignment.bottomCenter,
+                      isExpanded: true,
+                      underline: const SizedBox.shrink(),
+                      value: addActivityController.selectedCategory.value == ''
+                          ? null
+                          : addActivityController.selectedCategory.value,
+                      // selectedItemBuilder: (context) => const <Widget>[
+                      //   Text('Category'),
+                      // ],
+                      hint: const Text('Category'),
+                      items: const <DropdownMenuItem<String>>[
+                        DropdownMenuItem(
+                          value: 'Transport',
+                          child: Text('Transport'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Restaurant',
+                          child: Text('Restaurant'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Sightseeing',
+                          child: Text('Sightseeing'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Lodging',
+                          child: Text('Lodging'),
+                        ),
+                      ],
+                      onChanged: (String? value) {
+                        addActivityController.selectedCategory.value = value!;
+                        if (dateRangeController.selectedStartTimeRange.value !=
+                            null) {
+                          dateRangeController.selectedStartTimeRange.value =
+                              null;
+                        }
+                        if (dateRangeController.selectedEndTimeRange.value !=
+                            null) {
+                          dateRangeController.selectedEndTimeRange.value = null;
+                        }
+                      },
                     ),
-                    DropdownMenuEntry(
-                      value: 'Restaurant',
-                      label: 'Restaurant',
-                    ),
-                    DropdownMenuEntry(
-                      value: 'Sightseeing',
-                      label: 'Sightseeing',
-                    ),
-                    DropdownMenuEntry(
-                      value: 'Lodging',
-                      label: 'Lodging',
-                    ),
-                  ],
-                ),
-              ),
+                  )),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
