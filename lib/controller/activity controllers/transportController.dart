@@ -27,7 +27,7 @@ class TransportController extends GetxController {
   void updateTransport(
     bool isGroupTrip,
     String category,
-    String dayId,
+    DateTime date,
   ) {
     if (addActivityController.activityNameController.value.text.isEmpty) {
       Get.snackbar('Activity Name', 'Please enter an activity name');
@@ -68,10 +68,12 @@ class TransportController extends GetxController {
           dateRangeController.selectedStartTimeRange.value.toString();
       transport?.arrivalTime =
           dateRangeController.selectedEndTimeRange.value.toString();
+      transport?.date = date;
+      transport?.category = category;
     });
 
-    firestoreFunc.addDayActivity(tripsController.tripId.value, dayId, category,
-        isGroupTrip, transportModel.value.toJson());
+    firestoreFunc.addDayActivity(tripsController.tripId.value, isGroupTrip,
+        transportModel.value.toJson());
 
     addActivityController.activityNameController.value.clear();
     addActivityController.noteController.value.clear();
