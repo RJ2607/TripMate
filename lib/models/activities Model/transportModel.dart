@@ -1,4 +1,3 @@
-
 class TransportModel {
   String? activityName;
   String? note;
@@ -7,6 +6,8 @@ class TransportModel {
   String? arrivalTime;
   String? departureLocation;
   String? arrivalLocation;
+  String? category = 'Transport';
+  DateTime? date;
 
   TransportModel({
     this.activityName,
@@ -16,6 +17,7 @@ class TransportModel {
     this.arrivalTime,
     this.departureLocation,
     this.arrivalLocation,
+    this.date,
   });
 
   TransportModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class TransportModel {
     arrivalTime = json['arrivalTime'];
     departureLocation = json['departureLocation'];
     arrivalLocation = json['arrivalLocation'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -37,6 +40,8 @@ class TransportModel {
     data['arrivalTime'] = arrivalTime;
     data['departureLocation'] = departureLocation;
     data['arrivalLocation'] = arrivalLocation;
+    data['date'] = date;
+    data['category'] = category;
     return data;
   }
 }

@@ -4,6 +4,8 @@ class RestaurantModel {
   String? reservationTime;
   String? accommodationName;
   String? location;
+  String? category = 'Restaurant';
+  DateTime? date;
 
   RestaurantModel({
     this.activityName,
@@ -11,6 +13,7 @@ class RestaurantModel {
     this.reservationTime,
     this.accommodationName,
     this.location,
+    this.date,
   });
 
   RestaurantModel.fromJson(Map<String, dynamic> json) {
@@ -19,6 +22,7 @@ class RestaurantModel {
     reservationTime = json['reservationTime'];
     accommodationName = json['accommodationName'];
     location = json['location'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +32,8 @@ class RestaurantModel {
     data['reservationTime'] = reservationTime;
     data['accommodationName'] = accommodationName;
     data['location'] = location;
+    data['date'] = date;
+    data['category'] = category;
     return data;
   }
 }
