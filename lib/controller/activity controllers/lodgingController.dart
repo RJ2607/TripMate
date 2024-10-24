@@ -29,7 +29,7 @@ class LodgingController extends GetxController {
   void updateLodging(
     bool isGroupTrip,
     String category,
-    String dayId,
+    DateTime date,
   ) {
     if (addActivityController.activityNameController.value.text.isEmpty) {
       Get.snackbar('Activity Name', 'Please enter an activity name');
@@ -67,15 +67,17 @@ class LodgingController extends GetxController {
 
       lodging?.location = locationController.value.text;
       lodging?.isCheckOut = isCheckOut.value;
+      lodging?.date = date;
       isCheckOut.value
           ? lodging?.checkOutTime =
               dateRangeController.selectedEndTimeRange.value.toString()
           : lodging?.checkInTime =
               dateRangeController.selectedStartTimeRange.value.toString();
+      lodging?.category = category;
     });
 
-    firestoreFunc.addDayActivity(tripsController.tripId.value, dayId, category,
-        isGroupTrip, lodgingModel.value.toJson());
+    firestoreFunc.addDayActivity(
+        tripsController.tripId.value, isGroupTrip, lodgingModel.value.toJson());
 
     addActivityController.activityNameController.value.clear();
     addActivityController.noteController.value.clear();
