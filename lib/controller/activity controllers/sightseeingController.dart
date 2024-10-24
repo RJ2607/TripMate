@@ -25,7 +25,7 @@ class SightseeingController extends GetxController {
   void updateSighseeing(
     bool isGroupTrip,
     String category,
-    String dayId,
+    DateTime date,
   ) {
     if (addActivityController.activityNameController.value.text.isEmpty) {
       Get.snackbar('Activity Name', 'Please enter an activity name');
@@ -58,15 +58,17 @@ class SightseeingController extends GetxController {
       sighseeing?.note = addActivityController.noteController.value.text;
       sighseeing?.placeName = placeNameController.value.text;
       sighseeing?.location = locationController.value.text;
+      sighseeing?.date = date;
 
       sighseeing?.departureTime =
           dateRangeController.selectedStartTimeRange.value.toString();
       sighseeing?.arrivalTime =
           dateRangeController.selectedEndTimeRange.value.toString();
+      sighseeing?.category = category;
     });
 
-    firestoreFunc.addDayActivity(tripsController.tripId.value, dayId, category,
-        isGroupTrip, sightseeingModel.value.toJson());
+    firestoreFunc.addDayActivity(tripsController.tripId.value, isGroupTrip,
+        sightseeingModel.value.toJson());
 
     addActivityController.activityNameController.value.clear();
     addActivityController.noteController.value.clear();
