@@ -112,27 +112,26 @@ class FirestoreFunc extends GetxController {
     return await individualTrip.doc(tripId).get().then((value) => value.data());
   }
 
-  addDayActivity(String tripId, String dayId, String category, bool isGroupTrip,
-      Map<String, dynamic> data) {
+  addDayActivity(String tripId, bool isGroupTrip, Map<String, dynamic> data) {
     try {
       if (isGroupTrip) {
-        groupDayActivity(tripId)
-            .doc(dayId)
-            .collection(category)
-            .add(data)
-            .then((value) {
-          Get.back();
-          Get.snackbar('Success', 'Activity added successfully');
-        });
+        groupDayActivity(tripId).add(data);
       } else {
-        individualDayActivity(tripId)
-            .doc(dayId)
-            .collection(category)
-            .add(data)
-            .then((value) {
-          Get.back();
-          Get.snackbar('Success', 'Activity added successfully');
-        });
+        individualDayActivity(tripId).add(data);
+      }
+      Get.back();
+      Get.snackbar('Success', 'Activity added successfully');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getDayActivity(String tripId, bool isGroupTrip) {
+    try {
+      if (isGroupTrip) {
+        return groupDayActivity(tripId).snapshots();
+      } else {
+        return individualDayActivity(tripId).snapshots();
       }
     } catch (e) {
       print(e);
