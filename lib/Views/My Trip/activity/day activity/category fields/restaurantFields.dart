@@ -7,7 +7,8 @@ import '../../addActivity.dart';
 
 class RestaurantFields extends StatelessWidget {
   bool isGroupTrip;
-  RestaurantFields({super.key, 
+  RestaurantFields({
+    super.key,
     required this.isGroupTrip,
   });
 
@@ -48,7 +49,7 @@ class RestaurantFields extends StatelessWidget {
                 restaurantController.updateRestaurant(
                   isGroupTrip,
                   addActivityController.selectedCategory.value,
-                  '${addActivityController.activityDate.value.toString()} dayactivity',
+                  addActivityController.activityDate.value,
                 );
               }
             },

@@ -5,7 +5,8 @@ import '../../../../../constant/widgets/timeRangePickerWidget.dart';
 
 class SightseeingFields extends StatelessWidget {
   bool isGroupTrip;
-  SightseeingFields({super.key, 
+  SightseeingFields({
+    super.key,
     required this.isGroupTrip,
   });
 
@@ -49,7 +50,7 @@ class SightseeingFields extends StatelessWidget {
               sightseeingController.updateSighseeing(
                 isGroupTrip,
                 'Sightseeing',
-                '${sightseeingController.addActivityController.activityDate.value.toString()} dayactivity',
+                sightseeingController.addActivityController.activityDate.value,
               );
             },
             style: OutlinedButton.styleFrom(

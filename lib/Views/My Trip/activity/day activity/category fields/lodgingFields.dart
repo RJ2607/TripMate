@@ -63,7 +63,7 @@ class LodgingFields extends StatelessWidget {
                 lodgingController.updateLodging(
                   isGroupTrip,
                   'Lodging',
-                  '${lodgingController.addActivityController.activityDate.value.toString()} dayactivity',
+                  lodgingController.addActivityController.activityDate.value,
                 );
               },
               style: OutlinedButton.styleFrom(

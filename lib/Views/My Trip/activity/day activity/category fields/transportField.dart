@@ -62,7 +62,7 @@ class TransportFields extends StatelessWidget {
                 transportController.updateTransport(
                   isGroupTrip,
                   addActivityController.selectedCategory.value,
-                  '${addActivityController.activityDate.value.toString()} dayactivity',
+                  addActivityController.activityDate.value,
                 );
               }
             },
