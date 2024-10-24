@@ -27,7 +27,7 @@ class RestaurantController extends GetxController {
   void updateRestaurant(
     bool isGroupTrip,
     String category,
-    String dayId,
+    DateTime date,
   ) {
     if (addActivityController.activityNameController.value.text.isEmpty) {
       Get.snackbar('Activity Name', 'Please enter an activity name');
@@ -59,10 +59,12 @@ class RestaurantController extends GetxController {
       restaurant?.location = locationController.value.text;
       restaurant?.reservationTime =
           dateRangeController.selectedStartTimeRange.value.toString();
+      restaurant?.date = date;
+      restaurant?.category = category;
     });
 
-    firestoreFunc.addDayActivity(tripsController.tripId.value, dayId, category,
-        isGroupTrip, restaurantModel.value.toJson());
+    firestoreFunc.addDayActivity(tripsController.tripId.value, isGroupTrip,
+        restaurantModel.value.toJson());
 
     addActivityController.activityNameController.value.clear();
     addActivityController.noteController.value.clear();
