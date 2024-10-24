@@ -1,4 +1,3 @@
-
 class LodgingModel {
   String? activityName;
   String? note;
@@ -7,6 +6,8 @@ class LodgingModel {
   bool? isCheckOut;
   String? accommodationName;
   String? location;
+  String? category = 'Lodging';
+  DateTime? date;
 
   LodgingModel({
     this.activityName,
@@ -16,6 +17,7 @@ class LodgingModel {
     this.isCheckOut,
     this.accommodationName,
     this.location,
+    this.date,
   });
 
   LodgingModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class LodgingModel {
     isCheckOut = json['isCheckOut'];
     accommodationName = json['accommodationName'];
     location = json['location'];
+    date = json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -37,6 +40,8 @@ class LodgingModel {
     data['isCheckOut'] = isCheckOut;
     data['accommodationName'] = accommodationName;
     data['location'] = location;
+    data['date'] = date;
+    data['category'] = category;
     return data;
   }
 }
