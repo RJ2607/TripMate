@@ -60,6 +60,25 @@ class LodgingController extends GetxController {
     }
 
     lodgingModel.update((lodging) {
+      if (isCheckOut.value) {
+        DateTime _checkOutTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          dateRangeController.selectedEndTimeRange.value!.hour,
+          dateRangeController.selectedEndTimeRange.value!.minute,
+        );
+        lodging?.checkOutTime = _checkOutTime;
+      } else {
+        DateTime _checkInTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          dateRangeController.selectedStartTimeRange.value!.hour,
+          dateRangeController.selectedStartTimeRange.value!.minute,
+        );
+        lodging?.checkInTime = _checkInTime;
+      }
       lodging?.activityName =
           addActivityController.activityNameController.value.text;
       lodging?.note = addActivityController.noteController.value.text;
@@ -68,11 +87,7 @@ class LodgingController extends GetxController {
       lodging?.location = locationController.value.text;
       lodging?.isCheckOut = isCheckOut.value;
       lodging?.date = date;
-      isCheckOut.value
-          ? lodging?.checkOutTime =
-              dateRangeController.selectedEndTimeRange.value.toString()
-          : lodging?.checkInTime =
-              dateRangeController.selectedStartTimeRange.value.toString();
+
       lodging?.category = category;
     });
 

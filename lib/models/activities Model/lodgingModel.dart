@@ -1,8 +1,8 @@
 class LodgingModel {
   String? activityName;
   String? note;
-  String? checkInTime;
-  String? checkOutTime;
+  DateTime? checkInTime;
+  DateTime? checkOutTime;
   bool? isCheckOut;
   String? accommodationName;
   String? location;
