@@ -53,6 +53,20 @@ class SightseeingController extends GetxController {
     }
 
     sightseeingModel.update((sighseeing) {
+      DateTime _departureTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        dateRangeController.selectedStartTimeRange.value!.hour,
+        dateRangeController.selectedStartTimeRange.value!.minute,
+      );
+      DateTime _arrivalTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        dateRangeController.selectedEndTimeRange.value!.hour,
+        dateRangeController.selectedEndTimeRange.value!.minute,
+      );
       sighseeing?.activityName =
           addActivityController.activityNameController.value.text;
       sighseeing?.note = addActivityController.noteController.value.text;
@@ -60,10 +74,8 @@ class SightseeingController extends GetxController {
       sighseeing?.location = locationController.value.text;
       sighseeing?.date = date;
 
-      sighseeing?.departureTime =
-          dateRangeController.selectedStartTimeRange.value.toString();
-      sighseeing?.arrivalTime =
-          dateRangeController.selectedEndTimeRange.value.toString();
+      sighseeing?.departureTime = _departureTime;
+      sighseeing?.arrivalTime = _arrivalTime;
       sighseeing?.category = category;
     });
 

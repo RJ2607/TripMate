@@ -1,8 +1,8 @@
 class SightseeingModel {
   String? activityName;
   String? note;
-  String? departureTime;
-  String? arrivalTime;
+  DateTime? departureTime;
+  DateTime? arrivalTime;
   String? placeName;
   String? location;
   String? category = 'Sightseeing';
