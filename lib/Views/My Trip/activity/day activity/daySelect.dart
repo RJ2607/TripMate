@@ -116,6 +116,10 @@ class DaySelect extends StatelessWidget {
                         // log((days[(widget.startWeekDay + index) % 7]).toString());
                         return GestureDetector(
                           onTap: () {
+                            tripsController.dayId.value = startDate
+                                    .add(Duration(days: index))
+                                    .toString() +
+                                ' dayactivity';
                             addActivityController.activityDate.value =
                                 startDate.add(Duration(days: index));
                             log(startDate
