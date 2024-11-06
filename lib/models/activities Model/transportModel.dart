@@ -2,8 +2,8 @@ class TransportModel {
   String? activityName;
   String? note;
   String? travelMode;
-  String? departureTime;
-  String? arrivalTime;
+  DateTime? departureTime;
+  DateTime? arrivalTime;
   String? departureLocation;
   String? arrivalLocation;
   String? category = 'Transport';

@@ -58,6 +58,20 @@ class TransportController extends GetxController {
       return;
     }
     transportModel.update((transport) {
+      DateTime _departureTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        dateRangeController.selectedStartTimeRange.value!.hour,
+        dateRangeController.selectedStartTimeRange.value!.minute,
+      );
+      DateTime _arrivalTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        dateRangeController.selectedEndTimeRange.value!.hour,
+        dateRangeController.selectedEndTimeRange.value!.minute,
+      );
       transport?.activityName =
           addActivityController.activityNameController.value.text;
       transport?.note = addActivityController.noteController.value.text;
@@ -65,9 +79,9 @@ class TransportController extends GetxController {
       transport?.departureLocation = departureLocationController.value.text;
       transport?.arrivalLocation = arrivalLocationController.value.text;
       transport?.departureTime =
-          dateRangeController.selectedStartTimeRange.value.toString();
+          _departureTime;
       transport?.arrivalTime =
-          dateRangeController.selectedEndTimeRange.value.toString();
+          _arrivalTime;
       transport?.date = date;
       transport?.category = category;
     });
