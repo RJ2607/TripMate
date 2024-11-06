@@ -1,7 +1,7 @@
 class RestaurantModel {
   String? activityName;
   String? note;
-  String? reservationTime;
+  DateTime? reservationTime;
   String? accommodationName;
   String? location;
   String? category = 'Restaurant';

@@ -51,14 +51,20 @@ class RestaurantController extends GetxController {
     }
 
     restaurantModel.update((restaurant) {
+      DateTime _reservationTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        dateRangeController.selectedStartTimeRange.value!.hour,
+        dateRangeController.selectedStartTimeRange.value!.minute,
+      );
       restaurant?.activityName =
           addActivityController.activityNameController.value.text;
       restaurant?.note = addActivityController.noteController.value.text;
       restaurant?.accommodationName = accommodationController.value.text;
 
       restaurant?.location = locationController.value.text;
-      restaurant?.reservationTime =
-          dateRangeController.selectedStartTimeRange.value.toString();
+      restaurant?.reservationTime = _reservationTime;
       restaurant?.date = date;
       restaurant?.category = category;
     });
