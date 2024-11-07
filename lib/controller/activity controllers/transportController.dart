@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/constant/firestoreFunc.dart';
 import 'package:tripmate/controller/dateRangeController.dart';
-import 'package:tripmate/controller/tripsController.dart';
+import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/models/Activities%20Model/transportModel.dart';
 import 'package:tripmate/views/My%20Trip/activity/addActivity.dart';
 

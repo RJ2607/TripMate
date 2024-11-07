@@ -89,11 +89,7 @@ class LodgingCard extends StatelessWidget {
                 )
               : const Text(
                   'Check In Time',
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: ThemeMode.system == ThemeMode.dark
-                          ? Colors.grey
-                          : Color.fromARGB(255, 78, 78, 78)),
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
           Divider(),
           Text(

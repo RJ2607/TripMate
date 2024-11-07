@@ -5,7 +5,7 @@ import 'package:tripmate/views/My%20Trip/activity/addActivity.dart';
 import '../../constant/firestoreFunc.dart';
 import '../../models/activities Model/sightseeingModel.dart';
 import '../dateRangeController.dart';
-import '../tripsController.dart';
+import '../trip controllers/tripsController.dart';
 
 class SightseeingController extends GetxController {
   Rx<SightseeingModel> sightseeingModel = SightseeingModel().obs;

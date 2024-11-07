@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:tripmate/controller/loginController.dart';
+import 'package:tripmate/controller/auth%20controllers/loginController.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

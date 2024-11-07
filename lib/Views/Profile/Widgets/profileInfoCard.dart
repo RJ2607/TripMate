@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../controller/userData.dart';
+import '../../../controller/auth controllers/userData.dart';
 import 'neonAvatar.dart';
 
 class ProfileInfoCard extends StatelessWidget {

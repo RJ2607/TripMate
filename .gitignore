@@ -117,3 +117,4 @@ android/settings.gradle
 android/app/build.gradle
 android/app/google-services.json
 macos/Flutter/GeneratedPluginRegistrant.swift
+.env

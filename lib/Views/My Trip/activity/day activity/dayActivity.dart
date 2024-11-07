@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/constant/firestoreFunc.dart';
-import 'package:tripmate/controller/tripsController.dart';
+import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 
 import '../addActivity.dart';
 import 'actvity card/lodgingCard.dart';
@@ -61,7 +61,12 @@ class _DayActivityState extends State<DayActivity> {
             children: [
               buildTopBar(context),
               buildCategoryChips(context),
-              buildActivityStream(),
+              SingleChildScrollView(
+                  child: Column(
+                children: [
+                  buildActivityStream(),
+                ],
+              )),
             ],
           ),
         ),
@@ -159,6 +164,7 @@ class _DayActivityState extends State<DayActivity> {
           }
           var data = snapshot.data!.docs;
           return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: data.length,
             itemBuilder: (context, index) {

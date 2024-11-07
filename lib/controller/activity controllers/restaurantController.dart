@@ -5,7 +5,7 @@ import 'package:tripmate/models/Activities%20Model/restaurantModel.dart';
 import '../../constant/firestoreFunc.dart';
 import '../../views/My Trip/activity/addActivity.dart';
 import '../dateRangeController.dart';
-import '../tripsController.dart';
+import '../trip controllers/tripsController.dart';
 
 class RestaurantController extends GetxController {
   Rx<RestaurantModel> restaurantModel = RestaurantModel().obs;

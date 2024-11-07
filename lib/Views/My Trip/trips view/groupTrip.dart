@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/constant/firestoreFunc.dart';
-import 'package:tripmate/controller/userData.dart';
+import 'package:tripmate/controller/auth%20controllers/userData.dart';
 
 import 'widget/tripCard.dart';
 

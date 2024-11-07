@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:tripmate/controller/tripsController.dart';
+import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/views/My%20Trip/activity/addActivity.dart';
 
 import '../../../../constant/firestoreFunc.dart';

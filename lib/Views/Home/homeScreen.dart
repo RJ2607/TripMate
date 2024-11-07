@@ -2,7 +2,7 @@ import 'package:draggable_home/draggable_home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:tripmate/controller/loginController.dart';
+import 'package:tripmate/controller/auth%20controllers/loginController.dart';
 import 'package:tripmate/views/Home/headerWidget.dart';
 
 class HomeScreen extends StatefulWidget {

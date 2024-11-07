@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:tripmate/controller/userData.dart';
+import 'package:tripmate/controller/auth%20controllers/userData.dart';
 
 import 'Widgets/profileInfoCard.dart';
 import 'Widgets/profileTile.dart';
