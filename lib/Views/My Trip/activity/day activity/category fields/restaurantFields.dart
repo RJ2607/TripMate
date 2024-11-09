@@ -1,20 +1,40 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tripmate/constant/widgets/timeRangePickerWidget.dart';
 import 'package:tripmate/controller/activity%20controllers/restaurantController.dart';
+import 'package:tripmate/utils/widgets/timeRangePickerWidget.dart';
 
-import '../../addActivity.dart';
+import '../../../../../controller/google cloud controllers/googleMapContreller.dart';
 
-class RestaurantFields extends StatelessWidget {
+class RestaurantFields extends StatefulWidget {
   bool isGroupTrip;
   RestaurantFields({
     super.key,
     required this.isGroupTrip,
   });
 
-  AddActivityController addActivityController =
-      Get.put(AddActivityController());
+  @override
+  State<RestaurantFields> createState() => _RestaurantFieldsState();
+}
+
+class _RestaurantFieldsState extends State<RestaurantFields> {
   RestaurantController restaurantController = Get.put(RestaurantController());
+
+  final GoogleCloudMapController googleCloudMapController =
+      GoogleCloudMapController();
+
+  List<String> suggestions = [];
+
+  List<String> placeIds = [];
+
+  Future<void> fetchSuggestions(String input) async {
+    final result = await googleCloudMapController.getAutoCompletePlaces(input);
+    setState(() {
+      suggestions = result.predictions.map((e) => e.description!).toList();
+      placeIds = result.predictions.map((e) => e.placeId!).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +42,32 @@ class RestaurantFields extends StatelessWidget {
       // mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextFormField(
-          controller: restaurantController.accommodationController.value,
-          decoration: const InputDecoration(labelText: "Accommodation Name"),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.03,
-        ),
-        TextFormField(
-          controller: restaurantController.locationController.value,
-          decoration: const InputDecoration(labelText: "Location"),
+        Autocomplete<String>(
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            if (textEditingValue.text.isEmpty) {
+              return const Iterable<String>.empty();
+            }
+            // Trigger async function to fetch data
+            fetchSuggestions(textEditingValue.text);
+            return suggestions;
+          },
+          onSelected: (String selection) {
+            final index = suggestions.indexOf(selection);
+            restaurantController.placeId.value = placeIds[index];
+            log(restaurantController.placeId.value);
+          },
+          fieldViewBuilder: (BuildContext context,
+              TextEditingController textEditingController,
+              FocusNode focusNode,
+              VoidCallback onFieldSubmitted) {
+            return TextFormField(
+              controller: textEditingController,
+              focusNode: focusNode,
+              decoration: const InputDecoration(
+                labelText: 'Accommodation Name',
+              ),
+            );
+          },
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
@@ -44,14 +80,11 @@ class RestaurantFields extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: OutlinedButton(
             onPressed: () {
-              if (addActivityController.selectedCategory.value ==
-                  'Restaurant') {
-                restaurantController.updateRestaurant(
-                  isGroupTrip,
-                  addActivityController.selectedCategory.value,
-                  addActivityController.activityDate.value,
-                );
-              }
+              restaurantController.updateRestaurant(
+                widget.isGroupTrip,
+                'Restaurant',
+                restaurantController.addActivityController.activityDate.value,
+              );
             },
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(

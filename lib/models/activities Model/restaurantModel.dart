@@ -1,9 +1,10 @@
+import '../google cloud models/maps/placeModel.dart';
+
 class RestaurantModel {
   String? activityName;
   String? note;
   DateTime? reservationTime;
-  String? accommodationName;
-  String? location;
+  PlaceDetailsModel? placeDetailsModel;
   String? category = 'Restaurant';
   DateTime? date;
 
@@ -11,8 +12,7 @@ class RestaurantModel {
     this.activityName,
     this.note,
     this.reservationTime,
-    this.accommodationName,
-    this.location,
+    this.placeDetailsModel,
     this.date,
   });
 
@@ -20,8 +20,9 @@ class RestaurantModel {
     activityName = json['activityName'];
     note = json['note'];
     reservationTime = json['reservationTime'];
-    accommodationName = json['accommodationName'];
-    location = json['location'];
+    placeDetailsModel = json['placeDetailsModel'] != null
+        ? PlaceDetailsModel.fromJson(json['placeDetailsModel'])
+        : null;
     date = json['date'];
   }
 
@@ -30,8 +31,7 @@ class RestaurantModel {
     data['activityName'] = activityName;
     data['note'] = note;
     data['reservationTime'] = reservationTime;
-    data['accommodationName'] = accommodationName;
-    data['location'] = location;
+    data['placeDetailsModel'] = placeDetailsModel!.toJson();
     data['date'] = date;
     data['category'] = category;
     return data;
