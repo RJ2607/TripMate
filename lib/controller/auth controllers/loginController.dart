@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tripmate/constant/firestoreFunc.dart';
+import 'package:tripmate/utils/firestoreFunc.dart';
 import 'package:tripmate/controller/auth%20controllers/userData.dart';
 
 class LoginController extends GetxController {
