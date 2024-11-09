@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tripmate/constant/firestoreFunc.dart';
+import 'package:tripmate/utils/firestoreFunc.dart';
 import 'package:tripmate/controller/auth%20controllers/userData.dart';
 
 import '../dateRangeController.dart';

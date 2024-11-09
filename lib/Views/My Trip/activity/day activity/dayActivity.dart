@@ -2,8 +2,8 @@ import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tripmate/constant/firestoreFunc.dart';
 import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
+import 'package:tripmate/utils/firestoreFunc.dart';
 
 import '../addActivity.dart';
 import 'actvity card/lodgingCard.dart';
@@ -149,7 +149,7 @@ class _DayActivityState extends State<DayActivity> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: LinearProgressIndicator(),
             );
           }
           if (snapshot.hasError) {
@@ -182,8 +182,8 @@ class _DayActivityState extends State<DayActivity> {
                   } else if (data[index]['category'] == 'Sightseeing') {
                     return SightseeingCard(data, index);
                   }
-                } else if (snapshot.data!.docs[index]['category'] ==
-                        'Lodging' &&
+                }
+                if (snapshot.data!.docs[index]['category'] == 'Lodging' &&
                     categories[selectedCategories] == 'Lodging') {
                   return LodgingCard(data, index);
                 } else if (snapshot.data!.docs[index]['category'] ==
@@ -202,9 +202,7 @@ class _DayActivityState extends State<DayActivity> {
                   return const SizedBox.shrink();
                 }
               } else {
-                return const Center(
-                  child: Text('No data found'),
-                );
+                return const SizedBox.shrink();
               }
             },
           );

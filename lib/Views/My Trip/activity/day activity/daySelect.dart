@@ -6,7 +6,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/views/My%20Trip/activity/addActivity.dart';
 
-import '../../../../constant/firestoreFunc.dart';
+import '../../../../utils/firestoreFunc.dart';
 import 'dayActivity.dart';
 
 class DaySelect extends StatelessWidget {

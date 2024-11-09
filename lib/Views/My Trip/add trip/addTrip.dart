@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:tripmate/constant/firestoreFunc.dart';
-import 'package:tripmate/constant/widgets/dateRangeField.dart';
+import 'package:tripmate/utils/firestoreFunc.dart';
+import 'package:tripmate/utils/widgets/dateRangeField.dart';
 import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 
 import '../../../controller/auth controllers/userData.dart';

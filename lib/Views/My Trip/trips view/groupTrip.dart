@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tripmate/constant/firestoreFunc.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:smooth_corner/smooth_corner.dart';
+import 'package:tripmate/utils/firestoreFunc.dart';
 import 'package:tripmate/controller/auth%20controllers/userData.dart';
 
 import 'widget/tripCard.dart';
@@ -23,9 +25,27 @@ class GroupTrip extends StatelessWidget {
               stream: firestoreFunc.getGroupTripsStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return Shimmer(
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.secondaryContainer,
+                          const Color.fromARGB(255, 25, 25, 25),
+                          Theme.of(context).colorScheme.secondaryContainer,
+                        ],
+                      ),
+                      child: SmoothContainer(
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                        smoothness: 0.6,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
+                        borderRadius: BorderRadius.circular(25),
+                        side: BorderSide(
+                          width: 1,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ));
                 }
                 var data = snapshot.data!.docs;
 

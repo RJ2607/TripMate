@@ -27,7 +27,6 @@ class AddActivity extends StatelessWidget {
       Get.put(AddActivityController());
   DateRangePickerController dateRangeController =
       Get.put(DateRangePickerController());
-  TransportController transportController = Get.put(TransportController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

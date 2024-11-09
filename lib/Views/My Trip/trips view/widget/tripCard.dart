@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:tripmate/constant/firestoreFunc.dart';
+import 'package:tripmate/utils/firestoreFunc.dart';
 import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 
 import '../../activity/day activity/daySelect.dart';

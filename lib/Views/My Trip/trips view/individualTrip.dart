@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:tripmate/views/My%20Trip/trips%20view/widget/tripCard.dart';
 
-import '../../../constant/firestoreFunc.dart';
+import '../../../utils/firestoreFunc.dart';
 
 class IndividualTrip extends StatelessWidget {
   IndividualTrip({super.key});
@@ -28,16 +28,15 @@ class IndividualTrip extends StatelessWidget {
                   return Shimmer(
                       gradient: LinearGradient(
                         colors: [
-                          Colors.grey.shade300,
-                          Colors.grey.shade100,
-                          Colors.grey.shade300
+                          Theme.of(context).colorScheme.secondaryContainer,
+                          const Color.fromARGB(255, 25, 25, 25),
+                          Theme.of(context).colorScheme.secondaryContainer,
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
                       ),
                       child: SmoothContainer(
-                        height: MediaQuery.of(context).size.height * 0.2,
+                        height: MediaQuery.of(context).size.height * 0.1,
                         margin: const EdgeInsets.symmetric(vertical: 10),
+                        color: Theme.of(context).colorScheme.secondaryContainer,
                         smoothness: 0.6,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 20),
@@ -67,7 +66,7 @@ class IndividualTrip extends StatelessWidget {
                       // log(data[index].id);
 
                       return TripCard(
-                        createdBy: data[index]['createdBy'],
+                          createdBy: data[index]['createdBy'],
                           tripID: data[index].id,
                           destination: data[index]['destination'].toString(),
                           startDate: startDate,
