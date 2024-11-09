@@ -1,22 +1,33 @@
+import 'dart:developer';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tripmate/constant/firestoreFunc.dart';
 import 'package:tripmate/controller/dateRangeController.dart';
 import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/models/Activities%20Model/transportModel.dart';
+import 'package:tripmate/models/google%20cloud%20models/maps/placeModel.dart';
 import 'package:tripmate/views/My%20Trip/activity/addActivity.dart';
+
+import '../../utils/firestoreFunc.dart';
+import '../../utils/flutterBasicsTools.dart';
+import '../google cloud controllers/googleMapContreller.dart';
 
 class TransportController extends GetxController {
   Rx<TransportModel> transportModel = TransportModel().obs;
 
   AddActivityController addActivityController =
       Get.put(AddActivityController());
+  FlutterBasicsTools flutterBasicsTools = FlutterBasicsTools();
+  GoogleCloudMapController googleCloudMapController =
+      GoogleCloudMapController();
 
   Rx<TextEditingController> travelModeController = TextEditingController().obs;
-  Rx<TextEditingController> departureLocationController =
-      TextEditingController().obs;
-  Rx<TextEditingController> arrivalLocationController =
-      TextEditingController().obs;
+  Rx<PlaceDetailsModel> departureLocation = PlaceDetailsModel().obs;
+  Rx<PlaceDetailsModel> arrivalLocation = PlaceDetailsModel().obs;
+
+  Rx<String> departureLocationId = ''.obs;
+  Rx<String> arrivalLocationId = ''.obs;
 
   DateRangePickerController dateRangeController =
       Get.put(DateRangePickerController());
@@ -28,7 +39,7 @@ class TransportController extends GetxController {
     bool isGroupTrip,
     String category,
     DateTime date,
-  ) {
+  ) async {
     if (addActivityController.activityNameController.value.text.isEmpty) {
       Get.snackbar('Activity Name', 'Please enter an activity name');
       return;
@@ -41,12 +52,12 @@ class TransportController extends GetxController {
       Get.snackbar('Travel Mode', 'Please enter a travel mode');
       return;
     }
-    if (departureLocationController.value.text.isEmpty) {
-      Get.snackbar('Departure Location', 'Please enter a departure location');
+    if (departureLocationId.value.isEmpty) {
+      Get.snackbar('Departure Location', 'Please select a departure location');
       return;
     }
-    if (arrivalLocationController.value.text.isEmpty) {
-      Get.snackbar('Arrival Location', 'Please enter an arrival location');
+    if (arrivalLocationId.value.isEmpty) {
+      Get.snackbar('Arrival Location', 'Please select an arrival location');
       return;
     }
     if (dateRangeController.selectedStartTimeRange.value == null) {
@@ -57,6 +68,33 @@ class TransportController extends GetxController {
       Get.snackbar('Arrival Time', 'Please select an arrival time');
       return;
     }
+
+    departureLocation.value = await googleCloudMapController.getPlaceDetails(
+      departureLocationId.value,
+    );
+    arrivalLocation.value = await googleCloudMapController.getPlaceDetails(
+      arrivalLocationId.value,
+    );
+
+    Uint8List? arrivalImage = await googleCloudMapController.getPlacePhoto(
+        arrivalLocation.value.photoRef!, 400, 400);
+    Uint8List? storedArrivalImage =
+        await flutterBasicsTools.readImage(arrivalLocation.value.photoRef!);
+    Uint8List? departureImage = await googleCloudMapController.getPlacePhoto(
+        departureLocation.value.photoRef!, 400, 400);
+    Uint8List? storedDepartureImage =
+        await flutterBasicsTools.readImage(departureLocation.value.photoRef!);
+    try {
+      if (storedArrivalImage == null)
+        await flutterBasicsTools.storeImage(
+            arrivalImage!, arrivalLocation.value.photoRef!);
+      if (storedDepartureImage == null)
+        await flutterBasicsTools.storeImage(
+            departureImage!, departureLocation.value.photoRef!);
+    } catch (e) {
+      log(e.toString());
+    }
+
     transportModel.update((transport) {
       DateTime _departureTime = DateTime(
         date.year,
@@ -75,25 +113,29 @@ class TransportController extends GetxController {
       transport?.activityName =
           addActivityController.activityNameController.value.text;
       transport?.note = addActivityController.noteController.value.text;
+      transport?.departureLocation = departureLocation.value;
+      transport?.arrivalLocation = arrivalLocation.value;
       transport?.travelMode = travelModeController.value.text;
-      transport?.departureLocation = departureLocationController.value.text;
-      transport?.arrivalLocation = arrivalLocationController.value.text;
-      transport?.departureTime =
-          _departureTime;
-      transport?.arrivalTime =
-          _arrivalTime;
+      transport?.departureTime = _departureTime;
+      transport?.arrivalTime = _arrivalTime;
       transport?.date = date;
       transport?.category = category;
     });
 
-    firestoreFunc.addDayActivity(tripsController.tripId.value, isGroupTrip,
-        transportModel.value.toJson());
+    try {
+      firestoreFunc.addDayActivity(tripsController.tripId.value, isGroupTrip,
+          transportModel.value.toJson());
+    } catch (e) {
+      log(e.toString());
+    }
 
     addActivityController.activityNameController.value.clear();
+    arrivalLocationId.value = '';
+    arrivalLocation.value = PlaceDetailsModel();
+    departureLocationId.value = '';
+    departureLocation.value = PlaceDetailsModel();
     addActivityController.noteController.value.clear();
     travelModeController.value.clear();
-    departureLocationController.value.clear();
-    arrivalLocationController.value.clear();
     dateRangeController.selectedStartTimeRange.value = null;
     dateRangeController.selectedEndTimeRange.value = null;
     addActivityController.categoryController.value.clear();

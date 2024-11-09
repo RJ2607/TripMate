@@ -29,7 +29,7 @@ class TransportCard extends StatelessWidget {
                 data[index]['departureTime'].millisecondsSinceEpoch)
             .minute);
 
-    var totalHours = departureTime.hour - arrivalTime.hour;
+    var totalHours = arrivalTime.hour - departureTime.hour;
     return SmoothContainer(
       margin: const EdgeInsets.only(bottom: 15),
       smoothness: 0.6,
@@ -39,64 +39,98 @@ class TransportCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SmoothContainer(
-            smoothness: 0.6,
-            foregroundDecoration: BoxDecoration(
-              image: DecorationImage(
-                image:
-                    NetworkImage('https://placehold.co/600x400/png', scale: 1),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(25),
-            ),
-          ),
-          Text(
-            data[index]['activityName'].toString().capitalize!,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          Text(
-            data[index]['travelMode'].toString().capitalize!,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: Colors.grey),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.01,
-          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                arrivalTime.format(context),
-                style: TextStyle(fontSize: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data[index]['departureLocation']['name']
+                        .toString()
+                        .capitalize!,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    departureTime.format(context),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ],
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.05,
-              ),
-              const Icon(
+              Icon(
                 Iconsax.arrow_right_1_outline,
                 size: 18,
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.05,
-              ),
-              Text(
-                departureTime.format(context),
-                style: TextStyle(
-                  fontSize: 20,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data[index]['arrivalLocation']['name']
+                        .toString()
+                        .capitalize!,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    arrivalTime.format(context),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ],
               ),
             ],
           ),
           Text('Total Time: ${totalHours} hours',
               style: TextStyle(fontSize: 14, color: Colors.grey)),
-          Divider(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+          Text(data[index]['travelMode'].toString().capitalize!,
+              style: Theme.of(context).textTheme.bodyLarge!),
           Text(
-            data[index]['note'].toString().capitalize!,
+            data[index]['activityName'].toString().capitalize!,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
                 .copyWith(color: Colors.grey),
+          ),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(
+                Iconsax.location_bold,
+                size: MediaQuery.of(context).size.width * 0.055,
+                color: Colors.red,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.01,
+              ),
+              Expanded(
+                child: Text(
+                  data[index]['departureLocation']['address']
+                      .toString()
+                      .capitalize!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.grey),
+                ),
+              ),
+              // Icon(
+              //   Iconsax.arrow_right_1_outline,
+              //   color: Colors.grey,
+              //   size: MediaQuery.of(context).size.width * 0.055,
+              // ),
+              Expanded(
+                  child: Text(
+                data[index]['arrivalLocation']['address']
+                    .toString()
+                    .capitalize!,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: Colors.grey),
+              )),
+            ],
           ),
         ],
       ),

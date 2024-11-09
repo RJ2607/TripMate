@@ -1,11 +1,13 @@
+import 'package:tripmate/models/google%20cloud%20models/maps/placeModel.dart';
+
 class TransportModel {
   String? activityName;
   String? note;
   String? travelMode;
   DateTime? departureTime;
   DateTime? arrivalTime;
-  String? departureLocation;
-  String? arrivalLocation;
+  PlaceDetailsModel? departureLocation;
+  PlaceDetailsModel? arrivalLocation;
   String? category = 'Transport';
   DateTime? date;
 
@@ -38,8 +40,8 @@ class TransportModel {
     data['travelMode'] = travelMode;
     data['departureTime'] = departureTime;
     data['arrivalTime'] = arrivalTime;
-    data['departureLocation'] = departureLocation;
-    data['arrivalLocation'] = arrivalLocation;
+    data['departureLocation'] = departureLocation!.toJson();
+    data['arrivalLocation'] = arrivalLocation!.toJson();
     data['date'] = date;
     data['category'] = category;
     return data;
