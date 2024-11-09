@@ -1,11 +1,12 @@
+import 'package:tripmate/models/google%20cloud%20models/maps/placeModel.dart';
+
 class LodgingModel {
   String? activityName;
   String? note;
   DateTime? checkInTime;
   DateTime? checkOutTime;
   bool? isCheckOut;
-  String? accommodationName;
-  String? location;
+  PlaceDetailsModel? placeDetailsModel;
   String? category = 'Lodging';
   DateTime? date;
 
@@ -15,8 +16,7 @@ class LodgingModel {
     this.checkInTime,
     this.checkOutTime,
     this.isCheckOut,
-    this.accommodationName,
-    this.location,
+    this.placeDetailsModel,
     this.date,
   });
 
@@ -26,8 +26,9 @@ class LodgingModel {
     checkInTime = json['checkInTime'];
     checkOutTime = json['checkOutTime'];
     isCheckOut = json['isCheckOut'];
-    accommodationName = json['accommodationName'];
-    location = json['location'];
+    placeDetailsModel = json['placeDetailsModel'] != null
+        ? PlaceDetailsModel.fromJson(json['placeDetailsModel'])
+        : null;
     date = json['date'];
   }
 
@@ -38,8 +39,7 @@ class LodgingModel {
     data['checkInTime'] = checkInTime;
     data['checkOutTime'] = checkOutTime;
     data['isCheckOut'] = isCheckOut;
-    data['accommodationName'] = accommodationName;
-    data['location'] = location;
+    data['placeDetailsModel'] = placeDetailsModel!.toJson();
     data['date'] = date;
     data['category'] = category;
     return data;

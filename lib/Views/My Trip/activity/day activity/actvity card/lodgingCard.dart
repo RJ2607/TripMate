@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
+import 'package:tripmate/utils/flutterBasicsTools.dart';
 
 class LodgingCard extends StatelessWidget {
   List<QueryDocumentSnapshot<Object?>> data;
+
+  FlutterBasicsTools flutterBasicsTools = FlutterBasicsTools();
   int index;
   LodgingCard(
     this.data,
@@ -22,28 +27,48 @@ class LodgingCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SmoothContainer(
-            smoothness: 0.6,
-            foregroundDecoration: BoxDecoration(
-              image: DecorationImage(
-                image:
-                    NetworkImage('https://placehold.co/600x400/png', scale: 1),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(25),
-            ),
-          ),
           Text(
-            data[index]['activityName'].toString().capitalize!,
+            data[index]['placeDetailsModel']['name'].toString().capitalize!,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           Text(
-            data[index]['accommodationName'].toString().capitalize!,
+            data[index]['activityName'].toString().capitalize!,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
                 .copyWith(color: Colors.grey),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+          FutureBuilder(
+              future: flutterBasicsTools
+                  .readImage(data[index]['placeDetailsModel']['photoRef']),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Shimmer(
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.secondaryContainer,
+                          Colors.black,
+                          Theme.of(context).colorScheme.secondaryContainer,
+                        ],
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ));
+                }
+                return SmoothClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    smoothness: 0.6,
+                    child: Image.memory(snapshot.data!));
+              }),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
           ),
@@ -92,12 +117,29 @@ class LodgingCard extends StatelessWidget {
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
           Divider(),
-          Text(
-            data[index]['note'].toString().capitalize!,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: Colors.grey),
+          Row(
+            children: [
+              Icon(
+                Iconsax.location_bold,
+                size: MediaQuery.of(context).size.width * 0.055,
+                color: Colors.red,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.01,
+              ),
+              Expanded(
+                child: Text(
+                  data[index]['placeDetailsModel']['address']
+                      .toString()
+                      .capitalize!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.grey),
+                  softWrap: true,
+                ),
+              ),
+            ],
           ),
         ],
       ),
