@@ -1,10 +1,11 @@
+import '../google cloud models/maps/placeModel.dart';
+
 class SightseeingModel {
   String? activityName;
   String? note;
   DateTime? departureTime;
   DateTime? arrivalTime;
-  String? placeName;
-  String? location;
+  PlaceDetailsModel? placeDetailsModel;
   String? category = 'Sightseeing';
   DateTime? date;
 
@@ -13,8 +14,7 @@ class SightseeingModel {
     this.note,
     this.departureTime,
     this.arrivalTime,
-    this.placeName,
-    this.location,
+    this.placeDetailsModel,
     this.date,
   });
 
@@ -23,8 +23,9 @@ class SightseeingModel {
     note = json['note'];
     departureTime = json['departureTime'];
     arrivalTime = json['arrivalTime'];
-    placeName = json['placeName'];
-    location = json['location'];
+    placeDetailsModel = json['placeDetailsModel'] != null
+        ? PlaceDetailsModel.fromJson(json['placeDetailsModel'])
+        : null;
     date = json['date'];
   }
 
@@ -34,8 +35,7 @@ class SightseeingModel {
     data['note'] = note;
     data['departureTime'] = departureTime;
     data['arrivalTime'] = arrivalTime;
-    data['placeName'] = placeName;
-    data['location'] = location;
+    data['placeDetailsModel'] = placeDetailsModel!.toJson();
     data['date'] = date;
     data['category'] = category;
     return data;
