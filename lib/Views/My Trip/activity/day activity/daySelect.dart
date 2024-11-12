@@ -37,6 +37,11 @@ class DaySelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () => Get.snackbar('Feature Unavailabe',
+              'This feature would be unabled in next update'),
+          label: Text('Ask AI recomendation')),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Padding(
         padding: EdgeInsets.only(
           left: MediaQuery.of(context).size.width * 0.05,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:tripmate/views/My%20Trip/trips%20view/individualTrip.dart';
 
 import 'trips view/groupTrip.dart';
@@ -60,20 +59,6 @@ class _MyTripState extends State<MyTrip> with SingleTickerProviderStateMixin {
             fontWeight: FontWeight.bold,
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor:
-            Theme.of(context).floatingActionButtonTheme.backgroundColor,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15))),
-        extendedIconLabelSpacing: 0,
-        extendedPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-        tooltip: 'Add Trips',
-        label: const Text('Add Trips'),
-        onPressed: () {
-          Navigator.pushNamed(context, '/addTrips');
-        },
-        icon: const Icon(Bootstrap.plus),
       ),
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

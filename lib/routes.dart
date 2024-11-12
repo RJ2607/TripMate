@@ -5,8 +5,8 @@ import 'package:tripmate/views/Maps/mapPage.dart';
 import 'package:tripmate/views/My%20Trip/add%20trip/addTrip.dart';
 import 'package:tripmate/views/My%20Trip/myTripPage.dart';
 import 'package:tripmate/views/Profile/profilePage.dart';
+import 'package:tripmate/views/navBarMenu.dart';
 
-import 'views/navBarMenu.dart';
 import 'views/onboardingScreen.dart';
 
 class RouteGenerator {
@@ -19,10 +19,7 @@ class RouteGenerator {
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/navigation':
-        return MaterialPageRoute(
-            builder: (_) => NavBarMenu(
-                  selectedIndex: 0,
-                ));
+        return MaterialPageRoute(builder: (_) => NavigationView());
       case '/mytrip':
         return MaterialPageRoute(builder: (_) => const MyTrip());
       case '/maps':

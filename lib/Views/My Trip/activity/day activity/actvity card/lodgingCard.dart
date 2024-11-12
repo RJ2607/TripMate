@@ -43,7 +43,7 @@ class LodgingCard extends StatelessWidget {
           ),
           FutureBuilder(
               future: flutterBasicsTools
-                  .readImage(data[index]['placeDetailsModel']['photoRef']),
+                  .imageLoader(data[index]['placeDetailsModel']['photoRef']),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Shimmer(

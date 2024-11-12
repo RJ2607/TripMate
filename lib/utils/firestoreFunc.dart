@@ -7,7 +7,14 @@ import 'package:get/get.dart';
 import '../models/userModel.dart';
 
 class FirestoreFunc extends GetxController {
-  User? user = FirebaseAuth.instance.currentUser;
+  @override
+  onInit() {
+    super.onInit();
+    // getUserByUid(FirebaseAuth.instance.currentUser!.uid);
+    user = FirebaseAuth.instance.currentUser!;
+  }
+
+  late User user;
   String users = 'users';
   static FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -93,6 +100,26 @@ class FirestoreFunc extends GetxController {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  deleteIndividualTrip(String uid) {
+    try {
+      individualTrip.doc(uid).delete().then((value) {
+        Get.snackbar('Success', 'Trip successfully deleted');
+      });
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  deleteGroupTrip(String uid) {
+    try {
+      groupTrip.doc(uid).delete().then((value) {
+        Get.snackbar('Success', 'Trip successfully deleted');
+      });
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
     }
   }
 

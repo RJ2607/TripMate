@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/utils/theme.dart';
+import 'package:tripmate/views/navBarMenu.dart';
 
 import 'routes.dart';
-import 'views/navBarMenu.dart';
 import 'views/onboardingScreen.dart';
 
 class App extends StatefulWidget {
@@ -34,9 +34,7 @@ class _AppState extends State<App> {
             );
           }
           if (snapshot.hasData) {
-            return NavBarMenu(
-              selectedIndex: 0,
-            );
+            return NavigationView();
           }
           return const OnboardingScreen();
         },
@@ -46,7 +44,7 @@ class _AppState extends State<App> {
       onGenerateRoute: RouteGenerator.generateRoute,
       darkTheme: TFlexTheme.darkTheme,
       theme: TFlexTheme.lightTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
     );
   }
 }

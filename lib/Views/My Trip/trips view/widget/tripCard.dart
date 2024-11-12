@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:tripmate/utils/firestoreFunc.dart';
 import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
+import 'package:tripmate/utils/firestoreFunc.dart';
 
 import '../../activity/day activity/daySelect.dart';
 
@@ -85,11 +86,44 @@ class TripCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                destination.capitalizeFirst!,
-                style: TextStyle(
-                  fontSize: MediaQuery.textScalerOf(context).scale(25),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    destination.capitalizeFirst!,
+                    style: TextStyle(
+                      fontSize: MediaQuery.textScalerOf(context).scale(25),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () => showCupertinoDialog(
+                        context: context,
+                        builder: (context) {
+                          return CupertinoAlertDialog(
+                            title: const Text('Trip Delete'),
+                            content: const Text(
+                                'Are you sure you want to delete trip?'),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                child: const Text('Yes'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  tripsController.deleteTrip(
+                                      isGroupTrip, tripID);
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: const Text('No'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        }),
+                    child: Icon(Icons.delete),
+                  )
+                ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               Row(

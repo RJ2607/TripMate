@@ -34,7 +34,6 @@ class LoginController extends GetxController {
       user.user.value = userCredential.value!.user;
       fireStoreFunc.uploadUser(user.user.value!);
     } catch (e) {
-      log('hehehe $e');
       Get.snackbar('Error', e.toString());
       return;
     }

@@ -33,7 +33,7 @@ class SightseeingCard extends StatelessWidget {
                 data[index]['departureTime'].millisecondsSinceEpoch)
             .minute);
 
-    var totalHours = departureTime.hour - arrivalTime.hour;
+    var totalHours = arrivalTime.hour - departureTime.hour;
     return SmoothContainer(
       margin: const EdgeInsets.only(bottom: 15),
       smoothness: 0.6,
@@ -59,7 +59,7 @@ class SightseeingCard extends StatelessWidget {
           ),
           FutureBuilder(
               future: flutterBasicsTools
-                  .readImage(data[index]['placeDetailsModel']['photoRef']),
+                  .imageLoader(data[index]['placeDetailsModel']['photoRef']),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Shimmer(
@@ -91,8 +91,10 @@ class SightseeingCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                arrivalTime.format(context),
-                style: TextStyle(fontSize: 20),
+                departureTime.format(context),
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.05,
@@ -105,10 +107,8 @@ class SightseeingCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.05,
               ),
               Text(
-                departureTime.format(context),
-                style: TextStyle(
-                  fontSize: 20,
-                ),
+                arrivalTime.format(context),
+                style: TextStyle(fontSize: 20),
               ),
             ],
           ),
