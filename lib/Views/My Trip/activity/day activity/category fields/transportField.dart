@@ -26,10 +26,12 @@ class _TransportFieldsState extends State<TransportFields> {
 
   Future<void> fetchSuggestions(String input) async {
     final result = await googleCloudMapController.getAutoCompletePlaces(input);
-    setState(() {
-      suggestions = result.predictions.map((e) => e.description!).toList();
-      placeIds = result.predictions.map((e) => e.placeId!).toList();
-    });
+    if (mounted) {
+      setState(() {
+        suggestions = result.predictions.map((e) => e.description!).toList();
+        placeIds = result.predictions.map((e) => e.placeId!).toList();
+      });
+    }
   }
 
   @override
