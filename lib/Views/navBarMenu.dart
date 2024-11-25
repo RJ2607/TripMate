@@ -60,7 +60,7 @@ class _NavigationViewState extends State<NavigationView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.073,
+            height: MediaQuery.of(context).size.height * 0.065,
             width: MediaQuery.of(context).size.width * 0.7,
             padding: EdgeInsets.only(left: 15, top: 9, right: 15, bottom: 15),
             margin: EdgeInsets.symmetric(vertical: 10),
@@ -97,6 +97,7 @@ class _NavigationViewState extends State<NavigationView> {
                           color: selectedBottomNav == navBar
                               ? bottomNavItemsDark[i].iconActiveColor
                               : bottomNavItemsDark[i].iconColor,
+                          size: MediaQuery.of(context).size.width * 0.05,
                         ),
                       ],
                     ),
@@ -110,12 +111,16 @@ class _NavigationViewState extends State<NavigationView> {
               Get.toNamed('/addTrips');
             },
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.07,
+              height: MediaQuery.of(context).size.height * 0.065,
               width: MediaQuery.of(context).size.width * 0.15,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Theme.of(context).primaryColor),
-              child: Icon(Iconsax.add_outline, color: Colors.white),
+              child: Icon(
+                Iconsax.add_outline,
+                color: Colors.white,
+                size: MediaQuery.of(context).size.width * 0.05,
+              ),
             ),
           )
         ],

@@ -73,7 +73,7 @@ class _IndividualTripState extends State<IndividualTrip> {
                 return ListView.builder(
                   itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
-                    log(firestoreFunc.user!.uid);
+                    // log(firestoreFunc.user!.uid);
                     if (data[index]['createdBy'] ==
                         FirebaseAuth.instance.currentUser!.uid) {
                       DateTime startDate = DateTime.fromMillisecondsSinceEpoch(

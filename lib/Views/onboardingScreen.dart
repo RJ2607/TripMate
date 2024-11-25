@@ -39,8 +39,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 28, left: 280),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  SizedBox.shrink(),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: BackdropFilter(
@@ -51,7 +52,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           color: Theme.of(context)
                               .primaryColorDark
                               .withOpacity(0.1),
-                          borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(50.0)),
                           border: Border.all(
                             width: 1.5,
                             color: Colors.white.withOpacity(0.2),
@@ -382,9 +384,9 @@ class OnBoardContent extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 40,
+            fontSize: MediaQuery.of(context).size.height * 0.04,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -394,9 +396,9 @@ class OnBoardContent extends StatelessWidget {
         Text(
           description,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: MediaQuery.of(context).size.height * 0.02,
             fontWeight: FontWeight.bold,
           ),
         ),
