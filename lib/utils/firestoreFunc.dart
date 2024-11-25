@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-
-import '../models/userModel.dart';
 
 class FirestoreFunc extends GetxController {
   @override
@@ -41,25 +37,6 @@ class FirestoreFunc extends GetxController {
   Future getUserByUid(String uid) async {
     // await Future.delayed(const Duration(seconds: 2));
     return await userCollection.doc(uid).get().then((value) => value.data());
-  }
-
-  uploadUser(User user) {
-    try {
-      UserModel userModel = UserModel(
-        uid: user.uid,
-        name: user.displayName!,
-        email: user.email!,
-        // phone: user.phoneNumber!,
-        profile: user.photoURL!,
-      );
-      userCollection.doc(user.uid).get().then((doc) {
-        if (!doc.exists) {
-          userCollection.doc(user.uid).set(userModel.toJson());
-        }
-      });
-    } catch (e) {
-      log(e.toString());
-    }
   }
 
   updateTrip(String uid, Map<String, dynamic> data) {
