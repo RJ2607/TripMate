@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tripmate/views/Auth/loginPage.dart';
 import 'package:tripmate/views/Home/homeScreen.dart';
-import 'package:tripmate/views/Maps/mapPage.dart';
 import 'package:tripmate/views/My%20Trip/add%20trip/addTrip.dart';
 import 'package:tripmate/views/My%20Trip/myTripPage.dart';
 import 'package:tripmate/views/Profile/profilePage.dart';
@@ -22,8 +21,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => NavigationView());
       case '/mytrip':
         return MaterialPageRoute(builder: (_) => const MyTrip());
-      case '/maps':
-        return MaterialPageRoute(builder: (_) => const Maps());
+      // case '/maps':
+      //   return MaterialPageRoute(builder: (_) => const MapsPage());
       case '/profile':
         return MaterialPageRoute(builder: (_) => const Profile());
       case '/addTrips':
