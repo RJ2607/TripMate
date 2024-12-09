@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:tripmate/controller/google%20cloud%20controllers/googleMapContreller.dart';
+import 'package:tripmate/views/Maps/widgets/map_widget.dart';
 
 class MapsPage extends StatefulWidget {
   Map<String, dynamic> data;
@@ -22,13 +27,23 @@ class _MapsPageState extends State<MapsPage> {
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
   StreamSubscription<LocationData>? _locationSubscription;
+  GoogleCloudMapController _googleCloudMapController =
+      GoogleCloudMapController();
   LatLng? _currentP;
   Map<PolylineId, Polyline> polylines = {};
+  bool _isPolylineGenerated = false;
+  late String _mapStyleString;
 
   @override
   void initState() {
     super.initState();
-    // _initializeMap();
+    _mapStyleString = '';
+    _initializeMap();
+    rootBundle.loadString('assets/maps_style/aubergine.json').then((string) {
+      setState(() {
+        _mapStyleString = string;
+      });
+    });
   }
 
   @override
@@ -48,55 +63,178 @@ class _MapsPageState extends State<MapsPage> {
       appBar: AppBar(
         title: const Text("Map"),
       ),
-      floatingActionButton: SpeedDial(
-        icon: Clarity.map_outline_badged,
-        activeIcon: Icons.close,
-        animationDuration: const Duration(milliseconds: 500),
-        children: [
-          SpeedDialChild(
-            child: Icon(IonIcons.location),
-            label: "Current Location",
-            onTap: () async {
-              await getLocationUpdates();
-              if (_currentP != null) await _cameraToPosition(_currentP!);
-            },
-          ),
-          SpeedDialChild(
-              child: Icon(IonIcons.arrow_redo),
-              label: "Direction",
-              onTap: () async {
-                if (_currentP != null) {
-                  List<LatLng> coordinates = await getPolylinePoints();
-                  generatePolyLineFromPoints(coordinates);
-                  _moveCameraToFitBounds();
-                }
-              }),
-        ],
-      ),
-      body: GoogleMap(
-        zoomControlsEnabled: false,
-        onMapCreated: (GoogleMapController controller) =>
-            _mapController.complete(controller),
-        initialCameraPosition: CameraPosition(
-          target: LatLng(widget.data['lat'], widget.data['lng']),
-          zoom: 13,
-        ),
-        markers: {
-          if (_currentP != null)
-            Marker(
-              markerId: const MarkerId("_currentLocation"),
-              icon: BitmapDescriptor.defaultMarkerWithHue(
-                  BitmapDescriptor.hueGreen),
-              infoWindow: InfoWindow(title: "Current Location"),
-              position: _currentP!,
+      floatingActionButton: FloatingActionButton(
+          child: Icon(IonIcons.arrow_redo),
+          onPressed: () async {
+            if (_currentP != null) {
+              List<LatLng> polylineCoordinates = await getPolylinePoints();
+              await generatePolyLineFromPoints(polylineCoordinates);
+              _googleCloudMapController.getDistanceTime(_currentP!.latitude,
+                  _currentP!.longitude, widget.data['lat'], widget.data['lng']);
+            }
+          }),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            if (_mapStyleString
+                .isNotEmpty) // Only render when map style is loaded
+              MapWidget(
+                mapController: _mapController,
+                widget: widget,
+                currentP: _currentP,
+                polylines: polylines,
+                mapStyleString: _mapStyleString,
+              )
+            else
+              Center(child: CircularProgressIndicator()),
+            Positioned(
+              left: 0,
+              bottom: 0,
+              child: _isPolylineGenerated
+                  ? !_googleCloudMapController
+                          .distanceTimeModel.value.rows.isEmpty
+                      ? Container(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                child: Icon(
+                                  AntDesign.car_outline,
+                                  size:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                ),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border:
+                                      Border.all(color: Colors.white, width: 2),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    _googleCloudMapController
+                                        .distanceTimeModel
+                                        .value
+                                        .rows[0]
+                                        .elements[0]
+                                        .duration
+                                        .text,
+                                    style: TextStyle(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.03,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Row(children: [
+                                    Text(
+                                      _googleCloudMapController
+                                          .distanceTimeModel
+                                          .value
+                                          .rows[0]
+                                          .elements[0]
+                                          .distance
+                                          .text,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.02,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text("•"),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      DateFormat.jm().format(DateTime.now().add(
+                                          Duration(
+                                              seconds: _googleCloudMapController
+                                                  .distanceTimeModel
+                                                  .value
+                                                  .rows[0]
+                                                  .elements[0]
+                                                  .duration
+                                                  .value))),
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.02,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    )
+                                  ])
+                                ],
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.1,
+                              ),
+                            ],
+                          ))
+                      : Shimmer(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.black,
+                              Colors.grey,
+                              Colors.black,
+                            ],
+                          ),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            width: MediaQuery.of(context).size.width,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                  : SizedBox.shrink(),
             ),
-          Marker(
-            markerId: const MarkerId("_sourceLocation"),
-            icon: BitmapDescriptor.defaultMarker,
-            position: LatLng(widget.data['lat'], widget.data['lng']),
-          ),
-        },
-        polylines: Set<Polyline>.of(polylines.values),
+          ],
+        ),
       ),
     );
   }
@@ -195,18 +333,26 @@ class _MapsPageState extends State<MapsPage> {
     return polylineCoordinates;
   }
 
-  void generatePolyLineFromPoints(List<LatLng> polylineCoordinates) {
+  Future<void> generatePolyLineFromPoints(
+      List<LatLng> polylineCoordinates) async {
     PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
+      consumeTapEvents: true,
+      onTap: () {
+        log("Polyline tapped");
+      },
       polylineId: id,
       startCap: Cap.roundCap,
       endCap: Cap.roundCap,
-      color: Theme.of(context).primaryColor,
+      color: Colors.blue,
       points: polylineCoordinates,
-      width: 5,
+      jointType: JointType.round,
+      width: 4,
     );
     setState(() {
       polylines[id] = polyline;
+      _isPolylineGenerated = true;
     });
+    await _moveCameraToFitBounds();
   }
 }

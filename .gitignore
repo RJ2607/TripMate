@@ -119,3 +119,4 @@ android/app/google-services.json
 macos/Flutter/GeneratedPluginRegistrant.swift
 .env
 android/app/src/main/AndroidManifest.xml
+.vscode/launch.json

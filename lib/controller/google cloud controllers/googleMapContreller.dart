@@ -7,9 +7,18 @@ import 'package:http/http.dart' as http;
 import 'package:tripmate/models/google%20cloud%20models/maps/placeModel.dart';
 import 'package:tripmate/models/google%20cloud%20models/maps/placePredictionModel.dart';
 
+import '../../models/google cloud models/maps/distanceTimeModel.dart';
+
 class GoogleCloudMapController {
   String googleCloudKey = dotenv.env['GOOGLE_CLOUD_KEY']!;
   String googleMapUrl = 'maps.googleapis.com';
+
+  Rx<DistanceTimeModel> distanceTimeModel = DistanceTimeModel(
+          destinationAddresses: [],
+          originAddresses: [],
+          rows: [],
+          status: 'Failed to fetch distance and time')
+      .obs;
 
   Future<PlacePredictionModel> getAutoCompletePlaces(String input) async {
     try {
@@ -95,6 +104,37 @@ class GoogleCloudMapController {
       } else {
         Get.snackbar('Error', 'Failed to fetch image');
         log("Failed to fetch places. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      log("Exception occurred: $e");
+    }
+  }
+
+  Future<void> getDistanceTime(
+    double originLat,
+    double originLng,
+    double destinationLat,
+    double destinationLng,
+  ) async {
+    try {
+      Map<String, String> query = {
+        "origins": "$originLat,$originLng",
+        "destinations": "$destinationLat,$destinationLng",
+        "key": googleCloudKey,
+      };
+      Uri url = Uri.https(googleMapUrl, "/maps/api/distancematrix/json", query);
+      final http.Response response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        // Parse the JSON response
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+        if (jsonResponse['status'] == 'OK') {
+          final result = DistanceTimeModel.fromJson(jsonResponse);
+          distanceTimeModel.value = result;
+        }
+      } else {
+        log("Failed to fetch distance and time. Status code: ${response.statusCode}");
       }
     } catch (e) {
       log("Exception occurred: $e");
