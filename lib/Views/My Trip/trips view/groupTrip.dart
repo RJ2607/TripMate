@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
-import 'package:tripmate/utils/firestoreFunc.dart';
 import 'package:tripmate/controller/auth%20controllers/userData.dart';
+import 'package:tripmate/utils/firestoreFunc.dart';
 
 import 'widget/tripCard.dart';
 
@@ -78,6 +78,8 @@ class GroupTrip extends StatelessWidget {
                         destination: data[index]['destination'].toString(),
                         startDate: startDate,
                         endDate: endDate,
+                        showType: true,
+                        onClick: true,
                         isGroupTrip: data[index]['isGroupTrip'],
                         invitedFriends: data[index]['invitedFriends'],
                       );

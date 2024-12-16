@@ -16,8 +16,10 @@ class TripCard extends StatelessWidget {
     required this.destination,
     required this.startDate,
     required this.endDate,
-    required this.isGroupTrip,
+    this.isGroupTrip,
     this.invitedFriends,
+    required this.showType,
+    required this.onClick,
   });
 
   String createdBy;
@@ -25,8 +27,10 @@ class TripCard extends StatelessWidget {
   String destination;
   DateTime startDate;
   DateTime endDate;
-  bool isGroupTrip;
+  bool? isGroupTrip;
   List<dynamic>? invitedFriends;
+  bool showType;
+  bool onClick;
 
   FirestoreFunc fire = Get.put(FirestoreFunc());
 
@@ -58,10 +62,11 @@ class TripCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        tripsController.tripId.value = tripID;
-        Get.to(() => DaySelect(
-              isGroupTrip: isGroupTrip,
-            ));
+        if (onClick) {
+          Get.to(() => DaySelect(
+                isGroupTrip: isGroupTrip!,
+              ));
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
@@ -109,7 +114,7 @@ class TripCard extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                   tripsController.deleteTrip(
-                                      isGroupTrip, tripID);
+                                      isGroupTrip!, tripID);
                                 },
                               ),
                               CupertinoDialogAction(
@@ -181,86 +186,91 @@ class TripCard extends StatelessWidget {
                 ],
               ),
               // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              Divider(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    isGroupTrip ? 'Group Trip' : 'Individual Trip',
-                    style: TextStyle(
-                      fontSize: MediaQuery.textScalerOf(context).scale(16),
-                      fontWeight: FontWeight.w400,
+              if (showType)
+                Divider(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              if (showType)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      isGroupTrip! ? 'Group Trip' : 'Individual Trip',
+                      style: TextStyle(
+                        fontSize: MediaQuery.textScalerOf(context).scale(16),
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  isGroupTrip
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height *
-                                  0.05, // Set a fixed height for the ListView
-                              child: ListView.builder(
-                                itemBuilder: (context, index) {
-                                  return FutureBuilder(
-                                      future: fire.getUserByUid(
-                                          invitedFriends![index].toString()),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return Shimmer(
-                                              gradient:
-                                                  const LinearGradient(colors: [
-                                                Color.fromARGB(255, 0, 0, 0),
-                                                Colors.white,
-                                                Color.fromARGB(255, 0, 0, 0)
-                                              ]),
-                                              child: CircleAvatar(
-                                                backgroundColor: Colors.white,
-                                                radius: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.043,
+                    isGroupTrip!
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height *
+                                    0.05, // Set a fixed height for the ListView
+                                child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    return FutureBuilder(
+                                        future: fire.getUserByUid(
+                                            invitedFriends![index].toString()),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Shimmer(
+                                                gradient: const LinearGradient(
+                                                    colors: [
+                                                      Color.fromARGB(
+                                                          255, 0, 0, 0),
+                                                      Colors.white,
+                                                      Color.fromARGB(
+                                                          255, 0, 0, 0)
+                                                    ]),
                                                 child: CircleAvatar(
+                                                  backgroundColor: Colors.white,
                                                   radius: MediaQuery.of(context)
                                                           .size
                                                           .width *
-                                                      0.041,
-                                                ),
-                                              ));
-                                        }
-                                        return Align(
-                                          widthFactor: 0.5,
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                            radius: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.043,
+                                                      0.043,
+                                                  child: CircleAvatar(
+                                                    radius:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.041,
+                                                  ),
+                                                ));
+                                          }
+                                          return Align(
+                                            widthFactor: 0.5,
                                             child: CircleAvatar(
+                                              backgroundColor: Colors.white,
                                               radius: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.041,
-                                              backgroundImage: NetworkImage(
-                                                  snapshot.data['profile']),
+                                                  0.043,
+                                              child: CircleAvatar(
+                                                radius: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.041,
+                                                backgroundImage: NetworkImage(
+                                                    snapshot.data['profile']),
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      });
-                                },
-                                itemCount: invitedFriends!.length,
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                // physics: const NeverScrollableScrollPhysics(),
+                                          );
+                                        });
+                                  },
+                                  itemCount: invitedFriends!.length,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  // physics: const NeverScrollableScrollPhysics(),
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      : const SizedBox(width: 0),
-                ],
-              )
+                            ],
+                          )
+                        : const SizedBox(width: 0),
+                  ],
+                ),
             ],
           ),
         ),

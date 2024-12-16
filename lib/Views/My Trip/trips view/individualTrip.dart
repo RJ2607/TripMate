@@ -83,6 +83,8 @@ class _IndividualTripState extends State<IndividualTrip> {
                       // log(data[index].id);
 
                       return TripCard(
+                          showType: true,
+                          onClick: true,
                           createdBy: data[index]['createdBy'],
                           tripID: data[index].id,
                           destination: data[index]['destination'].toString(),

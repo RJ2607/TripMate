@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tripmate/controller/navigationController.dart';
 import 'package:tripmate/views/Auth/loginPage.dart';
 import 'package:tripmate/views/Home/homeScreen.dart';
 import 'package:tripmate/views/My%20Trip/add%20trip/addTrip.dart';
@@ -9,6 +11,8 @@ import 'package:tripmate/views/navBarMenu.dart';
 import 'views/onboardingScreen.dart';
 
 class RouteGenerator {
+  NavigationController navigationController = Get.put(NavigationController());
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':

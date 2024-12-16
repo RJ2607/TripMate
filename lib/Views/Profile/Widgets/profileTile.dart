@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ProfileTile extends StatelessWidget {
+class ProfileTileButton extends StatelessWidget {
   final String tileText;
   final IconData icon;
   final void Function()? onTap;
   final Color? bgColor;
   late bool forwardIcon = true;
 
-  ProfileTile({
+  ProfileTileButton({
     required this.tileText,
     required this.icon,
     this.onTap,

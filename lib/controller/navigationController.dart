@@ -1,20 +1,80 @@
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../models/navigationModel.dart';
 
 class NavigationController extends GetxController {
-  int currentIndex = 0;
+  RxInt currentIndex = 0.obs;
 
+  NavigationModel selectedBottomNav = bottomNavItemsDark.first;
+
+  final PageController pageController = PageController();
+
+  /// Updates the selected bottom navigation item
+  void updateSelectedBtmNav(NavigationModel menu, int index) {
+    if (currentIndex != index || selectedBottomNav != menu) {
+      if (index >= 0 && index < bottomNavItemsDark.length) {
+        selectedBottomNav = menu;
+        currentIndex.value = index;
+
+        pageController.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+
+        log('Navigation Updated: Index=$currentIndex, Menu=${menu.title}');
+        update();
+      } else {
+        log('Invalid Index: $index');
+      }
+    }
+  }
+
+  /// Changes the page and updates the controller state
   void changePage(int index) {
-    currentIndex = index;
-    update();
+    if (index >= 0 && index < bottomNavItemsDark.length) {
+      currentIndex.value = index;
+
+      // Ensure `pageController` is updated
+      pageController.jumpToPage(index);
+
+      log('Page Changed: Index=$currentIndex');
+      update();
+    } else {
+      log('Invalid Index: $index');
+    }
   }
 
+  /// Goes to the next page, if within bounds
   void nextPage() {
-    currentIndex++;
-    update();
+    if (currentIndex < bottomNavItemsDark.length - 1) {
+      currentIndex++;
+      pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      log('Navigated to Next Page: Index=$currentIndex');
+      update();
+    } else {
+      log('Already at the last page');
+    }
   }
 
+  /// Goes to the previous page, if within bounds
   void previousPage() {
-    currentIndex--;
-    update();
+    if (currentIndex > 0) {
+      currentIndex--;
+      pageController.previousPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      log('Navigated to Previous Page: Index=$currentIndex');
+      update();
+    } else {
+      log('Already at the first page');
+    }
   }
 }

@@ -1,5 +1,5 @@
 class TripModel {
-  // String id;
+  String id;
   // String travelMode;
   String destination;
   DateTime startDate;
@@ -9,7 +9,7 @@ class TripModel {
   List<String>? invitees;
 
   TripModel({
-    // required this.id,
+    required this.id,
     // required this.travelMode,
     required this.destination,
     required this.startDate,
@@ -21,7 +21,7 @@ class TripModel {
 
   Map<String, dynamic> toJson() {
     return {
-      // 'id': id,
+      'id': id,
       // 'travelMode': travelMode,
       'destination': destination,
       'startDate': startDate,
@@ -34,12 +34,12 @@ class TripModel {
 
   factory TripModel.fromJson(Map<String, dynamic> data) {
     return TripModel(
-      // id: data['id'],
+      id: data['id'] ?? '',
       // travelMode: data['travelMode'],
       destination: data['destination'],
       startDate: data['startDate'].toDate(),
       endDate: data['endDate'].toDate(),
-      isGroup: data['isGroup'],
+      isGroup: data['isGroup'] ?? false,
       createdBy: data['createdBy'],
       invitees: data['invitees'] != null
           ? List<String>.from(data['invitees'].map((x) => x))
@@ -48,7 +48,7 @@ class TripModel {
   }
 
   TripModel copyWith({
-    // String? id,
+    String? id,
     // String? travelMode,
     String? destination,
     DateTime? startDate,
@@ -58,7 +58,7 @@ class TripModel {
     List<String>? invitees,
   }) {
     return TripModel(
-      // id: id ?? this.id,
+      id: id ?? this.id,
       // travelMode: travelMode ?? this.travelMode,
       destination: destination ?? this.destination,
       startDate: startDate ?? this.startDate,

@@ -58,6 +58,8 @@ class FirestoreFunc extends GetxController {
   addIndividualTrip(String uid, Map<String, dynamic> data) {
     try {
       individualTrip.add(data).then((value) {
+        // add trip id to individual trip
+        individualTrip.doc(value.id).update({'tripId': value.id});
         Get.back();
         Get.snackbar('Success', 'Trip added successfully');
 
@@ -71,6 +73,7 @@ class FirestoreFunc extends GetxController {
   addGroupTrip(Map<String, dynamic> data, String uid) {
     try {
       groupTrip.add(data).then((value) {
+        groupTrip.doc(value.id).update({'tripId': value.id});
         Get.back();
         Get.snackbar('Success', 'Trip added successfully');
         return value.id;

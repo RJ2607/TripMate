@@ -28,13 +28,13 @@ class _ProfileState extends State<Profile> {
           children: [
             ProfileInfoCard(user: user),
             SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-            ProfileTile(
+            ProfileTileButton(
               tileText: 'Edit Profile',
               icon: Clarity.edit_line,
               onTap: () {},
               bgColor: Theme.of(context).primaryColor,
             ),
-            ProfileTile(
+            ProfileTileButton(
               tileText: 'Logout',
               icon: Clarity.logout_line,
               onTap: () {
