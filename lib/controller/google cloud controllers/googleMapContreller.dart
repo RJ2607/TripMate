@@ -3,13 +3,15 @@ import 'dart:developer';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:tripmate/models/google%20cloud%20models/maps/placeModel.dart';
 import 'package:tripmate/models/google%20cloud%20models/maps/placePredictionModel.dart';
 
 import '../../models/google cloud models/maps/distanceTimeModel.dart';
 
-class GoogleCloudMapController {
+class GoogleCloudMapController extends GetxController {
+  Rx<LatLng> _currentLocation = LatLng(0.0, 0.0).obs;
   String googleCloudKey = dotenv.env['GOOGLE_CLOUD_KEY']!;
   String googleMapUrl = 'maps.googleapis.com';
 
@@ -65,7 +67,7 @@ class GoogleCloudMapController {
               address: jsonResponse['result']['formatted_address'],
               name: jsonResponse['result']['name'],
               placeId: jsonResponse['result']['place_id'],
-              rating: jsonResponse['result']['rating'].toDouble(),
+              rating: jsonResponse['result']['rating'],
               userRatingCount: jsonResponse['result']['user_ratings_total'],
               lat: jsonResponse['result']['geometry']['location']['lat'],
               lng: jsonResponse['result']['geometry']['location']['lng'],

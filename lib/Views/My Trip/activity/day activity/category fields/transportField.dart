@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/controller/activity%20controllers/transportController.dart';
@@ -128,6 +130,7 @@ class _TransportFieldsState extends State<TransportFields> {
           alignment: Alignment.bottomCenter,
           child: OutlinedButton(
             onPressed: () {
+              log('Adding Transport');
               transportController.updateTransport(
                 widget.isGroupTrip,
                 'Transport',

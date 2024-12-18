@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
@@ -28,7 +29,7 @@ class _MapsPageState extends State<MapsPage> {
       Completer<GoogleMapController>();
   StreamSubscription<LocationData>? _locationSubscription;
   GoogleCloudMapController _googleCloudMapController =
-      GoogleCloudMapController();
+      Get.put(GoogleCloudMapController());
   LatLng? _currentP;
   Map<PolylineId, Polyline> polylines = {};
   bool _isPolylineGenerated = false;
@@ -66,12 +67,16 @@ class _MapsPageState extends State<MapsPage> {
       floatingActionButton: FloatingActionButton(
           child: Icon(IonIcons.arrow_redo),
           onPressed: () async {
+            log("Fetching polyline points");
+            log("Current position: $_currentP");
             if (_currentP != null) {
+              log("Current position: $_currentP");
               List<LatLng> polylineCoordinates = await getPolylinePoints();
               await generatePolyLineFromPoints(polylineCoordinates);
               _googleCloudMapController.getDistanceTime(_currentP!.latitude,
                   _currentP!.longitude, widget.data['lat'], widget.data['lng']);
             }
+            log("Polyline generated");
           }),
       body: SafeArea(
         child: Stack(

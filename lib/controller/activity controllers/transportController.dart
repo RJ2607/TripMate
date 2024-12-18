@@ -69,6 +69,8 @@ class TransportController extends GetxController {
       return;
     }
 
+    log('Departure Location: ${departureLocation.value.toJson()}');
+
     departureLocation.value = await googleCloudMapController.getPlaceDetails(
       departureLocationId.value,
     );
@@ -85,6 +87,7 @@ class TransportController extends GetxController {
     Uint8List? storedDepartureImage =
         await flutterBasicsTools.readImage(departureLocation.value.photoRef!);
     try {
+      log('Storing Images');
       if (storedArrivalImage == null)
         await flutterBasicsTools.storeImage(
             arrivalImage!, arrivalLocation.value.photoRef!);
@@ -126,6 +129,7 @@ class TransportController extends GetxController {
       firestoreFunc.addDayActivity(tripsController.tripId.value, isGroupTrip,
           transportModel.value.toJson());
     } catch (e) {
+      log('error');
       log(e.toString());
     }
 

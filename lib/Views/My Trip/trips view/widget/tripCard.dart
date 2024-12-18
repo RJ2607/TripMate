@@ -63,6 +63,7 @@ class TripCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (onClick) {
+          tripsController.tripId.value = tripID;
           Get.to(() => DaySelect(
                 isGroupTrip: isGroupTrip!,
               ));

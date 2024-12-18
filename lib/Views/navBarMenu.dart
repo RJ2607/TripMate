@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:location/location.dart';
 
 import '../controller/navigationController.dart';
 import '../models/navigationModel.dart';
@@ -18,13 +19,36 @@ class NavigationView extends StatefulWidget {
 class _NavigationViewState extends State<NavigationView> {
   final navigationController = Get.put(NavigationController());
 
+  final Location _locationController = Location();
+
+  @override
+  void initState() {
+    super.initState();
+    getLocationPermission();
+  }
+
+  Future<void> getLocationPermission() async {
+    bool serviceEnabled = await _locationController.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await _locationController.requestService();
+      if (!serviceEnabled) return;
+    }
+
+    PermissionStatus permissionGranted =
+        await _locationController.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await _locationController.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: PageView(
-          controller: navigationController.pageController,
+          controller: navigationController.pageController.value,
           physics: const NeverScrollableScrollPhysics(),
           children: const [
             HomeScreen(),
@@ -63,7 +87,7 @@ class _NavigationViewState extends State<NavigationView> {
                 return GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
-                    navigationController.updateSelectedBtmNav(navBar, i);
+                    navigationController.changePage(i);
                   },
                   child: Obx(() => Padding(
                         padding: const EdgeInsets.only(right: 10, left: 10),

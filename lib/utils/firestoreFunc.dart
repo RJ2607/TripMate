@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -116,6 +118,7 @@ class FirestoreFunc extends GetxController {
   }
 
   Future getIndividualTripById(String tripId) async {
+    log('Trip ID: $tripId');
     return await individualTrip.doc(tripId).get().then((value) => value.data());
   }
 

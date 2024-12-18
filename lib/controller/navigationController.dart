@@ -6,22 +6,22 @@ import 'package:get/get.dart';
 import '../models/navigationModel.dart';
 
 class NavigationController extends GetxController {
-  RxInt currentIndex = 0.obs;
+  Rx<int> currentIndex = 0.obs;
 
   NavigationModel selectedBottomNav = bottomNavItemsDark.first;
 
-  final PageController pageController = PageController();
+  Rx<PageController> pageController = PageController().obs;
 
   /// Updates the selected bottom navigation item
   void updateSelectedBtmNav(NavigationModel menu, int index) {
-    if (currentIndex != index || selectedBottomNav != menu) {
+    if (currentIndex.value != index || selectedBottomNav != menu) {
       if (index >= 0 && index < bottomNavItemsDark.length) {
         selectedBottomNav = menu;
         currentIndex.value = index;
 
-        pageController.animateToPage(
+        pageController.value.animateToPage(
           index,
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 800),
           curve: Curves.easeInOut,
         );
 
@@ -39,7 +39,7 @@ class NavigationController extends GetxController {
       currentIndex.value = index;
 
       // Ensure `pageController` is updated
-      pageController.jumpToPage(index);
+      pageController.value.jumpToPage(index);
 
       log('Page Changed: Index=$currentIndex');
       update();
@@ -51,9 +51,9 @@ class NavigationController extends GetxController {
   /// Goes to the next page, if within bounds
   void nextPage() {
     if (currentIndex < bottomNavItemsDark.length - 1) {
-      currentIndex++;
-      pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
+      currentIndex.value++;
+      pageController.value.nextPage(
+        duration: const Duration(milliseconds: 800),
         curve: Curves.easeInOut,
       );
       log('Navigated to Next Page: Index=$currentIndex');
@@ -66,9 +66,9 @@ class NavigationController extends GetxController {
   /// Goes to the previous page, if within bounds
   void previousPage() {
     if (currentIndex > 0) {
-      currentIndex--;
-      pageController.previousPage(
-        duration: const Duration(milliseconds: 300),
+      currentIndex.value--;
+      pageController.value.previousPage(
+        duration: const Duration(milliseconds: 800),
         curve: Curves.easeInOut,
       );
       log('Navigated to Previous Page: Index=$currentIndex');

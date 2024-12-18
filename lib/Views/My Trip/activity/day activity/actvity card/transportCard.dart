@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,6 +33,8 @@ class TransportCard extends StatelessWidget {
             .minute);
 
     var totalHours = arrivalTime.hour - departureTime.hour;
+
+    log(data[1]['departureLocation']['rating'].toString());
 
     return GestureDetector(
       onTap: () => Get.to(() => TransportDetailsPage(

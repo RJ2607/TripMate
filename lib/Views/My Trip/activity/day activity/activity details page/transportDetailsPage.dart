@@ -314,33 +314,67 @@ class TransportDetailsPage extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              width: MediaQuery.of(context).size.height * 0.1,
-                              child: CircularProgressIndicator(
-                                strokeCap: StrokeCap.round,
-                                strokeWidth: 5,
-                                value: data['departureLocation']['rating'] / 5,
-                                backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
+                            data['departureLocation']['rating'] == null
+                                ? SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    width: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    child: CircularProgressIndicator(
+                                      strokeCap: StrokeCap.round,
+                                      strokeWidth: 5,
+                                      value: 0,
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    width: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    child: CircularProgressIndicator(
+                                      strokeCap: StrokeCap.round,
+                                      strokeWidth: 5,
+                                      value: data['departureLocation']
+                                              ['rating'] /
+                                          5,
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                  size:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                ),
-                                Text(
-                                  data['departureLocation']['rating']
-                                      .toString(),
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
+                                data['departureLocation']['rating'] == null
+                                    ? SizedBox.shrink()
+                                    : Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                        size:
+                                            MediaQuery.of(context).size.width *
+                                                0.05,
+                                      ),
+                                data['departureLocation']['rating'] == null
+                                    ? Text(
+                                        'No Rating',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall,
+                                      )
+                                    : Text(
+                                        data['departureLocation']['rating']
+                                            .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge,
+                                      ),
                               ],
                             ),
                           ],
@@ -362,10 +396,16 @@ class TransportDetailsPage extends StatelessWidget {
                           Text('Total Reviews',
                               style:
                                   Theme.of(context).textTheme.headlineMedium),
-                          Text(
-                              data['departureLocation']['userRatingCount']
-                                  .toString(),
-                              style: Theme.of(context).textTheme.titleMedium),
+                          data['departureLocation']['rating'] == null
+                              ? Text(
+                                  'No Rating',
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                )
+                              : Text(
+                                  data['departureLocation']['userRatingCount']
+                                      .toString(),
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium),
                         ],
                       ),
                     ],
