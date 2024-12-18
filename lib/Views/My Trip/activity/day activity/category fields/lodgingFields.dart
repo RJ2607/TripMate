@@ -3,15 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/controller/activity%20controllers/lodgingController.dart';
+import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 
 import '../../../../../controller/google cloud controllers/googleMapContreller.dart';
 import '../../../../../utils/widgets/timeRangePickerWidget.dart';
 
 class LodgingFields extends StatefulWidget {
-  bool isGroupTrip;
   LodgingFields({
     super.key,
-    required this.isGroupTrip,
   });
 
   @override
@@ -20,6 +19,8 @@ class LodgingFields extends StatefulWidget {
 
 class _LodgingFieldsState extends State<LodgingFields> {
   LodgingController lodgingController = Get.put(LodgingController());
+
+  TripsController tripsController = Get.put(TripsController());
 
   final GoogleCloudMapController googleCloudMapController =
       GoogleCloudMapController();
@@ -102,7 +103,7 @@ class _LodgingFieldsState extends State<LodgingFields> {
             child: OutlinedButton(
               onPressed: () {
                 lodgingController.updateLodging(
-                  widget.isGroupTrip,
+                  tripsController.isGroupTrip.value,
                   'Lodging',
                   lodgingController.addActivityController.activityDate.value,
                 );

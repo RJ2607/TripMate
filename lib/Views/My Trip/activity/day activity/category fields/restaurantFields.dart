@@ -3,15 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/controller/activity%20controllers/restaurantController.dart';
+import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/utils/widgets/timeRangePickerWidget.dart';
 
 import '../../../../../controller/google cloud controllers/googleMapContreller.dart';
 
 class RestaurantFields extends StatefulWidget {
-  bool isGroupTrip;
   RestaurantFields({
     super.key,
-    required this.isGroupTrip,
   });
 
   @override
@@ -20,6 +19,8 @@ class RestaurantFields extends StatefulWidget {
 
 class _RestaurantFieldsState extends State<RestaurantFields> {
   RestaurantController restaurantController = Get.put(RestaurantController());
+
+  TripsController tripsController = Get.put(TripsController());
 
   final GoogleCloudMapController googleCloudMapController =
       GoogleCloudMapController();
@@ -83,7 +84,7 @@ class _RestaurantFieldsState extends State<RestaurantFields> {
           child: OutlinedButton(
             onPressed: () {
               restaurantController.updateRestaurant(
-                widget.isGroupTrip,
+                tripsController.isGroupTrip.value,
                 'Restaurant',
                 restaurantController.addActivityController.activityDate.value,
               );

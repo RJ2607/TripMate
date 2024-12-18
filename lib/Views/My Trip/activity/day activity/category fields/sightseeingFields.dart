@@ -1,15 +1,15 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tripmate/controller/activity%20controllers/sightseeingController.dart';
 import 'package:tripmate/controller/google%20cloud%20controllers/googleMapContreller.dart';
+import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/utils/widgets/timeRangePickerWidget.dart';
 
 class SightseeingFields extends StatefulWidget {
-  bool isGroupTrip;
   SightseeingFields({
     super.key,
-    required this.isGroupTrip,
   });
 
   @override
@@ -18,6 +18,8 @@ class SightseeingFields extends StatefulWidget {
 
 class _SightseeingFieldsState extends State<SightseeingFields> {
   SightseeingController sightseeingController = SightseeingController();
+
+  TripsController tripsController = Get.put(TripsController());
 
   final GoogleCloudMapController googleCloudMapController =
       GoogleCloudMapController();
@@ -87,7 +89,7 @@ class _SightseeingFieldsState extends State<SightseeingFields> {
           child: OutlinedButton(
             onPressed: () {
               sightseeingController.updateSighseeing(
-                widget.isGroupTrip,
+                tripsController.isGroupTrip.value,
                 'Sightseeing',
                 sightseeingController.addActivityController.activityDate.value,
               );

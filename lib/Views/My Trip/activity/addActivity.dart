@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/controller/activity%20controllers/transportController.dart';
+import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/views/My%20Trip/activity/day%20activity/category%20fields/sightseeingFields.dart';
 
 import '../../../controller/dateRangeController.dart';
@@ -9,6 +10,8 @@ import 'day activity/category fields/restaurantFields.dart';
 import 'day activity/category fields/transportField.dart';
 
 class AddActivityController extends GetxController {
+  Rx<String> weekDay = ''.obs;
+  Rx<int> dayNumber = 0.obs;
   Rx<DateTime> activityDate = DateTime.now().obs;
   Rx<String> selectedCategory = ''.obs;
   Rx<TextEditingController> activityNameController =
@@ -20,9 +23,10 @@ class AddActivityController extends GetxController {
 class AddActivity extends StatelessWidget {
   AddActivity({
     super.key,
-    required this.isGroupTrip,
   });
-  bool isGroupTrip;
+
+  TripsController tripsController = Get.put(TripsController());
+
   AddActivityController addActivityController =
       Get.put(AddActivityController());
   DateRangePickerController dateRangeController =
@@ -158,22 +162,18 @@ class AddActivity extends StatelessWidget {
                 if (addActivityController.selectedCategory.value ==
                     'Transport') {
                   return TransportFields(
-                    isGroupTrip: isGroupTrip,
                   );
                 } else if (addActivityController.selectedCategory.value ==
                     'Sightseeing') {
                   return SightseeingFields(
-                    isGroupTrip: isGroupTrip,
                   );
                 } else if (addActivityController.selectedCategory.value ==
                     'Restaurant') {
                   return RestaurantFields(
-                    isGroupTrip: isGroupTrip,
                   );
                 } else if (addActivityController.selectedCategory.value ==
                     'Lodging') {
                   return LodgingFields(
-                    isGroupTrip: isGroupTrip,
                   );
                 } else {
                   return const SizedBox.shrink();

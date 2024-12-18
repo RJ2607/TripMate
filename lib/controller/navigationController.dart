@@ -10,7 +10,7 @@ class NavigationController extends GetxController {
 
   NavigationModel selectedBottomNav = bottomNavItemsDark.first;
 
-  Rx<PageController> pageController = PageController().obs;
+  Rx<PageController> pageController = PageController(initialPage: 0).obs;
 
   /// Updates the selected bottom navigation item
   void updateSelectedBtmNav(NavigationModel menu, int index) {
@@ -39,7 +39,11 @@ class NavigationController extends GetxController {
       currentIndex.value = index;
 
       // Ensure `pageController` is updated
-      pageController.value.jumpToPage(index);
+      pageController.value.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
 
       log('Page Changed: Index=$currentIndex');
       update();

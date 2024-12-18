@@ -12,15 +12,8 @@ import 'actvity card/sightseeingCard.dart';
 import 'actvity card/transportCard.dart';
 
 class DayActivity extends StatefulWidget {
-  String weekDay;
-  int dayNumber;
-  bool isGroupTrip;
-
   DayActivity({
     super.key,
-    required this.weekDay,
-    required this.dayNumber,
-    required this.isGroupTrip,
   });
 
   @override
@@ -84,17 +77,22 @@ class _DayActivityState extends State<DayActivity> {
             Navigator.pop(context);
           },
         ),
-        Text(
-          'Day ${widget.dayNumber}',
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+        Column(
+          children: [
+            Text(
+              'Day ${addActivityController.dayNumber.value}',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+                '${addActivityController.activityDate.value.day} ${addActivityController.weekDay.value}, ${addActivityController.activityDate.value.year}'),
+          ],
         ),
         GestureDetector(
-            onTap: () => Get.to(() => AddActivity(
-                  isGroupTrip: widget.isGroupTrip,
-                )),
+            onTap: () =>
+                Get.toNamed('/mytrip/daySelect/dayActivity/addActivity'),
             child: Chip(
               label: Icon(
                 Icons.add,

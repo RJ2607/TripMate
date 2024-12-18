@@ -5,7 +5,6 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:tripmate/utils/flutterBasicsTools.dart';
-import 'package:tripmate/views/My%20Trip/activity/day%20activity/activity%20details%20page/sightseeingDetailsPage.dart';
 
 class SightseeingCard extends StatelessWidget {
   List<QueryDocumentSnapshot<Object?>> data;
@@ -36,9 +35,12 @@ class SightseeingCard extends StatelessWidget {
 
     var totalHours = arrivalTime.hour - departureTime.hour;
     return GestureDetector(
-      onTap: () => Get.to(() => SightseeingDetailsPage(
-            data[index],
-          )),
+      onTap: () => Get.toNamed(
+        '/mytrip/daySelect/dayActivity/sightseeing',
+        arguments: {
+          'data': data[index],
+        },
+      ),
       child: SmoothContainer(
         margin: const EdgeInsets.only(bottom: 15),
         smoothness: 0.6,

@@ -5,20 +5,19 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
-import 'package:tripmate/views/Maps/mapPage.dart';
 
 import '../../../../../utils/flutterBasicsTools.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
-  QueryDocumentSnapshot<Object?> data;
-  RestaurantDetailsPage(
-    this.data,
-  );
+  RestaurantDetailsPage({
+    super.key,
+  });
 
   FlutterBasicsTools flutterBasicsTools = FlutterBasicsTools();
 
   @override
   Widget build(BuildContext context) {
+    QueryDocumentSnapshot<Object?> data = Get.arguments['data'];
     TimeOfDay reservationTime = TimeOfDay(
         hour: DateTime.fromMillisecondsSinceEpoch(
                 data['reservationTime'].millisecondsSinceEpoch)
@@ -140,9 +139,8 @@ class RestaurantDetailsPage extends StatelessWidget {
                     Text('Location',
                         style: Theme.of(context).textTheme.headlineMedium),
                     GestureDetector(
-                      onTap: () => Get.to(() => MapsPage(
-                            data: data['placeDetailsModel'],
-                          )),
+                      onTap: () => Get.toNamed('/maps',
+                          arguments: {'data': data['placeDetailsModel']}),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),

@@ -7,18 +7,17 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:tripmate/utils/flutterBasicsTools.dart';
 
-import '../../../../Maps/mapPage.dart';
-
 class TransportDetailsPage extends StatelessWidget {
-  QueryDocumentSnapshot<Object?> data;
-  TransportDetailsPage(
-    this.data,
-  );
+  TransportDetailsPage({
+    super.key,
+  });
 
   FlutterBasicsTools flutterBasicsTools = FlutterBasicsTools();
 
   @override
   Widget build(BuildContext context) {
+    QueryDocumentSnapshot<Object?> data = Get.arguments['data'];
+
     TimeOfDay arrivalTime = TimeOfDay(
         hour: DateTime.fromMillisecondsSinceEpoch(
                 data['arrivalTime'].millisecondsSinceEpoch)
@@ -230,9 +229,9 @@ class TransportDetailsPage extends StatelessWidget {
                     Text('Departure Location',
                         style: Theme.of(context).textTheme.headlineMedium),
                     GestureDetector(
-                      onTap: () => Get.to(() => MapsPage(
-                            data: data['departureLocation'],
-                          )),
+                      onTap: () => Get.toNamed('/maps', arguments: {
+                        'data': data['departureLocation'],
+                      }),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),
@@ -420,9 +419,9 @@ class TransportDetailsPage extends StatelessWidget {
                     Text('Arrival Location',
                         style: Theme.of(context).textTheme.headlineMedium),
                     GestureDetector(
-                      onTap: () => Get.to(() => MapsPage(
-                            data: data['arrivalLocation'],
-                          )),
+                      onTap: () => Get.toNamed('/maps', arguments: {
+                        'data': data['arrivalLocation'],
+                      }),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),

@@ -10,11 +10,8 @@ import '../../../../utils/firestoreFunc.dart';
 import 'dayActivity.dart';
 
 class DaySelect extends StatelessWidget {
-  bool isGroupTrip;
-
   DaySelect({
     super.key,
-    required this.isGroupTrip,
   });
 
   FirestoreFunc firestoreFunc = Get.put(FirestoreFunc());
@@ -89,7 +86,7 @@ class DaySelect extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
               FutureBuilder(
-                future: isGroupTrip
+                future: tripsController.isGroupTrip.value
                     ? firestoreFunc
                         .getGroupTripsById(tripsController.tripId.value)
                     : firestoreFunc
@@ -127,14 +124,14 @@ class DaySelect extends StatelessWidget {
                                 ' dayactivity';
                             addActivityController.activityDate.value =
                                 startDate.add(Duration(days: index));
+                            addActivityController.weekDay.value =
+                                days[(startWeekDay + index) % 7]!;
+                            addActivityController.dayNumber.value = index + 1;
+
                             log(startDate
                                 .add(Duration(days: index))
                                 .toString());
-                            Get.to(() => DayActivity(
-                                  weekDay: days[(startWeekDay + index) % 7]!,
-                                  dayNumber: index + 1,
-                                  isGroupTrip: isGroupTrip,
-                                ));
+                            Get.toNamed('/mytrip/daySelect/dayActivity');
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.15,

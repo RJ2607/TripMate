@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:smooth_corner/smooth_corner.dart';
-import 'package:tripmate/views/My%20Trip/activity/day%20activity/activity%20details%20page/transportDetailsPage.dart';
 
 class TransportCard extends StatelessWidget {
   List<QueryDocumentSnapshot<Object?>> data;
@@ -37,9 +36,12 @@ class TransportCard extends StatelessWidget {
     log(data[1]['departureLocation']['rating'].toString());
 
     return GestureDetector(
-      onTap: () => Get.to(() => TransportDetailsPage(
-            data[index],
-          )),
+      onTap: () => Get.toNamed(
+        '/mytrip/daySelect/dayActivity/transport',
+        arguments: {
+          'data': data[index],
+        },
+      ),
       child: SmoothContainer(
         margin: const EdgeInsets.only(bottom: 15),
         smoothness: 0.6,

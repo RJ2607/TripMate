@@ -15,9 +15,7 @@ import 'package:tripmate/controller/google%20cloud%20controllers/googleMapContre
 import 'package:tripmate/views/Maps/widgets/map_widget.dart';
 
 class MapsPage extends StatefulWidget {
-  Map<String, dynamic> data;
-
-  MapsPage({Key? key, required this.data}) : super(key: key);
+  MapsPage({Key? key}) : super(key: key);
 
   @override
   State<MapsPage> createState() => _MapsPageState();
@@ -35,9 +33,12 @@ class _MapsPageState extends State<MapsPage> {
   bool _isPolylineGenerated = false;
   late String _mapStyleString;
 
+  Map<String, dynamic> data = Get.arguments['data'];
+
   @override
   void initState() {
     super.initState();
+    // data = Get.arguments['data'];
     _mapStyleString = '';
     _initializeMap();
     rootBundle.loadString('assets/maps_style/aubergine.json').then((string) {
@@ -74,7 +75,7 @@ class _MapsPageState extends State<MapsPage> {
               List<LatLng> polylineCoordinates = await getPolylinePoints();
               await generatePolyLineFromPoints(polylineCoordinates);
               _googleCloudMapController.getDistanceTime(_currentP!.latitude,
-                  _currentP!.longitude, widget.data['lat'], widget.data['lng']);
+                  _currentP!.longitude, data['lat'], data['lng']);
             }
             log("Polyline generated");
           }),
@@ -85,7 +86,7 @@ class _MapsPageState extends State<MapsPage> {
                 .isNotEmpty) // Only render when map style is loaded
               MapWidget(
                 mapController: _mapController,
-                widget: widget,
+                data: data,
                 currentP: _currentP,
                 polylines: polylines,
                 mapStyleString: _mapStyleString,
@@ -251,20 +252,12 @@ class _MapsPageState extends State<MapsPage> {
     // Calculate bounds for the two points
     LatLngBounds bounds = LatLngBounds(
       southwest: LatLng(
-        widget.data['lat'] < _currentP!.latitude
-            ? widget.data['lat']
-            : _currentP!.latitude,
-        widget.data['lng'] < _currentP!.longitude
-            ? widget.data['lng']
-            : _currentP!.longitude,
+        data['lat'] < _currentP!.latitude ? data['lat'] : _currentP!.latitude,
+        data['lng'] < _currentP!.longitude ? data['lng'] : _currentP!.longitude,
       ),
       northeast: LatLng(
-        widget.data['lat'] > _currentP!.latitude
-            ? widget.data['lat']
-            : _currentP!.latitude,
-        widget.data['lng'] > _currentP!.longitude
-            ? widget.data['lng']
-            : _currentP!.longitude,
+        data['lat'] > _currentP!.latitude ? data['lat'] : _currentP!.latitude,
+        data['lng'] > _currentP!.longitude ? data['lng'] : _currentP!.longitude,
       ),
     );
 
@@ -319,7 +312,7 @@ class _MapsPageState extends State<MapsPage> {
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleApiKey: dotenv.env['GOOGLE_CLOUD_KEY']!,
         request: PolylineRequest(
-          destination: PointLatLng(widget.data['lat'], widget.data['lng']),
+          destination: PointLatLng(data['lat'], data['lng']),
           origin: PointLatLng(_currentP!.latitude, _currentP!.longitude),
           mode: TravelMode.driving,
         ),

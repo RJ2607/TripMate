@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,8 +7,6 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/utils/firestoreFunc.dart';
-
-import '../../activity/day activity/daySelect.dart';
 
 class TripCard extends StatelessWidget {
   TripCard({
@@ -62,11 +62,11 @@ class TripCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        log(isGroupTrip.toString());
         if (onClick) {
           tripsController.tripId.value = tripID;
-          Get.to(() => DaySelect(
-                isGroupTrip: isGroupTrip!,
-              ));
+          tripsController.isGroupTrip.value = isGroupTrip!;
+          Get.toNamed('/mytrip/daySelect');
         }
       },
       child: Container(

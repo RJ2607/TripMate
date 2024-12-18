@@ -7,18 +7,15 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 
 import '../../../../../utils/flutterBasicsTools.dart';
-import '../../../../Maps/mapPage.dart';
 
 class SightseeingDetailsPage extends StatelessWidget {
-  QueryDocumentSnapshot<Object?> data;
-  SightseeingDetailsPage(
-    this.data,
-  );
+  SightseeingDetailsPage({super.key});
 
   FlutterBasicsTools flutterBasicsTools = FlutterBasicsTools();
 
   @override
   Widget build(BuildContext context) {
+    QueryDocumentSnapshot<Object?> data = Get.arguments['data'];
     TimeOfDay arrivalTime = TimeOfDay(
         hour: DateTime.fromMillisecondsSinceEpoch(
                 data['arrivalTime'].millisecondsSinceEpoch)
@@ -151,9 +148,8 @@ class SightseeingDetailsPage extends StatelessWidget {
                     Text('Location',
                         style: Theme.of(context).textTheme.headlineMedium),
                     GestureDetector(
-                      onTap: () => Get.to(() => MapsPage(
-                            data: data['placeDetailsModel'],
-                          )),
+                      onTap: () => Get.toNamed('/maps',
+                          arguments: {'data': data['placeDetailsModel']}),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),

@@ -5,7 +5,6 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:tripmate/utils/flutterBasicsTools.dart';
-import 'package:tripmate/views/My%20Trip/activity/day%20activity/activity%20details%20page/lodgingDetailsPage.dart';
 
 class LodgingCard extends StatelessWidget {
   List<QueryDocumentSnapshot<Object?>> data;
@@ -20,9 +19,12 @@ class LodgingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => LodgingDetailsPage(
-            data[index],
-          )),
+      onTap: () => Get.toNamed(
+        '/mytrip/daySelect/dayActivity/lodging',
+        arguments: {
+          'data': data[index],
+        },
+      ),
       child: SmoothContainer(
         margin: const EdgeInsets.only(bottom: 15),
         smoothness: 0.6,
@@ -63,8 +65,9 @@ class LodgingCard extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * 0.2,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.secondaryContainer,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ));

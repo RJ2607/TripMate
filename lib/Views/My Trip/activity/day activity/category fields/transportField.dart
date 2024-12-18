@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/controller/activity%20controllers/transportController.dart';
 import 'package:tripmate/controller/google%20cloud%20controllers/googleMapContreller.dart';
+import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/utils/widgets/timeRangePickerWidget.dart';
 
 class TransportFields extends StatefulWidget {
-  bool isGroupTrip;
   TransportFields({
     super.key,
-    required this.isGroupTrip,
   });
 
   @override
@@ -19,6 +18,8 @@ class TransportFields extends StatefulWidget {
 
 class _TransportFieldsState extends State<TransportFields> {
   TransportController transportController = Get.put(TransportController());
+
+  TripsController tripsController = Get.put(TripsController());
 
   final GoogleCloudMapController googleCloudMapController =
       GoogleCloudMapController();
@@ -132,7 +133,7 @@ class _TransportFieldsState extends State<TransportFields> {
             onPressed: () {
               log('Adding Transport');
               transportController.updateTransport(
-                widget.isGroupTrip,
+                tripsController.isGroupTrip.value,
                 'Transport',
                 transportController.addActivityController.activityDate.value,
               );

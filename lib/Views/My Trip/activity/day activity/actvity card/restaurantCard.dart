@@ -5,7 +5,6 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:tripmate/utils/flutterBasicsTools.dart';
-import 'package:tripmate/views/My%20Trip/activity/day%20activity/activity%20details%20page/restaurantDetailsPage.dart';
 
 class RestaurantCard extends StatelessWidget {
   List<QueryDocumentSnapshot<Object?>> data;
@@ -27,9 +26,12 @@ class RestaurantCard extends StatelessWidget {
                 data[index]['reservationTime'].millisecondsSinceEpoch)
             .minute);
     return GestureDetector(
-      onTap: () => Get.to(() => RestaurantDetailsPage(
-            data[index],
-          )),
+      onTap: () => Get.toNamed(
+        '/mytrip/daySelect/dayActivity/restaurant',
+        arguments: {
+          'data': data[index],
+        },
+      ),
       child: SmoothContainer(
         smoothness: 0.6,
         margin: const EdgeInsets.only(bottom: 15),

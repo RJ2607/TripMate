@@ -10,15 +10,18 @@ import '../../../../../utils/flutterBasicsTools.dart';
 import '../../../../Maps/mapPage.dart';
 
 class LodgingDetailsPage extends StatelessWidget {
-  QueryDocumentSnapshot<Object?> data;
-  LodgingDetailsPage(
-    this.data,
-  );
+  
+  LodgingDetailsPage({
+    super.key,
+  });
+  
 
   FlutterBasicsTools flutterBasicsTools = FlutterBasicsTools();
 
   @override
   Widget build(BuildContext context) {
+    QueryDocumentSnapshot<Object?> data = Get.arguments['data'];
+    
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -141,9 +144,8 @@ class LodgingDetailsPage extends StatelessWidget {
                     Text('Location',
                         style: Theme.of(context).textTheme.headlineMedium),
                     GestureDetector(
-                      onTap: () => Get.to(() => MapsPage(
-                            data: data['placeDetailsModel'],
-                          )),
+                      onTap: () => Get.toNamed('/maps',
+                          arguments: {'data': data['placeDetailsModel']}),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 5),
