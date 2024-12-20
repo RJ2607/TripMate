@@ -93,11 +93,14 @@ class RouteGenerator {
             settings: settings);
       case '/addTrips':
         return CustomPageRoute(
-            child: AddTrips(), transitionType: 'slide', settings: settings);
-            case'/maps':
+            child: AddTrips(),
+            transitionType: 'slide',
+            settings: settings,
+            direction: AxisDirection.down);
+      case '/maps':
         return CustomPageRoute(
             child: MapsPage(), transitionType: 'slide', settings: settings);
-            
+
       default:
         return _errorRoute();
     }

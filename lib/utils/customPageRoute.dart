@@ -12,7 +12,7 @@ class CustomPageRoute extends PageRouteBuilder {
     required this.transitionType,
     required this.settings,
   }) : super(
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(milliseconds: 700),
           pageBuilder: (context, animation, secondaryAnimation) => child,
           settings: settings,
         );
