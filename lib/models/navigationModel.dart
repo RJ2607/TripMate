@@ -17,50 +17,33 @@ class NavigationModel {
   });
 }
 
-List<NavigationModel> bottomNavItemsDark = [
+List<NavigationModel> bottomNavItems = [
   NavigationModel(
     title: 'Home',
-    icon: Iconsax.home_bold,
+    icon: Iconsax.home_2_outline,
     isActived: true,
-    iconActiveColor: const Color(0xFF519E67),
-    iconColor: Colors.white,
-  ),
-  NavigationModel(
-    title: 'Statistics',
-    icon: BoxIcons.bx_trip,
-    isActived: false,
-    iconActiveColor: const Color(0xFF519E67),
-    iconColor: Colors.white,
-  ),
-  NavigationModel(
-    title: 'Settings',
-    icon: Iconsax.user_bold,
-    isActived: false,
-    iconActiveColor: const Color(0xFF519E67),
-    iconColor: Colors.white,
-  ),
-];
-
-List<NavigationModel> bottomNavItemsLight = [
-  NavigationModel(
-    title: 'Home',
-    icon: Iconsax.home_bold,
-    isActived: true,
-    iconActiveColor: const Color(0xFF004E15),
+    iconActiveColor: const Color(0xFF43A047),
     iconColor: Colors.black,
   ),
   NavigationModel(
-    title: 'Statistics',
-    icon: Iconsax.graph_outline,
+    title: 'Trips',
+    icon: Iconsax.airplane_outline,
     isActived: false,
-    iconActiveColor: const Color(0xFF004E15),
+    iconActiveColor: const Color(0xFF43A047),
+    iconColor: Colors.black,
+  ),
+  NavigationModel(
+    title: 'Budget',
+    icon: Iconsax.dollar_square_outline,
+    isActived: false,
+    iconActiveColor: const Color(0xFF519E67),
     iconColor: Colors.black,
   ),
   NavigationModel(
     title: 'Settings',
     icon: Iconsax.setting_2_outline,
     isActived: false,
-    iconActiveColor: const Color(0xFF004E15),
+    iconActiveColor: const Color(0xFF519E67),
     iconColor: Colors.black,
   ),
 ];

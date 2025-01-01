@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:location/location.dart';
+import 'package:tripmate/models/navigationModel.dart';
+import 'package:tripmate/utils/responsive.dart';
+import 'package:tripmate/views/Budget/budgetPage.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../controller/navigationController.dart';
-import '../models/navigationModel.dart';
 import 'Home/homeScreen.dart';
 import 'My Trip/myTripPage.dart';
 import 'Profile/profilePage.dart';
@@ -45,6 +48,30 @@ class _NavigationViewState extends State<NavigationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Align(
+        alignment: Alignment(0, 0.93.sH(context)),
+        child: ZoomTapAnimation(
+          endCurve: Curves.bounceInOut,
+          beginCurve: Curves.bounceInOut,
+          endDuration: const Duration(milliseconds: 200),
+          beginDuration: const Duration(milliseconds: 200),
+          onTap: () => Get.toNamed('/addTrips'),
+          child: Container(
+            height: 63.sH(context),
+            width: 63.sH(context),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Iconsax.add_outline,
+              color: Colors.white,
+              size: 30.sW(context),
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: PageView(
@@ -53,6 +80,7 @@ class _NavigationViewState extends State<NavigationView> {
           children: const [
             HomeScreen(),
             MyTrip(),
+            BudgetPage(),
             Profile(),
           ],
         ),
@@ -61,77 +89,101 @@ class _NavigationViewState extends State<NavigationView> {
     );
   }
 
-  SafeArea buildBottomNavBar(BuildContext context) {
-    return SafeArea(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.065,
-            width: MediaQuery.of(context).size.width * 0.7,
-            padding:
-                const EdgeInsets.only(left: 15, top: 9, right: 15, bottom: 15),
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(40)),
-              color: Theme.of(context).secondaryHeaderColor.withOpacity(0.4),
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(bottomNavItemsDark.length, (i) {
-                NavigationModel navBar = bottomNavItemsDark[i];
-                return GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    navigationController.changePage(i);
-                  },
-                  child: Obx(() => Padding(
-                        padding: const EdgeInsets.only(right: 10, left: 10),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            AnimateBar(
-                              isActived:
-                                  navigationController.currentIndex.value == i,
-                            ),
-                            Icon(
-                              navBar.icon,
-                              color:
-                                  navigationController.currentIndex.value == i
-                                      ? navBar.iconActiveColor
-                                      : navBar.iconColor,
-                              size: MediaQuery.of(context).size.width * 0.05,
-                            ),
-                          ],
-                        ),
-                      )),
-                );
-              }),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Get.toNamed('/addTrips');
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.065,
-              width: MediaQuery.of(context).size.width * 0.15,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).primaryColor,
-              ),
-              child: Icon(
-                Iconsax.add_outline,
-                color: Colors.white,
-                size: MediaQuery.of(context).size.width * 0.05,
-              ),
-            ),
+  Widget buildBottomNavBar(BuildContext context) {
+    return Container(
+      height: 64.sH(context),
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        top: 12.sH(context),
+        bottom: 13.sH(context),
+        right: 28.sW(context),
+        left: 28.sW(context),
+      ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.25),
+            blurRadius: 104,
+            offset: Offset(0, -10),
+            spreadRadius: 0,
           ),
         ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          NavIcons(
+            navigationController: navigationController,
+            index: 0,
+          ),
+          SizedBox(
+            width: 38.sW(context),
+          ),
+          NavIcons(
+            navigationController: navigationController,
+            index: 1,
+          ),
+          SizedBox(
+            width: 108.sW(context),
+          ),
+          NavIcons(
+            navigationController: navigationController,
+            index: 2,
+          ),
+          SizedBox(
+            width: 38.sW(context),
+          ),
+          NavIcons(
+            navigationController: navigationController,
+            index: 3,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NavIcons extends StatefulWidget {
+  const NavIcons({
+    super.key,
+    required this.index,
+    required this.navigationController,
+  });
+
+  final int index;
+  final NavigationController navigationController;
+
+  @override
+  State<NavIcons> createState() => _NavIconsState();
+}
+
+class _NavIconsState extends State<NavIcons> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => widget.navigationController.changePage(widget.index),
+      child: Obx(
+        () => Column(
+          children: [
+            AnimateBar(
+                isActived: widget.navigationController.currentIndex.value ==
+                    widget.index),
+            Icon(
+              bottomNavItems[widget.index].icon,
+              size: 30.sW(context),
+              color:
+                  widget.navigationController.currentIndex.value == widget.index
+                      ? bottomNavItems[widget.index].iconActiveColor
+                      : bottomNavItems[widget.index].iconColor,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -149,12 +201,19 @@ class AnimateBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: MediaQuery.of(context).size.height * 0.005,
-      width: isActived ? MediaQuery.of(context).size.width * 0.05 : 0,
-      margin: const EdgeInsets.only(bottom: 3),
+      height: 5.sH(context),
+      width: isActived ? 24.sW(context) : 0,
+      margin: const EdgeInsets.only(bottom: 4),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        color: Theme.of(context).primaryColorDark,
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).primaryColor.withOpacity(0.75),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
+        ],
+        borderRadius: const BorderRadius.all(Radius.circular(30)),
+        color: Theme.of(context).primaryColor,
       ),
     );
   }

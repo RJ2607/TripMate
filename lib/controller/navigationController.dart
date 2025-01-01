@@ -8,14 +8,14 @@ import '../models/navigationModel.dart';
 class NavigationController extends GetxController {
   Rx<int> currentIndex = 0.obs;
 
-  NavigationModel selectedBottomNav = bottomNavItemsDark.first;
+  NavigationModel selectedBottomNav = bottomNavItems.first;
 
   Rx<PageController> pageController = PageController(initialPage: 0).obs;
 
   /// Updates the selected bottom navigation item
   void updateSelectedBtmNav(NavigationModel menu, int index) {
     if (currentIndex.value != index || selectedBottomNav != menu) {
-      if (index >= 0 && index < bottomNavItemsDark.length) {
+      if (index >= 0 && index < bottomNavItems.length) {
         selectedBottomNav = menu;
         currentIndex.value = index;
 
@@ -35,7 +35,7 @@ class NavigationController extends GetxController {
 
   /// Changes the page and updates the controller state
   void changePage(int index) {
-    if (index >= 0 && index < bottomNavItemsDark.length) {
+    if (index >= 0 && index < bottomNavItems.length) {
       currentIndex.value = index;
 
       // Ensure `pageController` is updated
@@ -54,7 +54,7 @@ class NavigationController extends GetxController {
 
   /// Goes to the next page, if within bounds
   void nextPage() {
-    if (currentIndex < bottomNavItemsDark.length - 1) {
+    if (currentIndex < bottomNavItems.length - 1) {
       currentIndex.value++;
       pageController.value.nextPage(
         duration: const Duration(milliseconds: 800),
