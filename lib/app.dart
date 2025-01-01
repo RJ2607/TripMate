@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tripmate/utils/theme.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:tripmate/utils/colors.dart';
 import 'package:tripmate/views/navBarMenu.dart';
 
 import 'routes.dart';
+import 'utils/responsive.dart';
 import 'views/onboardingScreen.dart';
 
 class App extends StatefulWidget {
@@ -18,6 +20,21 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    Responsive.clearInstance();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+
+    super.didChangeDependencies();
+    final responsive = Responsive.getInstance(context: context);
   }
 
   @override
@@ -42,9 +59,12 @@ class _AppState extends State<App> {
       // home: HomePage(),
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
-      darkTheme: TFlexTheme.darkTheme,
-      theme: TFlexTheme.lightTheme,
-      themeMode: ThemeMode.dark,
+      theme: ThemeData(
+          primaryColor: TColors.primary,
+          hoverColor: TColors.accent,
+          scaffoldBackgroundColor: TColors.background,
+          fontFamily: GoogleFonts.jost().fontFamily,
+          hintColor: TColors.subTextColor),
     );
   }
 }
