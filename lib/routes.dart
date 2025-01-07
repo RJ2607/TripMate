@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tripmate/controller/navigationController.dart';
 import 'package:tripmate/views/Auth/loginPage.dart';
+import 'package:tripmate/views/Home/Profile/profilePage.dart';
 import 'package:tripmate/views/Home/homeScreen.dart';
 import 'package:tripmate/views/Maps/mapPage.dart';
 import 'package:tripmate/views/My%20Trip/activity/addActivity.dart';
@@ -11,12 +12,12 @@ import 'package:tripmate/views/My%20Trip/activity/day%20activity/activity%20deta
 import 'package:tripmate/views/My%20Trip/activity/day%20activity/daySelect.dart';
 import 'package:tripmate/views/My%20Trip/add%20trip/addTrip.dart';
 import 'package:tripmate/views/My%20Trip/myTripPage.dart';
-import 'package:tripmate/views/Profile/profilePage.dart';
 import 'package:tripmate/views/navBarMenu.dart';
 
 import 'utils/customPageRoute.dart';
 import 'views/My Trip/activity/day activity/activity details page/transportDetailsPage.dart';
 import 'views/My Trip/activity/day activity/dayActivity.dart';
+import 'views/Settings/settingsPage.dart';
 import 'views/onboardingScreen.dart';
 
 class RouteGenerator {
@@ -29,6 +30,11 @@ class RouteGenerator {
             child: const OnboardingScreen(),
             transitionType: 'slide',
             settings: settings);
+      case '/navigation':
+        return CustomPageRoute(
+            child: const NavigationView(),
+            transitionType: 'slide',
+            settings: settings);
       case '/login':
         return CustomPageRoute(
             child: const LoginPage(),
@@ -37,11 +43,6 @@ class RouteGenerator {
       case '/home':
         return CustomPageRoute(
             child: const HomeScreen(),
-            transitionType: 'slide',
-            settings: settings);
-      case '/navigation':
-        return CustomPageRoute(
-            child: const NavigationView(),
             transitionType: 'slide',
             settings: settings);
       case '/mytrip':
@@ -86,7 +87,7 @@ class RouteGenerator {
             direction: AxisDirection.up,
             transitionType: 'slide',
             settings: settings);
-      case '/profile':
+      case '/home/profile':
         return CustomPageRoute(
             child: const Profile(),
             transitionType: 'slide',
@@ -99,8 +100,16 @@ class RouteGenerator {
             direction: AxisDirection.down);
       case '/maps':
         return CustomPageRoute(
-            child: MapsPage(), transitionType: 'slide', settings: settings);
-
+          child: MapsPage(),
+          transitionType: 'slide',
+          settings: settings,
+        );
+      case '/settings':
+        return CustomPageRoute(
+          child: SettingsPage(),
+          transitionType: 'slide',
+          settings: settings,
+        );
       default:
         return _errorRoute();
     }

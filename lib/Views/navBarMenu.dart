@@ -10,7 +10,7 @@ import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../controller/navigationController.dart';
 import 'Home/homeScreen.dart';
 import 'My Trip/myTripPage.dart';
-import 'Profile/profilePage.dart';
+import 'Home/Profile/profilePage.dart';
 
 class NavigationView extends StatefulWidget {
   const NavigationView({super.key});
@@ -48,6 +48,7 @@ class _NavigationViewState extends State<NavigationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButton: Align(
         alignment: Alignment(0, 0.93.sH(context)),
         child: ZoomTapAnimation(

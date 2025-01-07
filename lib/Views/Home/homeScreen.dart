@@ -1,6 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:draggable_home/draggable_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,9 +7,7 @@ import 'package:tripmate/controller/auth%20controllers/loginController.dart';
 import 'package:tripmate/controller/navigationController.dart';
 import 'package:tripmate/models/tripModel.dart';
 import 'package:tripmate/utils/firestoreFunc.dart';
-import 'package:tripmate/views/Home/headerWidget.dart';
-
-import '../My Trip/trips view/widget/tripCard.dart';
+import 'package:tripmate/utils/responsive.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
   List<TripModel> recentTrips = [];
+  TextEditingController searchController = TextEditingController();
 
   NavigationController navigationController = Get.put(NavigationController());
 
@@ -73,92 +70,80 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: DraggableHome(
-        stretchTriggerOffset: 100,
-        appBarColor: Theme.of(context).colorScheme.primaryContainer,
-        alwaysShowTitle: true,
-        centerTitle: true,
-        alwaysShowLeadingAndAction: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        leading: InkWell(
-          child: Icon(
-            MingCute.bell_ringing_line,
-            color: Theme.of(context).iconTheme.color,
-          ),
-          onTap: () {
-            // show notification
-          },
-          //add on hover whene implementing notification
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        headerWidget(context),
+        SizedBox(
+          height: 20.sH(context),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              MingCute.currency_rupee_line,
-              color: Theme.of(context).iconTheme.color,
-              size: 28,
-            ),
-            style: Theme.of(context).iconButtonTheme.style,
+        SearchField(searchController: searchController),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.sW(context)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Recent Trips',
+                style: TextStyle(
+                  fontSize: 20.sW(context),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  navigationController.changePage(1);
+                },
+                child: Text(
+                  'View All',
+                  style: TextStyle(
+                    fontSize: 16.sW(context),
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-        title: Text(
-          'Home',
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(fontWeight: FontWeight.w500),
         ),
-        headerWidget: const HeaderWidget(),
-        body: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Recent Trips',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontWeight: FontWeight.w500)),
-                      GestureDetector(
-                        onTap: () {
-                          // navigate to mytrips using navigation controller
-                          navigationController.changePage(1);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            right: 10,
-                            top: 5,
-                            bottom: 5,
-                            left: 5,
-                          ),
-                          child: Text('View All >',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary)),
-                        ),
-                      ),
-                    ],
+        recentTrips.isEmpty
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  height: 173.sH(context),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.grey[700]!,
+                    ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  recentTrips.isEmpty
-                      ? Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          width: double.infinity,
+                  child: Center(
+                      child: Text(
+                    'It seems you have no trips\nStart your journey by clicking the + button below',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                  )),
+                ),
+              )
+            : SizedBox(
+                height: 173.sH(context),
+                width: MediaQuery.of(context).size.width,
+                child: PageView.builder(
+                  allowImplicitScrolling: true,
+                  itemCount: recentTrips.length,
+                  pageSnapping: false,
+                  physics: BouncingScrollPhysics(),
+                  controller:
+                      PageController(initialPage: 0, viewportFraction: 0.88),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                        padding: EdgeInsets.only(
+                            right: index != (recentTrips.length - 1)
+                                ? 16.sW(context)
+                                : 0),
+                        child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
                             border: Border.all(
@@ -166,45 +151,110 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.grey[700]!,
                             ),
                           ),
-                          child: Center(
-                              child: Text(
-                            'It seems you have no trips\nStart your journey by clicking the + button below',
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.w500),
-                          )),
-                        )
-                      : CarouselSlider.builder(
-                          itemCount:
-                              recentTrips.length < 5 ? recentTrips.length : 5,
-                          itemBuilder: (context, index, realIndex) => TripCard(
-                            createdBy: recentTrips[index].createdBy,
-                            tripID: recentTrips[index].id,
-                            destination: recentTrips[index].destination,
-                            startDate: recentTrips[index].startDate,
-                            endDate: recentTrips[index].endDate,
-                            showType: false,
-                            onClick: false,
-                          ),
-                          options: CarouselOptions(
-                            height: MediaQuery.of(context).size.height * 0.21,
-                            enlargeFactor: 0.3,
-                            aspectRatio: 2,
-                            viewportFraction: 1,
-                            initialPage: 0,
-                            enableInfiniteScroll: false,
-                            reverse: false,
-                            autoPlay: false,
-                            autoPlayCurve: Curves.easeOutSine,
-                            enlargeCenterPage: true,
-                            scrollDirection: Axis.horizontal,
-                          ),
-                        ),
-                ],
+                        ));
+                  },
+                ),
+              ),
+      ],
+    );
+  }
+
+  Padding headerWidget(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.sW(context)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Good Morning',
+                style: TextStyle(
+                  fontSize: 24.sW(context),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                'Welcome to Trip Mat',
+                style: TextStyle(
+                  fontSize: 16.sW(context),
+                  color: Theme.of(context).hintColor,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+              Get.toNamed('/home/profile');
+            },
+            child: Container(
+              height: 40.sH(context),
+              width: 40.sW(context),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(
+                      loginController.user.user.value!.photoURL.toString()),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+class SearchField extends StatelessWidget {
+  const SearchField({
+    super.key,
+    required this.searchController,
+  });
+
+  final TextEditingController searchController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.sW(context)),
+        child: SizedBox(
+          height: 48.sH(context),
+          child: TextField(
+            cursorColor: Theme.of(context).hintColor,
+            controller: searchController,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).hintColor,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              hoverColor: Colors.transparent,
+              filled: true,
+              fillColor: Theme.of(context).hintColor.withOpacity(0.1),
+              labelText: 'Search',
+              labelStyle: TextStyle(
+                fontSize: 16.sW(context),
+                color: Theme.of(context).hintColor,
+              ),
+              prefixIcon: Icon(
+                Iconsax.search_normal_1_outline,
+                size: 20.sW(context),
+                color: Theme.of(context).hintColor,
+              ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).hintColor,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
+        ));
   }
 }
