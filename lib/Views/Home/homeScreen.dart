@@ -8,6 +8,7 @@ import 'package:tripmate/controller/navigationController.dart';
 import 'package:tripmate/models/tripModel.dart';
 import 'package:tripmate/utils/firestoreFunc.dart';
 import 'package:tripmate/utils/responsive.dart';
+import 'package:tripmate/views/My%20Trip/trips%20view/widget/tripCard.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -116,14 +117,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     border: Border.all(
-                      width: 3,
-                      color: Colors.grey[700]!,
+                      width: 1,
+                      color: Theme.of(context).hintColor,
                     ),
                   ),
                   child: Center(
                       child: Text(
                     'It seems you have no trips\nStart your journey by clicking the + button below',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 16.sW(context),
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).hintColor,
+                    ),
                   )),
                 ),
               )
@@ -136,21 +141,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   pageSnapping: false,
                   physics: BouncingScrollPhysics(),
                   controller:
-                      PageController(initialPage: 0, viewportFraction: 0.88),
+                      PageController(initialPage: 0, viewportFraction: 0.93),
                   itemBuilder: (context, index) {
                     return Padding(
                         padding: EdgeInsets.only(
                             right: index != (recentTrips.length - 1)
                                 ? 16.sW(context)
                                 : 0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(
-                              width: 3,
-                              color: Colors.grey[700]!,
-                            ),
-                          ),
+                        child: TripCard(
+                          isGroupTrip: false,
+                          createdBy: recentTrips[index].createdBy,
+                          destination: recentTrips[index].destination,
+                          startDate: recentTrips[index].startDate,
+                          endDate: recentTrips[index].endDate,
+                          tripID: recentTrips[index].id,
+                          onClick: false,
                         ));
                   },
                 ),

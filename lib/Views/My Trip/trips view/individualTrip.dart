@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
+import 'package:tripmate/utils/responsive.dart';
 import 'package:tripmate/views/My%20Trip/trips%20view/widget/tripCard.dart';
 
 import '../../../utils/firestoreFunc.dart';
@@ -33,9 +34,6 @@ class _IndividualTripState extends State<IndividualTrip> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          // padding: EdgeInsets.all(10),
-
-          // height: MediaQuery.of(context).size.height * 0.729,
           child: StreamBuilder<QuerySnapshot>(
               stream: firestoreFunc.getIndividualTripsStream(),
               builder: (context, snapshot) {
@@ -82,15 +80,20 @@ class _IndividualTripState extends State<IndividualTrip> {
                           data[index]['endDate'].millisecondsSinceEpoch);
                       // log(data[index].id);
 
-                      return TripCard(
-                          showType: true,
-                          onClick: true,
+                      return SizedBox(
+                        height: 173.sH(context),
+                        width: MediaQuery.of(context).size.width,
+                        child: TripCard(
                           createdBy: data[index]['createdBy'],
                           tripID: data[index].id,
                           destination: data[index]['destination'].toString(),
                           startDate: startDate,
                           endDate: endDate,
-                          isGroupTrip: data[index]['isGroupTrip']);
+                          onClick: true,
+                          invitedFriends: [],
+                          isGroupTrip: data[index]['isGroupTrip'],
+                        ),
+                      );
                     }
                     if (data[index]['isGroupTrip'] == true) {
                       return const SizedBox.shrink();

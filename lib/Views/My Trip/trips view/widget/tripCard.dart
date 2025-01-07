@@ -1,12 +1,11 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tripmate/controller/trip%20controllers/tripsController.dart';
 import 'package:tripmate/utils/firestoreFunc.dart';
+import 'package:tripmate/utils/responsive.dart';
 
 class TripCard extends StatelessWidget {
   TripCard({
@@ -18,7 +17,6 @@ class TripCard extends StatelessWidget {
     required this.endDate,
     this.isGroupTrip,
     this.invitedFriends,
-    required this.showType,
     required this.onClick,
   });
 
@@ -28,8 +26,7 @@ class TripCard extends StatelessWidget {
   DateTime startDate;
   DateTime endDate;
   bool? isGroupTrip;
-  List<dynamic>? invitedFriends;
-  bool showType;
+  List<dynamic>? invitedFriends = [];
   bool onClick;
 
   FirestoreFunc fire = Get.put(FirestoreFunc());
@@ -60,6 +57,8 @@ class TripCard extends StatelessWidget {
     String endDay =
         '${endDate.day}, ${days[endDate.weekday - 1]} ${endDate.year}';
 
+    log(isGroupTrip.toString());
+
     return GestureDetector(
       onTap: () {
         log(isGroupTrip.toString());
@@ -70,210 +69,175 @@ class TripCard extends StatelessWidget {
         }
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        padding: const EdgeInsets.all(2),
+        padding: EdgeInsets.symmetric(
+            horizontal: 15.sW(context), vertical: 12.sH(context)),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color.fromARGB(255, 167, 165, 165),
-                Color.fromARGB(255, 82, 81, 81),
-                // Colors.white
-              ]),
+          image: DecorationImage(
+            image: AssetImage('assets/images/image_scenary.png'),
+            fit: BoxFit.cover,
+          ),
           borderRadius: BorderRadius.circular(25),
         ),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: Theme.of(context).colorScheme.secondaryContainer,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  height: 32.sH(context),
+                  width: 96.sW(context),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 4.sW(context), vertical: 4.sH(context)),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      FutureBuilder(
+                          future: fire.getUserByUid(createdBy),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  width: 24.sW(context),
+                                  height: 24.sW(context),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              );
+                            }
+                            return Container(
+                              width: 24.sW(context),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: NetworkImage(snapshot.data['profile']),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          }),
+                      SizedBox(
+                        width: 8.sW(context),
+                      ),
+                      Text(
+                        'Created',
+                        style: TextStyle(
+                          fontSize: 16.sW(context),
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Spacer(),
+                !isGroupTrip!
+                    ? SizedBox.shrink()
+                    : Container(
+                        height: 30.sH(context),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 6.sW(context), vertical: 2.sH(context)),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children:
+                              List.generate(invitedFriends!.length, (index) {
+                            return FutureBuilder(
+                                future: fire.getUserByUid(
+                                    invitedFriends![index].toString()),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Shimmer(
+                                        gradient: const LinearGradient(colors: [
+                                          Color.fromARGB(255, 0, 0, 0),
+                                          Colors.white,
+                                          Color.fromARGB(255, 0, 0, 0)
+                                        ]),
+                                        child: Container(
+                                          width: 24.sW(context),
+                                          height: 24.sW(context),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                        ));
+                                  }
+                                  return Align(
+                                    widthFactor: 0.8,
+                                    child: Container(
+                                      width: 24.sW(context),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              snapshot.data['profile']),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                          }),
+                        ),
+                      ),
+              ],
+            ),
+            Spacer(),
+            Container(
+              height: 60.sH(context),
+              padding: EdgeInsets.symmetric(
+                  horizontal: 12.sW(context), vertical: 10.sH(context)),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     destination.capitalizeFirst!,
                     style: TextStyle(
-                      fontSize: MediaQuery.textScalerOf(context).scale(25),
+                      fontSize: 20.sW(context),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  InkWell(
-                    onTap: () => showCupertinoDialog(
-                        context: context,
-                        builder: (context) {
-                          return CupertinoAlertDialog(
-                            title: const Text('Trip Delete'),
-                            content: const Text(
-                                'Are you sure you want to delete trip?'),
-                            actions: <Widget>[
-                              CupertinoDialogAction(
-                                child: const Text('Yes'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  tripsController.deleteTrip(
-                                      isGroupTrip!, tripID);
-                                },
-                              ),
-                              CupertinoDialogAction(
-                                child: const Text('No'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        }),
-                    child: Icon(Icons.delete),
-                  )
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(startDay,
-                      style: TextStyle(
-                        fontSize: MediaQuery.textScalerOf(context).scale(20),
-                        fontWeight: FontWeight.w500,
-                      )),
-                  const Icon(FontAwesome.road_solid),
-                  Text(endDay,
-                      style: TextStyle(
-                        fontSize: MediaQuery.textScalerOf(context).scale(20),
-                        fontWeight: FontWeight.w500,
-                      )),
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Created by: ',
-                      style: TextStyle(
-                        fontSize: MediaQuery.textScalerOf(context).scale(16),
-                        fontWeight: FontWeight.w400,
-                      )),
-                  FutureBuilder(
-                      future: fire.getUserByUid(createdBy),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Shimmer(
-                              gradient: const LinearGradient(colors: [
-                                Color.fromARGB(255, 0, 0, 0),
-                                Colors.white,
-                                Color.fromARGB(255, 0, 0, 0)
-                              ]),
-                              child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius:
-                                    MediaQuery.of(context).size.width * 0.043,
-                                child: CircleAvatar(
-                                  radius:
-                                      MediaQuery.of(context).size.width * 0.041,
-                                ),
-                              ));
-                        }
-                        return CircleAvatar(
-                          radius: MediaQuery.of(context).size.width * 0.043,
-                          backgroundImage:
-                              NetworkImage(snapshot.data['profile']),
-                        );
-                      }),
-                ],
-              ),
-              // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              if (showType)
-                Divider(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              if (showType)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      isGroupTrip! ? 'Group Trip' : 'Individual Trip',
-                      style: TextStyle(
-                        fontSize: MediaQuery.textScalerOf(context).scale(16),
-                        fontWeight: FontWeight.w400,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        startDay,
+                        style: TextStyle(
+                          fontSize: 14.sW(context),
+                          color: Theme.of(context).hintColor,
+                        ),
                       ),
-                    ),
-                    isGroupTrip!
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height *
-                                    0.05, // Set a fixed height for the ListView
-                                child: ListView.builder(
-                                  itemBuilder: (context, index) {
-                                    return FutureBuilder(
-                                        future: fire.getUserByUid(
-                                            invitedFriends![index].toString()),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return Shimmer(
-                                                gradient: const LinearGradient(
-                                                    colors: [
-                                                      Color.fromARGB(
-                                                          255, 0, 0, 0),
-                                                      Colors.white,
-                                                      Color.fromARGB(
-                                                          255, 0, 0, 0)
-                                                    ]),
-                                                child: CircleAvatar(
-                                                  backgroundColor: Colors.white,
-                                                  radius: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.043,
-                                                  child: CircleAvatar(
-                                                    radius:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.041,
-                                                  ),
-                                                ));
-                                          }
-                                          return Align(
-                                            widthFactor: 0.5,
-                                            child: CircleAvatar(
-                                              backgroundColor: Colors.white,
-                                              radius: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.043,
-                                              child: CircleAvatar(
-                                                radius: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.041,
-                                                backgroundImage: NetworkImage(
-                                                    snapshot.data['profile']),
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                  },
-                                  itemCount: invitedFriends!.length,
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  // physics: const NeverScrollableScrollPhysics(),
-                                ),
-                              ),
-                            ],
-                          )
-                        : const SizedBox(width: 0),
-                  ],
-                ),
-            ],
-          ),
+                      Text(
+                        endDay,
+                        style: TextStyle(
+                          fontSize: 14.sW(context),
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

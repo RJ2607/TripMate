@@ -5,6 +5,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:tripmate/controller/auth%20controllers/userData.dart';
 import 'package:tripmate/utils/firestoreFunc.dart';
+import 'package:tripmate/utils/responsive.dart';
 
 import 'widget/tripCard.dart';
 
@@ -34,7 +35,7 @@ class GroupTrip extends StatelessWidget {
                         ],
                       ),
                       child: SmoothContainer(
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        height: 173.sH(context),
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         color: Theme.of(context).colorScheme.secondaryContainer,
                         smoothness: 0.6,
@@ -72,16 +73,19 @@ class GroupTrip extends StatelessWidget {
                       DateTime endDate = DateTime.fromMillisecondsSinceEpoch(
                           data[index]['endDate'].millisecondsSinceEpoch);
 
-                      return TripCard(
-                        createdBy: data[index]['createdBy'],
-                        tripID: data[index].id,
-                        destination: data[index]['destination'].toString(),
-                        startDate: startDate,
-                        endDate: endDate,
-                        showType: true,
-                        onClick: true,
-                        isGroupTrip: data[index]['isGroupTrip'],
-                        invitedFriends: data[index]['invitedFriends'],
+                      return SizedBox(
+                        height: 173.sH(context),
+                        width: MediaQuery.of(context).size.width,
+                        child: TripCard(
+                          createdBy: data[index]['createdBy'],
+                          tripID: data[index].id,
+                          destination: data[index]['destination'].toString(),
+                          startDate: startDate,
+                          endDate: endDate,
+                          onClick: true,
+                          isGroupTrip: data[index]['isGroupTrip'],
+                          invitedFriends: data[index]['invitedFriends'],
+                        ),
                       );
                     }
 
