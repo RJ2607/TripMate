@@ -55,6 +55,8 @@ dependencies:
   location: ^7.0.0
   flutter_polyline_points: ^2.0.0
   carousel_slider: ^5.0.0
+  zoom_tap_animation: ^1.1.0
+  flutter_svg: ^2.0.16
   
 dev_dependencies:
   flutter_test:
@@ -80,32 +82,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/maps_style/aubergine.json
+    - assets/maps_style/
     - .env
-    - assets/lottie/planTrip.json
-    - assets/lottie/budget.json
-    - assets/lottie/travel.json
-    - assets/lottie/Map.json
-    - assets/fonts/Nunito-VariableFont_wght.ttf
-    - assets/fonts/Nunito-Italic-VariableFont_wght.ttf
-    - assets/fonts/static/Nunito-ExtraLight.ttf
-    - assets/fonts/static/Nunito-Light.ttf
-    - assets/fonts/static/Nunito-Regular.ttf
-    - assets/fonts/static/Nunito-Medium.ttf
-    - assets/fonts/static/Nunito-SemiBold.ttf
-    - assets/fonts/static/Nunito-Bold.ttf
-    - assets/fonts/static/Nunito-ExtraBold.ttf
-    - assets/fonts/static/Nunito-Black.ttf
-    - assets/fonts/static/Nunito-ExtraLightItalic.ttf
-    - assets/fonts/static/Nunito-LightItalic.ttf
-    - assets/fonts/static/Nunito-Italic.ttf
-    - assets/fonts/static/Nunito-MediumItalic.ttf
-    - assets/fonts/static/Nunito-SemiBoldItalic.ttf
-    - assets/fonts/static/Nunito-BoldItalic.ttf
-    - assets/fonts/static/Nunito-ExtraBoldItalic.ttf
-    - assets/fonts/static/Nunito-BlackItalic.ttf
-    - assets/images/dark_home_wallpaper.jpeg
-    - assets/images/light_home_wallpaper.jpeg
+    - assets/lottie/
+    - assets/fonts/
+    - assets/images/
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
